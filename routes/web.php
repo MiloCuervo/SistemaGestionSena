@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\ContactsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ProcessesController;
 use App\Http\Controllers\CasesController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -57,6 +59,15 @@ Route::middleware(['auth', 'verified', 'role:2'])
         Route::get('/cases', [CasesController::class, '__invoke'])->name('cases');
         Route::post('/cases', [CasesController::class, 'store'])->name('cases.store');
         Route::get('/cases/{id}', [CasesController::class, 'show'])->name('cases.show');
+
+        // Gestión de Contactos
+        Route::get('/contacts',[ContactsController::class, '__invoke'])->name('contacts');
+        Route::post('/contacts', [ContactsController::class, 'store'])->name('contacts.store');
+        Route::get('/contacts/{id}', [ContactsController::class, 'show'])->name('contacts.show');
+
+        // Gestión de Reportes
+        Route::get('/reports', [UserController::class, 'reports'])->name('reports');
+
     });
 
 require __DIR__ . '/settings.php';

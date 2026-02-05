@@ -8,7 +8,8 @@ new class extends Component {
 
     use WithPagination;
 
-
+    
+     
     // Search and Filters
     public string $search = '';
     public string $statusFilter = '';
@@ -27,13 +28,14 @@ new class extends Component {
         $this->resetPage();
     }
 
+
+
     // Toggle Case Open/Close
     public function toggleStatus($id)
     {
         $case = cases::findOrFail($id);
         $case->status = $case->status === 'closed' ? 'in_progress' : 'closed';
-        $case->save();
-        session()->flash('message', 'Estado actualizado.');
+        $case->save();  
     }
 
 
@@ -72,7 +74,7 @@ new class extends Component {
         </div>
 
         <div class="w-full sm:w-1/4">
-            <flux:select wire:model.live="statusFilter" placeholder="{{ __('All statuses') }}">
+            <flux:select wire:model.live="statusFilter" placeholder="{{ __('status') }}">
                 <flux:select.option value="">{{ __('All statuses') }}</flux:select.option>
                 <flux:select.option value="attended">{{ __('Attended') }}</flux:select.option>
                 <flux:select.option value="in_progress">{{ __('In Progress') }}</flux:select.option>

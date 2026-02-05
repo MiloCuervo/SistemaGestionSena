@@ -16,16 +16,25 @@ new class extends Component {
 
     // Computed properties for stats and recent cases
     #[Computed]
-    public function stats()
-    {
-        return [
-            'attended' => cases::where('status', 'attended')->count(),
-            'pending' => cases::where('status', 'pending')->count(),
-            'not_attended' => cases::where('status', 'not_attended')->count(),
-            'closed' => cases::where('status', 'closed')->count(),
-            'total' => cases::count(),
-        ];
+
+    public function totalCases(){
+        return cases::count();
     }
+    public function GetAttendedCases(){
+        return cases::where('status', 'attended')->get();
+    }
+
+    public function GetInProgressCases(){
+        return cases::where('status', 'in_progress')->get();    
+    }
+
+    public function GetNotAttendedCases(){
+        return cases::where('status', 'not_attended')->get();    
+    }
+    public function GetClosedCases(){
+        return cases::where('status', 'closed')->get();    
+    }
+
 
     // Recently edited cases
     #[Computed]
@@ -47,17 +56,17 @@ new class extends Component {
                 Attended
             </dt>
             <dd class="order-first text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {{ $this->stats['attended'] }}
+                {{ $this->GetAttendedCases()->count() }}
             </dd>
         </div>
 
         <!-- Pending -->
         <div class="mx-auto flex max-w-xs flex-col gap-y-2">
             <dt class="text-sm text-gray-500 dark:text-gray-400">
-                Pending
+                In Progress
             </dt>
             <dd class="order-first text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {{ $this->stats['pending'] }}
+                {{ $this->GetInProgressCases()->count() }}
             </dd>
         </div>
 
@@ -67,7 +76,7 @@ new class extends Component {
                 Not Attended
             </dt>
             <dd class="order-first text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {{ $this->stats['not_attended'] }}
+                {{ $this->GetNotAttendedCases()->count() }}
             </dd>
         </div>
 
@@ -77,7 +86,7 @@ new class extends Component {
                 Closed
             </dt>
             <dd class="order-first text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {{ $this->stats['closed'] }}
+                {{ $this->GetClosedCases()->count() }}
             </dd>
         </div>
 
@@ -87,7 +96,7 @@ new class extends Component {
                 Total Cases
             </dt>
             <dd class="order-first text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
-                {{ $this->stats['total'] }}
+                {{ $this->totalCases() }}
             </dd>
         </div>
 
