@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ProcessesController;
-use App\Http\Controllers\UserCasesController;
+use App\Http\Controllers\CasesController;
 
 
 
@@ -57,16 +57,16 @@ Route::middleware(['auth', 'verified', 'role:2'])
         Route::view('/dashboard', 'user.dashboard')->name('dashboard');
 
         // Gestión de Casos
-        Route::get('/cases', [UserCasesController::class, '__invoke'])->name('cases');
-        Route::post('/cases', [UserCasesController::class, 'store'])->name('cases.store');
-        Route::get('/cases/{id}/edit', [UserCasesController::class, 'edit'])->name('cases.edit');
-        Route::put('/cases/{id}', [UserCasesController::class, 'update'])->name('cases.update');
-        Route::put('/cases/{id}/status', [UserCasesController::class, 'updateStatus'])->name('cases.update-status');
-        Route::get('/cases/{id}', [UserCasesController::class, 'show'])->name('cases.show');
+        Route::get('/cases', [CasesController::class, '__invoke'])->name('cases');
+        Route::post('/cases', [CasesController::class, 'store'])->name('cases.store');
+        Route::get('/cases/{id}/edit', [CasesController::class, 'edit'])->name('cases.edit');
+        Route::put('/cases/{id}', [CasesController::class, 'update'])->name('cases.update');
+        Route::put('/cases/{id}/status', [CasesController::class, 'updateStatus'])->name('cases.update-status');
+        Route::get('/cases/{id}', [CasesController::class, 'show'])->name('cases.show');
 
 
         // Gestión de Contactos
-        Route::get('/contacts',[ContactsController::class, '__invoke'])->name('contacts');
+        Route::get('/contacts', [ContactsController::class, '__invoke'])->name('contacts');
         Route::post('/contacts', [ContactsController::class, 'store'])->name('contacts.store');
         Route::get('/contacts/{id}', [ContactsController::class, 'show'])->name('contacts.show');
 

@@ -10,8 +10,12 @@ class CasesController extends Controller
 {
     public function __invoke()
     {
-        $cases = Cases::with('contact', 'process', 'user')->get();
-        return view('admin.cases', compact('cases'));
+        $cases = Cases::with('contact', 'organizationProcess', 'user')->get();
+        if (Auth::user()->role_id != 1) {
+            return view('user.cases', compact('cases'));
+        } else {
+            return view('admin.cases', compact('cases'));
+        }
     }
 
 
