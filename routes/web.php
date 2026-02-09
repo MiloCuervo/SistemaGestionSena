@@ -8,6 +8,7 @@ use App\Http\Controllers\ProcessesController;
 use App\Http\Controllers\UserCasesController;
 
 
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home');

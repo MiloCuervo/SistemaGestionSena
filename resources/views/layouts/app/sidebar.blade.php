@@ -40,12 +40,12 @@
                         wire:navigate>
                         {{ __('Cases') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="users" :href="route('user.dashboard')"
-                        :current="request()->routeIs('user.dashboard')" wire:navigate>
-                        {{ __('Profile') }}
+                    <flux:sidebar.item icon="users" :href="route('user.contacts')"
+                        :current="request()->routeIs('user.contacts')" wire:navigate>
+                        {{ __('Contacts') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="printer" :href="route('user.dashboard')"
-                        :current="request()->routeIs('user.dashboard')" wire:navigate>
+                    <flux:sidebar.item icon="printer" :href="route('user.reports')"
+                        :current="request()->routeIs('user.reports')" wire:navigate>
                         {{ __('Reports') }}
                     </flux:sidebar.item>
                     <flux:sidebar.item icon="chart-bar" :href="route('user.dashboard')"
