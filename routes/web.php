@@ -1,10 +1,12 @@
 <?php
 
+use App\Http\Controllers\ContactsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\RolesController;
 use App\Http\Controllers\ProcessesController;
-use App\Http\Controllers\CasesController;
+use App\Http\Controllers\UserCasesController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -54,9 +56,22 @@ Route::middleware(['auth', 'verified', 'role:2'])
         Route::view('/dashboard', 'user.dashboard')->name('dashboard');
 
         // Gestión de Casos
-        Route::get('/cases', [CasesController::class, '__invoke'])->name('cases');
-        Route::post('/cases', [CasesController::class, 'store'])->name('cases.store');
-        Route::get('/cases/{id}', [CasesController::class, 'show'])->name('cases.show');
+        Route::get('/cases', [UserCasesController::class, '__invoke'])->name('cases');
+        Route::post('/cases', [UserCasesController::class, 'store'])->name('cases.store');
+        Route::get('/cases/{id}/edit', [UserCasesController::class, 'edit'])->name('cases.edit');
+        Route::put('/cases/{id}', [UserCasesController::class, 'update'])->name('cases.update');
+        Route::put('/cases/{id}/status', [UserCasesController::class, 'updateStatus'])->name('cases.update-status');
+        Route::get('/cases/{id}', [UserCasesController::class, 'show'])->name('cases.show');
+
+
+        // Gestión de Contactos
+        Route::get('/contacts',[ContactsController::class, '__invoke'])->name('contacts');
+        Route::post('/contacts', [ContactsController::class, 'store'])->name('contacts.store');
+        Route::get('/contacts/{id}', [ContactsController::class, 'show'])->name('contacts.show');
+
+        // Gestión de Reportes
+        Route::get('/reports', [UserController::class, 'reports'])->name('reports');
+
     });
 
 require __DIR__ . '/settings.php';
