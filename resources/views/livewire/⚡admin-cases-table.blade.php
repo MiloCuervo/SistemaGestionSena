@@ -35,7 +35,10 @@ new class extends Component {
     {
         $case = cases::findOrFail($id);
         $case->status = $case->status === 'closed' ? 'in_progress' : 'closed';
-        $case->save();  
+        $case->save();
+        session()->flash('message', 'Estado actualizado.');
+        // Refresh statistics in real time (case-stats listens to this)
+        $this->dispatch('caseUpdated');
     }
 
 
