@@ -46,7 +46,7 @@ new class extends Component {
 ?>
 
 
-<div class="bg-white dark:bg-gray-900 rounded-xl shadow p-8">
+<div class=" dark:bg-black rounded-xl shadow p-8 border border-lime-200 dark:border-lime-700 ">
 
     <dl class="grid grid-cols-1 gap-x-8 gap-y-10 text-center sm:grid-cols-2 lg:grid-cols-5">
 

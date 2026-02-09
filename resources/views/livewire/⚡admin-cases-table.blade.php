@@ -124,7 +124,7 @@ new class extends Component {
                     </flux:table.cell>
 
                     <flux:table.cell class="whitespace-nowrap text-gray-500">
-                        {{ $case->contact->name ?? 'N/A' }}
+                        {{ $case->contact->full_name ?? 'N/A' }}
                     </flux:table.cell>
 
                     <flux:table.cell class="whitespace-nowrap text-gray-500">
