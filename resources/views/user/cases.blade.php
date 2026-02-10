@@ -1,5 +1,5 @@
 <x-layouts::app :title="__('Cases')">
-    <div class="flex flex-col gap-6 mb-8">
+<div class="flex flex-col gap-6 mb-8">
         <div class="flex flex-col gap-2">
             <flux:heading size="xl" variant="strong"
                 style="font-family: 'DM Serif Display', serif; font-style: italic;">Panel de Control
