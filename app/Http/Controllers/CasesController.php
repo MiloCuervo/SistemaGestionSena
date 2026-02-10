@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cases;
+use App\Models\Contact;
+use App\Models\OrganizationProcess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -49,5 +51,45 @@ class CasesController extends Controller
         return view('user.cases', compact('case'));
     }
 
+    public function edit($id)
+    {
+        $case = Cases::where('user_id', Auth::id())->findOrFail($id);
+        $contacts = Contact::all();
+        $processes = OrganizationProcess::all();
+
+        return view('user.cases-edit', compact('case', 'contacts', 'processes'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        $case = Cases::where('user_id', Auth::id())->findOrFail($id);
+
+        $data = $request->validate([
+            'description' => 'required|string',
+            'type' => 'required|in:denunciation,request,right_of_petition,tutelage',
+            'status' => 'required|in:attended,in_progress,not_attended,closed',
+            'contact_id' => 'required|exists:contacts,id',
+            'organization_process_id' => 'required|exists:organization_processes,id',
+        ]);
+
+        $case->fill($data);
+        $case->save();
+
+        return redirect()->route('user.cases')->with('success', 'Caso actualizado correctamente.');
+    }
+
+    public function updateStatus(Request $request, $id)
+    {
+        $case = Cases::where('user_id', Auth::id())->findOrFail($id);
+
+        $data = $request->validate([
+            'status' => 'required|in:attended,in_progress,not_attended,closed',
+        ]);
+
+        $case->status = $data['status'];
+        $case->save();
+
+        return redirect()->route('user.cases')->with('success', 'Estado actualizado correctamente.');
+    }
 
 }

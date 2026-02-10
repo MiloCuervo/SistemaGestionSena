@@ -39,9 +39,9 @@
                     <label for="case_status" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Estado</label>
                     <select id="case_status" name="status"
                         class="mt-1 w-full rounded-md border border-zinc-300 px-3 py-2 text-sm text-zinc-900 shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white">
-                        <option value="in_progress" @selected($case->status === 'in_progress')>Activo</option>
-                        <option value="attended" @selected($case->status === 'attended')>En espera</option>
-                        <option value="not_attended" @selected($case->status === 'not_attended')>No activo</option>
+                        <option value="in_progress" @selected($case->status === 'in_progress')>En proceso</option>
+                        <option value="attended" @selected($case->status === 'attended')>Solucionado</option>
+                        <option value="not_attended" @selected($case->status === 'not_attended')>No solucionado</option>
                         <option value="closed" @selected($case->status === 'closed')>Cerrado</option>
                     </select>
                 </div>
