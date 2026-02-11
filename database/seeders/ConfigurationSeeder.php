@@ -35,5 +35,26 @@ class ConfigurationSeeder extends Seeder
         $userConfig->dark_mode = false;
         $userConfig->report_frequency = 'weekly';
         $userConfig->save();
+
+        $userConfig1 = new UserConfiguration();
+        $userConfig1->user_id = 3;
+        $userConfig1->role_id = $userRole->id;
+        $userConfig1->dark_mode = false;
+        $userConfig1->report_frequency = 'weekly';
+        $userConfig1->save();
+
+        $userConfig2 = new UserConfiguration();
+        $userConfig2->user_id = 4;
+        $userConfig2->role_id = $userRole->id;
+        $userConfig2->dark_mode = false;
+        $userConfig2->report_frequency = 'weekly';
+        $userConfig2->save();
+
+        $userConfig3 = new UserConfiguration();
+        $userConfig3->user_id = 5;
+        $userConfig3->role_id = $userRole->id;
+        $userConfig3->dark_mode = false;
+        $userConfig3->report_frequency = 'weekly';
+        $userConfig3->save();
     }
 }
