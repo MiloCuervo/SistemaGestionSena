@@ -57,14 +57,14 @@ new class extends Component {
                 <flux:text class="mt-2">Ingrese los datos del usuario.</flux:text>
             </div>
 
-            <flux:input wire:model="name" label="Name" placeholder="Your name" />
-            <flux:input wire:model="second_name" label="Second Name" placeholder="Your second name" />
-            <flux:input wire:model="last_name" label="Last Name" placeholder="Your last name" />
-            <flux:input wire:model="second_last_name" label="Second Last Name" placeholder="Your second last name" />
-            <flux:input wire:model="email" label="Email" type="email" placeholder="Your email" />
-            <flux:input wire:model="password" type="password" viewable label="Password" placeholder="Your password" />
-            <flux:input wire:model="password_confirmation" type="password" viewable label="Confirm Password"
-                placeholder="Confirm your password" />
+            <flux:input wire:model="name" label="{{ __('Name') }}" placeholder="Tu nombre" />
+            <flux:input wire:model="second_name" label="{{ __('Second Name') }}" placeholder="Tu segundo nombre" />
+            <flux:input wire:model="last_name" label="{{ __('Last Name') }}" placeholder="Tu apellido" />
+            <flux:input wire:model="second_last_name" label="{{ __('Second Last Name') }}" placeholder="Tu segundo apellido" />
+            <flux:input wire:model="email" label="{{ __('Email') }}" type="email" placeholder="Tu correo electrónico" />
+            <flux:input wire:model="password" type="password" viewable label="{{ __('Password') }}" placeholder="Tu contraseña" />
+            <flux:input wire:model="password_confirmation" type="password" viewable label="{{ __('Confirm Password') }}"
+                placeholder="Confirma tu contraseña" />
             <div class="flex">
                 <flux:spacer />
 

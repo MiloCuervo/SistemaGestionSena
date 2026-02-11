@@ -33,7 +33,7 @@ return new class extends Migration
 
         Schema::create('cases', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('case_number')->nullable();
+            $table->text('case_number')->nullable();
             $table->text('description')->nullable();
             $table->json('case_evidence')->nullable();
             $table->enum('status', ['attended','in_progress','not_attended','closed'])->default('in_progress');

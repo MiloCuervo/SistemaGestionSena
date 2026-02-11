@@ -177,7 +177,7 @@ new class extends Component {
 
                     <flux:table.cell class="whitespace-nowrap text-gray-500 text-center">
                         @if($case->status === 'closed')
-                            <flux:badge color="emerald" icon="check" variant="ghost" size="sm">Yes</flux:badge>
+                            <flux:badge color="emerald" icon="check" variant="ghost" size="sm">Si</flux:badge>
                         @else
                             <flux:text color="red" variant="subtle">No</flux:text>
                         @endif
@@ -192,7 +192,7 @@ new class extends Component {
             @empty
                 <flux:table.row>
                     <flux:table.cell colspan="5" class="text-center py-10">
-                        <flux:text variant="subtle">No cases found.</flux:text>
+                        <flux:text variant="subtle">No se encontraron casos.</flux:text>
                     </flux:table.cell>
                 </flux:table.row>
             @endforelse

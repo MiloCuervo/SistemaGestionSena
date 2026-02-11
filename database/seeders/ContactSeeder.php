@@ -15,6 +15,7 @@ class ContactSeeder extends Seeder
         $contact1 = new Contact();
         $contact1->full_name = 'Carlos Perez';
         $contact1->identification_number = '1023456789';
+        $contact1->identification_number = '1023456789';
         $contact1->email = 'carlos.perez@example.com';
         $contact1->phone = '1234567890';
         $contact1->position = 'Empresa XYZ';

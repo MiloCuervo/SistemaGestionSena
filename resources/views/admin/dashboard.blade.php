@@ -5,7 +5,7 @@
             <!-- Statistics -->
             <div>
                 <h3 class="text-lg font-semibold text-gray-800 dark:text-gray-200 mb-4">
-                    Case Statistics
+                    Estadisticas de los casos
                 </h3>
 
                 <livewire:case-stats />

@@ -25,7 +25,7 @@ new class extends Component {
             'total' => OrganizationProcess::count(),
             'active' => OrganizationProcess::where('active', true)->count(),
             'inactive' => OrganizationProcess::where('active', false)->count(),
-            'cases' => cases::count(),
+            'cases' => OrganizationProcess::count(),
         ];
     }
 
@@ -122,7 +122,7 @@ new class extends Component {
 
             <div class="flex-1 py-8">
                 <flux:card class="flex flex-col gap-2 p-6 border-l-4 border-blue-500 h-full">
-                    <flux:text variant="subtle" size="sm" class="uppercase font-semibold tracking-wider">Casos Totales
+                    <flux:text variant="subtle" size="sm" class="uppercase font-semibold tracking-wider">Proceso Totales
                     </flux:text>
                     <div class="flex items-baseline gap-2">
                         <flux:heading size="3xl" class="text-blue-600 dark:text-blue-400">{{ $this->stats['cases'] }}
