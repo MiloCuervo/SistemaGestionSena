@@ -116,4 +116,11 @@ return [
     'user'            => 'Usuario',
     'view'            => 'Ver',
     'yes'             => 'Sí',
+    'attended'         => 'Atendido',
+    'in_progress'     => 'En proceso', 
+    'not_attended'     => 'No atendido',
+    'request'           => 'Solicitud',
+    'right_of_petition' => 'Derecho de petición',
+    'tutelage'          => 'Tutela',
+    'complaint'       => 'Denuncia',
 ];

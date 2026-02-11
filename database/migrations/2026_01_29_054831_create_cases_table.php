@@ -37,7 +37,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->json('case_evidence')->nullable();
             $table->enum('status', ['attended','in_progress','not_attended','closed'])->default('in_progress');
-            $table->enum('type', ['denunciation', 'request', 'right_of_petition', 'tutelage'])->default('request');
+            $table->enum('type', ['complaint', 'request', 'right_of_petition', 'tutelage'])->default('request');
             $table->foreignId('user_id')->nullable()->index();
             $table->foreignId('contact_id')->nullable()->index();
             $table->foreignId('organization_process_id')->nullable()->index();
