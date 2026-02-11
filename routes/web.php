@@ -8,6 +8,7 @@ use App\Http\Controllers\ProcessesController;
 use App\Http\Controllers\CasesController;
 
 
+
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
@@ -58,10 +59,14 @@ Route::middleware(['auth', 'verified', 'role:2'])
         // Gestión de Casos
         Route::get('/cases', [CasesController::class, '__invoke'])->name('cases');
         Route::post('/cases', [CasesController::class, 'store'])->name('cases.store');
+        Route::get('/cases/{id}/edit', [CasesController::class, 'edit'])->name('cases.edit');
+        Route::put('/cases/{id}', [CasesController::class, 'update'])->name('cases.update');
+        Route::put('/cases/{id}/status', [CasesController::class, 'updateStatus'])->name('cases.update-status');
         Route::get('/cases/{id}', [CasesController::class, 'show'])->name('cases.show');
 
+
         // Gestión de Contactos
-        Route::get('/contacts',[ContactsController::class, '__invoke'])->name('contacts');
+        Route::get('/contacts', [ContactsController::class, '__invoke'])->name('contacts');
         Route::post('/contacts', [ContactsController::class, 'store'])->name('contacts.store');
         Route::get('/contacts/{id}', [ContactsController::class, 'show'])->name('contacts.show');
 
