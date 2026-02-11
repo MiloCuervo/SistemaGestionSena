@@ -32,7 +32,7 @@ class CasesController extends Controller
         ]);
 
         $cases = new Cases();
-        $cases->case_number = "CAS-" . date("Ymd") . rand(1000, 9999);
+        $cases->case_number = "1111";
         $cases->description = $request->description;
         $cases->case_evidence = $request->case_evidence;
         $cases->status = "in_progress";
