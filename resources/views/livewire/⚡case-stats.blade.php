@@ -53,7 +53,7 @@ new class extends Component {
         <!-- Attended -->
         <div class="mx-auto flex max-w-xs flex-col gap-y-2">
             <dt class="text-sm text-gray-500 dark:text-gray-400">
-                Attended
+                {{ __('Attended') }}
             </dt>
             <dd class="order-first text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
                 {{ $this->GetAttendedCases()->count() }}
@@ -63,7 +63,7 @@ new class extends Component {
         <!-- Pending -->
         <div class="mx-auto flex max-w-xs flex-col gap-y-2">
             <dt class="text-sm text-gray-500 dark:text-gray-400">
-                In Progress
+                {{ __('In Progress') }}
             </dt>
             <dd class="order-first text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
                 {{ $this->GetInProgressCases()->count() }}
@@ -73,7 +73,7 @@ new class extends Component {
         <!-- Not Attended -->
         <div class="mx-auto flex max-w-xs flex-col gap-y-2">
             <dt class="text-sm text-gray-500 dark:text-gray-400">
-                Not Attended
+                {{ __('Not attended') }}
             </dt>
             <dd class="order-first text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
                 {{ $this->GetNotAttendedCases()->count() }}
@@ -83,7 +83,7 @@ new class extends Component {
         <!-- Closed -->
         <div class="mx-auto flex max-w-xs flex-col gap-y-2">
             <dt class="text-sm text-gray-500 dark:text-gray-400">
-                Closed
+                {{ __('Closed') }}
             </dt>
             <dd class="order-first text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
                 {{ $this->GetClosedCases()->count() }}
@@ -93,7 +93,7 @@ new class extends Component {
         <!-- Total -->
         <div class="mx-auto flex max-w-xs flex-col gap-y-2">
             <dt class="text-sm text-gray-500 dark:text-gray-400">
-                Total Cases
+                {{ __('Total Cases') }}
             </dt>
             <dd class="order-first text-4xl font-semibold tracking-tight text-gray-900 dark:text-white">
                 {{ $this->totalCases() }}
