@@ -98,7 +98,7 @@ new class extends Component {
         return match ($status) {
             'attended', 'atendido', 'attended' => ['label' => 'Atendido', 'classes' => 'bg-emerald-50 text-emerald-700', 'selectClasses' => 'bg-emerald-50 border-emerald-200', 'color' => '#009914'],
             'waiting', 'en_espera', 'on_hold', 'in_progress' => ['label' => 'En proceso', 'classes' => 'bg-amber-50 text-amber-700', 'selectClasses' => 'bg-amber-50 border-amber-200', 'color' => '#92400e'],
-            'inactive', 'no_activo', 'not_attended' => ['label' => 'No solucionado', 'classes' => 'bg-rose-50 text-rose-700', 'selectClasses' => 'bg-rose-50 border-rose-200', 'color' => '#fbff05'],
+            'inactive', 'no_activo', 'not_attended' => ['label' => 'No solucionado', 'classes' => 'bg-rose-50 text-rose-700', 'selectClasses' => 'bg-rose-50 border-rose-200', 'color' => '#c5c904'],
             'closed', 'cerrado', 'closed' => ['label' => 'Cerrado', 'classes' => 'bg-rose-50 text-rose-700', 'selectClasses' => 'bg-rose-50 border-rose-200', 'color' => '#9f1239'],
             default => ['label' => ucfirst(str_replace('_', ' ', $status)), 'classes' => 'bg-zinc-100 text-zinc-700', 'selectClasses' => 'bg-white border-zinc-300', 'color' => '#18181b'],
         };
@@ -181,6 +181,10 @@ new class extends Component {
                     <tr>
                         <th scope="col"
                             class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            Radicado
+                        </th>
+                        <th scope="col"
+                            class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                             Tipo
                         </th>
                         <th scope="col"
@@ -211,6 +215,9 @@ new class extends Component {
                             $badge = $this->getStatusBadge($caseItem->status ?? 'unknown');
                         @endphp
                         <tr>
+                            <td class="px-6 py-4 text-sm font-medium text-zinc-900 dark:text-white">
+                                {{ $caseItem->case_number ?? '—' }}
+                            </td>
                             <td class="px-6 py-4 text-sm font-medium text-zinc-900 dark:text-white">
                                 {{ $this->getTypeLabel($caseItem->type ?? '') }}
                             </td>
