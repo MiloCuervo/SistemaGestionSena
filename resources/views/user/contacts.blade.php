@@ -1,4 +1,5 @@
 <x-layouts::app>
+<<<<<<< HEAD
     <div class="flex flex-col gap-6 mb-8">
         <div class="flex flex-col gap-2">
             <flux:heading size="xl" variant="strong"
@@ -22,3 +23,7 @@
     <livewire:user-contact-table />
 </x-layouts::app>
     
+=======
+    
+</x-layouts::app>   
+>>>>>>> b839570d496c7d45da2c535fe79186dc104582e8
