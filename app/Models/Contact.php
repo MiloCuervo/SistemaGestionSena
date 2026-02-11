@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Model;
 
 class Contact extends Model
 {
+    protected $table = 'contacts';
     protected $fillable = [
         'full_name',
-        'identity_document',
+        'identification_number',
         'email',
         'phone',
         'position',
     ];
 
     protected $hidden = [
-        'identity_document',
+        'identification_number',
     ];
 
     public function cases()

@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('contacts', function (Blueprint $table) {
             $table->id();
             $table->string('full_name');
-            $table->string('identity_number');
+            $table->string('identification_number');
             $table->string('email')->unique();
             $table->string('phone', 15)->nullable();
             $table->string('position')->nullable();
@@ -33,7 +33,7 @@ return new class extends Migration
 
         Schema::create('cases', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('case_number')->nullable();
+            $table->text('case_number')->nullable();
             $table->text('description')->nullable();
             $table->json('case_evidence')->nullable();
             $table->enum('status', ['attended','in_progress','not_attended','closed'])->default('in_progress');

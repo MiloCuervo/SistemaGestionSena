@@ -36,21 +36,21 @@
         @else
             <flux:sidebar.nav> <!-- BARRA SUPERIOR CON LOS BASICOS DEL USUARIO-->
                 <flux:sidebar.group :heading="__('Gestion')" class="grid">
-                    <flux:sidebar.item icon="home" :href="route('user.cases')" :current="request()->routeIs('user.cases')"
-                        wire:navigate>
-                        {{ __('Cases') }}
+                    <flux:sidebar.item icon="chart-bar" :href="route('user.cases')"
+                        :current="request()->routeIs('user.cases')" wire:navigate>
+                        {{ __('Dashboard') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="users" :href="route('user.dashboard')"
+                    <flux:sidebar.item icon="home" :href="route('user.dashboard')"
                         :current="request()->routeIs('user.dashboard')" wire:navigate>
-                        {{ __('Profile') }}
+                        {{ __('My Cases') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="printer" :href="route('user.dashboard')"
-                        :current="request()->routeIs('user.dashboard')" wire:navigate>
+                    <flux:sidebar.item icon="users" :href="route('user.contacts')"
+                        :current="request()->routeIs('user.contacts')" wire:navigate>
+                        {{ __('Contacts') }}
+                    </flux:sidebar.item>
+                    <flux:sidebar.item icon="printer" :href="route('user.reports')"
+                        :current="request()->routeIs('user.reports')" wire:navigate>
                         {{ __('Reports') }}
-                    </flux:sidebar.item>
-                    <flux:sidebar.item icon="chart-bar" :href="route('user.dashboard')"
-                        :current="request()->routeIs('user.dashboard')" wire:navigate>
-                        {{ __('Processes') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>

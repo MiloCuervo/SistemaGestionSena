@@ -25,7 +25,7 @@ new class extends Component {
             'total' => OrganizationProcess::count(),
             'active' => OrganizationProcess::where('active', true)->count(),
             'inactive' => OrganizationProcess::where('active', false)->count(),
-            'cases' => cases::count(),
+            'cases' => OrganizationProcess::count(),
         ];
     }
 
@@ -95,12 +95,12 @@ new class extends Component {
 ?>
 <div class="py-8">
     <div class="space-y-8">
-        <!-- Cards de Estadísticas -->
+        <!-- stats Card -->
         <div
             style="display: flex !important; flex-direction: row !important; gap: 1rem !important; align-items: stretch !important;">
             <div class="flex-1 py-8">
                 <flux:card class="flex flex-col gap-2 p-6 border-l-4 border-lime-500 h-full">
-                    <flux:text variant="subtle" size="sm" class="uppercase font-semibold tracking-wider">Activos
+                    <flux:text icon="" variant="subtle" size="sm" class="uppercase font-semibold tracking-wider">Activos
                     </flux:text>
                     <div class="flex items-baseline gap-2">
                         <flux:heading size="3xl" class="text-lime-600 dark:text-lime-400">{{ $this->stats['active'] }}
@@ -110,11 +110,11 @@ new class extends Component {
             </div>
 
             <div class="flex-1 py-8">
-                <flux:card class="flex flex-col gap-2 p-6 border-l-4 border-zinc-500 h-full">
+                <flux:card class="flex flex-col gap-2 p-6 border-l-4 border-lime-500 h-full">
                     <flux:text variant="subtle" size="sm" class="uppercase font-semibold tracking-wider">Inactivos
                     </flux:text>
                     <div class="flex items-baseline gap-2">
-                        <flux:heading size="3xl" class="text-zinc-600 dark:text-zinc-400">{{ $this->stats['inactive'] }}
+                        <flux:heading size="3xl" class="text-zinc-600 dark:text-lime-400">{{ $this->stats['inactive'] }}
                         </flux:heading>
                     </div>
                 </flux:card>
@@ -122,7 +122,7 @@ new class extends Component {
 
             <div class="flex-1 py-8">
                 <flux:card class="flex flex-col gap-2 p-6 border-l-4 border-blue-500 h-full">
-                    <flux:text variant="subtle" size="sm" class="uppercase font-semibold tracking-wider">Casos Totales
+                    <flux:text variant="subtle" size="sm" class="uppercase font-semibold tracking-wider">Proceso Totales
                     </flux:text>
                     <div class="flex items-baseline gap-2">
                         <flux:heading size="3xl" class="text-blue-600 dark:text-blue-400">{{ $this->stats['cases'] }}

@@ -8,7 +8,8 @@ new class extends Component {
 
     use WithPagination;
 
-
+    
+     
     // Search and Filters
     public string $search = '';
     public string $statusFilter = '';
@@ -27,6 +28,8 @@ new class extends Component {
         $this->resetPage();
     }
 
+
+
     // Toggle Case Open/Close
     public function toggleStatus($id)
     {
@@ -34,6 +37,8 @@ new class extends Component {
         $case->status = $case->status === 'closed' ? 'in_progress' : 'closed';
         $case->save();
         session()->flash('message', 'Estado actualizado.');
+        // Refresh statistics in real time (case-stats listens to this)
+        $this->dispatch('caseUpdated');
     }
 
 
@@ -72,7 +77,7 @@ new class extends Component {
         </div>
 
         <div class="w-full sm:w-1/4">
-            <flux:select wire:model.live="statusFilter" placeholder="{{ __('All statuses') }}">
+            <flux:select wire:model.live="statusFilter" placeholder="{{ __('status') }}">
                 <flux:select.option value="">{{ __('All statuses') }}</flux:select.option>
                 <flux:select.option value="attended">{{ __('Attended') }}</flux:select.option>
                 <flux:select.option value="in_progress">{{ __('In Progress') }}</flux:select.option>
@@ -105,12 +110,12 @@ new class extends Component {
 
                     <flux:table.cell>
                         <flux:badge variant="ghost" size="sm">
-                            {{ ucfirst(str_replace('_', ' ', $case->status)) }}
+                            {{ ucfirst(str_replace('_', ' ', __($case->status))) }}
                         </flux:badge>
                     </flux:table.cell>
 
                     <flux:table.cell class="whitespace-nowrap text-gray-500">
-                        {{ $case->type }}
+                        {{ __($case->type) }}
                     </flux:table.cell>
 
                     <flux:table.cell class="whitespace-nowrap text-gray-500">
@@ -122,7 +127,7 @@ new class extends Component {
                     </flux:table.cell>
 
                     <flux:table.cell class="whitespace-nowrap text-gray-500">
-                        {{ $case->contact->name ?? 'N/A' }}
+                        {{ $case->contact->full_name ?? 'N/A' }}
                     </flux:table.cell>
 
                     <flux:table.cell class="whitespace-nowrap text-gray-500">
@@ -131,7 +136,7 @@ new class extends Component {
 
                     <flux:table.cell>
                         @if($case->status === 'closed')
-                            <flux:badge color="emerald" icon="check" variant="ghost" size="sm">Yes</flux:badge>
+                            <flux:badge color="emerald" icon="check" variant="ghost" size="sm">Si</flux:badge>
                         @else
                             <flux:text color="red" variant="subtle">No</flux:text>
                         @endif
@@ -149,7 +154,7 @@ new class extends Component {
             @empty
                 <flux:table.row>
                     <flux:table.cell colspan="5" class="text-center py-10">
-                        <flux:text variant="subtle">No cases found.</flux:text>
+                        <flux:text variant="subtle">No se encontraron casos.</flux:text>
                     </flux:table.cell>
                 </flux:table.row>
             @endforelse

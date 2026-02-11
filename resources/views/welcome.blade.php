@@ -1826,7 +1826,7 @@
 
         /* Page background: image with light/dark gradient overlay */
         .page-bg {
-            background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url("{{ asset('imagenes/comision2.jpg') }}");
+            background-image: linear-gradient(rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0.55)), url("{{ asset('images/background.jpg') }}");
             background-size: cover;
             background-position: center;
             background-attachment: fixed;
@@ -1869,7 +1869,7 @@
                 @else
                     <a href="{{ route('login') }}"
                         class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal">
-                        Log in
+                        {{ __('Login') }}
                     </a>
                 @endauth
             </nav>
@@ -1924,7 +1924,7 @@
 
                     <g filter="url(#depthShadow)"
                         class="transition-all duration-700 ease-out hover:-translate-y-3 hover:scale-[1.03]">
-                        <image class="logo-img" href="{{ asset('images/LogoSena4.png') }}" x="0" y="0" width="440"
+                        <image class="logo-img" href="{{ asset('images/SenaLogo4.jpg') }}" x="0" y="0" width="440"
                             height="420" preserveAspectRatio="xMidYMid meet" />
                     </g>
                 </svg>
@@ -1947,7 +1947,7 @@
                     </defs>
                     <g filter="url(#depthShadowDark)"
                         class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                        <image class="logo-img" href="{{ asset('images/SenaLogo.jpeg') }}" x="20" y="115" width="410"
+                        <image class="logo-img" href="{{ asset('images/SenaLogo4.jpg') }}" x="20" y="115" width="410"
                             height="340" preserveAspectRatio="xMidYMid meet" />
                     </g>
                 </svg>
