@@ -8,7 +8,6 @@ use Illuminate\Support\Carbon;
 use App\Models\User;
 use App\Models\Role;
 
-
 new class extends Component {
     use WithPagination;
 
@@ -26,6 +25,7 @@ new class extends Component {
     public $sortBy = 'user_id';
     public $sortDirection = 'asc';
     public $roleFilter = '';
+    public $statusFilter = '';
     public $search = '';
 
     public function updatedSearch()
@@ -34,6 +34,11 @@ new class extends Component {
     }
 
     public function updatedRoleFilter()
+    {
+        $this->resetPage();
+    }
+
+    public function updatedStatusFilter()
     {
         $this->resetPage();
     }
@@ -48,20 +53,23 @@ new class extends Component {
         }
     }
 
+    public function showUser($id)
+    {
+        $userConfiguration = UserConfiguration::find($id);
+        return redirect()->route('admin.users.show', $userConfiguration->user);
+    }
 
     public function with()
     {
         $query = UserConfiguration::query()
             ->with(['user', 'role'])
-            ->addSelect([
-                'user_configurations.*',
-                'last_activity' => DB::table('sessions')
-                    ->select('last_activity')
-                    ->whereColumn('user_id', 'user_configurations.user_id')
-                    ->latest('last_activity')
-                    ->limit(1)
-            ]);
-
+            ->addSelect(['user_configurations.*', 'last_activity' => DB::table('sessions')->select('last_activity')->whereColumn('user_id', 'user_configurations.user_id')->latest('last_activity')->limit(1)]);
+        // Apply status filter
+        if ($this->statusFilter !== '') {
+            $query->whereHas('user', function ($q) {
+                $q->where('active', $this->statusFilter === '1' ? 1 : 0);
+            });
+        }
         // Apply role filter
         if ($this->roleFilter !== '') {
             $query->where('role_id', $this->roleFilter);
@@ -72,15 +80,15 @@ new class extends Component {
             try {
                 $query->where(function ($q) {
                     $q->whereHas('user', function ($userQuery) {
-                        $userQuery->where('name', 'like', "%{$this->search}%")
+                        $userQuery
+                            ->where('name', 'like', "%{$this->search}%")
                             ->orWhere('second_name', 'like', "%{$this->search}%")
                             ->orWhere('last_name', 'like', "%{$this->search}%")
                             ->orWhere('second_last_name', 'like', "%{$this->search}%")
                             ->orWhere('email', 'like', "%{$this->search}%");
-                    })
-                        ->orWhereHas('role', function ($roleQuery) {
-                            $roleQuery->where('name', 'like', "%{$this->search}%");
-                        });
+                    })->orWhereHas('role', function ($roleQuery) {
+                        $roleQuery->where('name', 'like', "%{$this->search}%");
+                    });
                 });
             } catch (\Exception $e) {
                 // Silent fail if search encounters an error
@@ -98,25 +106,11 @@ new class extends Component {
             'roles' => Role::all(),
         ];
     }
-
-    public function delete($id)
-    {
-        $userConfiguration = UserConfiguration::find($id);
-        $userConfiguration->delete();
-        return redirect()->route('admin.users');
-    }
-
-    public function showUser($id)
-    {
-        $userConfiguration = UserConfiguration::find($id);
-        return redirect()->route('admin.users.show', $userConfiguration->user->id);
-    }
-
-
 };
 ?>
 <div class="flex flex-col gap-4">
     <div class="flex flex-col sm:flex-row gap-4 items-center">
+        <livewire:create-user-modal />
         <div class="w-full sm:w-1/3">
             <flux:input wire:model.live="search" icon="magnifying-glass" placeholder="Busqueda..." />
         </div>
@@ -127,9 +121,17 @@ new class extends Component {
                 <flux:menu.submenu heading="{{ __('Roles') }}">
                     <flux:select wire:model.live="roleFilter" placeholder="{{ __('Roles') }}">
                         <flux:select.option value="">{{ __('All roles') }}</flux:select.option>
-                        @foreach($roles as $role)
+                        @foreach ($roles as $role)
                             <flux:select.option value="{{ $role->id }}">{{ $role->name }}</flux:select.option>
                         @endforeach
+                    </flux:select>
+                </flux:menu.submenu>
+
+                <flux:menu.submenu heading="{{ __('Status') }}">
+                    <flux:select wire:model.live="statusFilter" placeholder="{{ __('Status') }}">
+                        <flux:select.option value="">{{ __('All statuses') }}</flux:select.option>
+                        <flux:select.option value="1">{{ __('Active') }}</flux:select.option>
+                        <flux:select.option value="0">{{ __('Inactive') }}</flux:select.option>
                     </flux:select>
                 </flux:menu.submenu>
             </flux:menu>
@@ -152,41 +154,35 @@ new class extends Component {
 
         <flux:table.rows>
             @foreach ($users as $userConfiguration)
-                    <flux:table.row :key="$userConfiguration->id">
-                        <flux:table.cell class="flex items-center gap-3">
-                            <flux:avatar :name="$userConfiguration->user->name"
-                                :initials="$userConfiguration->user->initials()" />
-                            <flux:text>
-                                {{ $userConfiguration->user->name . ' ' . $userConfiguration->user->second_name ?? 'N/A' }}
-                            </flux:text>
-                        </flux:table.cell>
+                <flux:table.row :key="$userConfiguration->id">
+                    <flux:table.cell class="flex items-center gap-3">
+                        <flux:avatar :name="$userConfiguration->user->name"
+                            :initials="$userConfiguration->user->initials()" />
+                        <flux:text>
+                            {{ $userConfiguration->user->name . ' ' . $userConfiguration->user->second_name ?? 'N/A' }}
+                        </flux:text>
+                    </flux:table.cell>
 
-                        <flux:table.cell class="whitespace-nowrap">{{ $userConfiguration->user->email }}</flux:table.cell>
+                    <flux:table.cell class="whitespace-nowrap">{{ $userConfiguration->user->email }}</flux:table.cell>
 
-                        <flux:table.cell variant="strong">{{ $userConfiguration->role->name ?? 'N/A' }}</flux:table.cell>
+                    <flux:table.cell variant="strong">{{ $userConfiguration->role->name ?? 'N/A' }}</flux:table.cell>
 
-                        <flux:table.cell>
-                            {{ $userConfiguration->last_activity
-                ? Carbon::createFromTimestamp($userConfiguration->last_activity)->diffForHumans()
-                : __('Never') }}
-                        </flux:table.cell>
+                    <flux:table.cell>
+                        {{ $userConfiguration->last_activity
+                            ? Carbon::createFromTimestamp($userConfiguration->last_activity)->diffForHumans()
+                            : __('Never') }}
+                    </flux:table.cell>
 
-                        <flux:table.cell>
-                            <flux:dropdown>
-                                <flux:button variant="ghost" size="sm" icon="adjustments-horizontal" inset="top bottom">
-                                </flux:button>
-                                <flux:menu>
-                                    <flux:menu.item icon="cog" wire:click="showUser({{ $userConfiguration->user->id }})">
-                                        {{ __('Edit') }}
-                                    </flux:menu.item>
-                                    <flux:menu.item icon="trash" variant="danger"
-                                        wire:click="delete({{ $userConfiguration->id }})">
-                                        {{ __('Delete') }}
-                                    </flux:menu.item>
-                                </flux:menu>
-                            </flux:dropdown>
-                        </flux:table.cell>
-                    </flux:table.row>
+                    <flux:table.cell>
+
+                        <flux:button icon="identification" wire:click="showUser({{ $userConfiguration->user->id }})">
+                            {{ __('Details') }}
+                        </flux:button>
+
+
+
+                    </flux:table.cell>
+                </flux:table.row>
             @endforeach
         </flux:table.rows>
     </flux:table>

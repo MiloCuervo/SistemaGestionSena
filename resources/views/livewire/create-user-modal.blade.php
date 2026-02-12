@@ -39,16 +39,13 @@ new class extends Component {
 
 };
 ?>
-
 <div class="flex justify-end p-4 mb-4">
     <flux:modal.trigger name="create-profile">
         <div class="px-2 py-4">
-            <flux:button variant="primary" class="mt-4 rounded-full cursor-pointer">Crear
+            <flux:button variant="primary" class="mt-4 rounded-full cursor-pointer hover:bg-lime-700">Crear
                 Usuario</flux:button>
         </div>
     </flux:modal.trigger>
-
-
 
     <flux:modal name="create-profile" flyout position="right" size="lg">
         <div class="space-y-4">

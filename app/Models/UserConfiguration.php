@@ -14,6 +14,10 @@ class UserConfiguration extends Model
         'report_frequency',
     ];
 
+    protected $casts = [
+        'active' => 'boolean',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

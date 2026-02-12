@@ -367,5 +367,10 @@
     "All types": "All types",
     "All contacts": "All contacts",
     "All Commissioners": "All Commissioners",
-    "All Processes": "All Processes"
+    "All Processes": "All Processes",
+    "active": "Active",
+    "inactive": "Inactive",
+    "Active": "Active",
+    "Inactive": "Inactive"
+
 }

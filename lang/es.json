@@ -410,5 +410,9 @@
     "All types": "Todos los tipos",
     "All contacts": "Todos los contactos",
     "All Commissioners": "Todos los comisionados",
-    "All Processes": "Todos los procesos"
+    "All Processes": "Todos los procesos",
+    "Active": "Activo",
+    "Inactive": "Inactivo",
+    "inactive": "Inactivo",
+    "active": "Activo"
 }  
