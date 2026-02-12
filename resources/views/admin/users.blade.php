@@ -14,7 +14,7 @@
                 Bienvenido <strong
                     class="text-zinc-800 dark:text-zinc-200 font-medium">{{ Auth::user()->name . ' ' . Auth::user()->last_name }}</strong>
             </p>
-            <p class="mt-2 max-w-lg text-sm/6 text-gray-400 max-lg:text-center">
+            <p class="mt-2 max-w-lg text-lg/6 text-gray-400 max-lg:text-center">
                 Gestiona y administra los usuarios del sistema. Todos los usuarios comienzan como comisionados y
                 requieren permisos adicionales para acceder a funciones administrativas.
             </p>
@@ -23,5 +23,8 @@
     <flux:separator variant="subtle" />
     <livewire:create-user-modal />
     <flux:separator variant="subtle" />
-    <livewire:user-table-component />
+
+    <div class="max-w-7xl mx-auto px-6 py-8 lg:px-8">
+        <livewire:user-table-component />
+    </div>
 </x-layouts::app>

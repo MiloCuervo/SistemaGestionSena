@@ -25,6 +25,7 @@ new class extends Component {
     public string $statusFilter = '';
     public string $userFilter = '';
     public string $processFilter = '';
+    public string $searchError = '';
 
     // Modal state
     public bool $showModal = false;
@@ -64,16 +65,28 @@ new class extends Component {
 
         // Apply search filter
         if ($this->search !== '') {
-
-            $query->where('case_number', 'like', "%{$this->search}%")
-                ->orWhere('description', 'like', "%{$this->search}%")
-                ->orWhere('status', 'like', "%{$this->search}%")
-                ->orWhere('type', 'like', "%{$this->search}%")
-                ->orWhere('created_by', 'like', "%{$this->search}%")
-                ->orWhere('created_at', 'like', "%{$this->search}%")
-                ->orWhere('contact_id', 'like', "%{$this->search}%")
-                ->orWhere('organization_process_id', 'like', "%{$this->search}%");
+            try {
+                $query->where(function ($q) {
+                    $q->where('case_number', 'like', "%{$this->search}%")
+                        ->orWhere('description', 'like', "%{$this->search}%")
+                        ->orWhere('status', 'like', "%{$this->search}%")
+                        ->orWhere('type', 'like', "%{$this->search}%")
+                        ->orWhere('created_at', 'like', "%{$this->search}%")
+                        ->orWhereHas('user', function ($userQuery) {
+                            $userQuery->where('name', 'like', "%{$this->search}%");
+                        })
+                        ->orWhereHas('contact', function ($contactQuery) {
+                            $contactQuery->where('full_name', 'like', "%{$this->search}%");
+                        })
+                        ->orWhereHas('organizationProcess', function ($processQuery) {
+                            $processQuery->where('name', 'like', "%{$this->search}%");
+                        });
+                });
+            } catch (\Exception $e) {
+                $this->searchError = 'Error al aplicar el filtro de búsqueda.';
+            }
         }
+
 
         // Return paginated results
         return [
@@ -91,7 +104,7 @@ new class extends Component {
     <!-- Filters -->
     <div class="flex flex-col sm:flex-row gap-4 items-center">
         <div class="w-full sm:w-1/3">
-            <flux:input wire:model.live="search" icon="magnifying-glass" placeholder="Search by field..." />
+            <flux:input wire:model.live="search" icon="magnifying-glass" placeholder="Busqueda..." />
         </div>
         <flux:dropdown>
             <flux:button icon:trailing="chevron-down">{{ __('Filters') }}</flux:button>
@@ -106,7 +119,7 @@ new class extends Component {
                     </flux:select>
                 </flux:menu.submenu>
 
-                <flux:menu.submenu heading="{{ __('Commissioners') }}">
+                <flux:menu.submenu heading="{{ __('Commissioner') }}">
                     <flux:select wire:model.live="userFilter">
                         <flux:select.option value="">{{ __('All Commissioners') }}</flux:select.option>
                         @foreach($users as $user)
@@ -127,6 +140,11 @@ new class extends Component {
             </flux:menu>
         </flux:dropdown>
     </div>
+
+    <!-- Search Error -->
+    @if($searchError)
+        <flux:badge color="red" icon="exclamation-triangle" class="w-full">{{ $searchError }}</flux:badge>
+    @endif
 
     <!-- Table -->
     <flux:table :paginate="$cases">
