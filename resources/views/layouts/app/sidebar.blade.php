@@ -52,6 +52,10 @@
                         :current="request()->routeIs('user.reports')" wire:navigate>
                         {{ __('Reports') }}
                     </flux:sidebar.item>
+                    <flux:sidebar.item icon="chart-pie" :href="route('user.cases-tracking')"
+                        :current="request()->routeIs('user.cases-tracking') || request()->routeIs('user.cases.tracking')" wire:navigate>
+                        {{ __('Tracking') }}
+                    </flux:sidebar.item>
                 </flux:sidebar.group>
             </flux:sidebar.nav>
         @endif

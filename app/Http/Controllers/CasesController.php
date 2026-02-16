@@ -32,7 +32,7 @@ class CasesController extends Controller
         ]);
 
         $cases = new Cases();
-        $cases->case_number = "CAD-" . date('YmdHis') . '-' . rand(1000, 9999); 
+        $cases->case_number = "CAD-" . date('YmdHis') . '-' . rand(1000, 9999);
         $cases->description = $request->description;
         $cases->case_evidence = $request->case_evidence;
         $cases->status = "in_progress";
@@ -47,8 +47,30 @@ class CasesController extends Controller
 
     public function show($id)
     {
-        $case = Cases::with('contact', 'process', 'user')->find($id);
-        return view('user.cases', compact('case'));
+        $case = Cases::where('user_id', Auth::id())
+            ->with(['contact', 'organizationProcess'])
+            ->findOrFail($id);
+
+        return view('user.cases-show', compact('case'));
+    }
+
+    public function tracking($id)
+    {
+        $case = Cases::where('user_id', Auth::id())
+            ->with([
+                'contact',
+                'organizationProcess',
+                'followUps' => function ($query) {
+                    $query->latest();
+                },
+            ])
+            ->findOrFail($id);
+
+        $userCases = Cases::where('user_id', Auth::id())
+            ->latest()
+            ->get(['id', 'case_number', 'status']);
+
+        return view('user.cases-tracking', compact('case', 'userCases'));
     }
 
     public function edit($id)
@@ -91,5 +113,4 @@ class CasesController extends Controller
 
         return redirect()->route('user.cases')->with('success', 'Estado actualizado correctamente.');
     }
-
 }

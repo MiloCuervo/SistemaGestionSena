@@ -180,26 +180,30 @@ new class extends Component {
                     <tr>
                         <th scope="col"
                             class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            Radicado                        
+                        </th>
+                        <th scope="col"
+                            class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                             Tipo
                         </th>
                         <th scope="col"
-                            class="w-[240px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[180px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                             Descripción
                         </th>
                         <th scope="col"
-                            class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                             Contacto
                         </th>
                         <th scope="col"
-                            class="w-[180px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[170px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                             Proceso
                         </th>
                         <th scope="col"
-                            class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[110px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                             Estado
                         </th>
                         <th scope="col"
-                            class="w-[120px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[100px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                             Acciones
                         </th>
                     </tr>
@@ -210,6 +214,11 @@ new class extends Component {
                             $badge = $this->getStatusBadge($caseItem->status ?? 'unknown');
                         @endphp
                         <tr>
+                            <td class="w-[560px] px-6 py-4 text-sm text-zinc-600 dark:text-zinc-300">
+                                <p class="w-full truncate" title="{{ $caseItem->case_number ?? '' }}">
+                                    {{ $caseItem->case_number ?? 'Sin número de radicado' }}
+                                </p>
+                            </td>
                             <td class="px-6 py-4 text-sm font-medium text-zinc-900 dark:text-white">
                                 {{ $this->getTypeLabel($caseItem->type ?? '') }}
                             </td>
@@ -235,17 +244,17 @@ new class extends Component {
                                 </select>
                             </td>
                             <td class="px-6 py-4 text-sm">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <a href="{{ route('user.cases.edit', $caseItem->id) }}"
+                                <div class="flex flex-wrap items-center">
+                                    <a href="{{ route('user.cases.show', $caseItem->id) }}"
                                         class="inline-flex items-center rounded-md border border-zinc-200 px-3 py-1.5 text-xs font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800">
-                                        Editar
+                                        Ver
                                     </a>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-10 text-center text-sm text-zinc-500 dark:text-zinc-400">
+                            <td colspan="7" class="px-6 py-10 text-center text-sm text-zinc-500 dark:text-zinc-400">
                                 Todavía no hay casos activos para mostrar.
                             </td>
                         </tr>
@@ -371,3 +380,4 @@ new class extends Component {
         }
     </style>
 </div>
+
