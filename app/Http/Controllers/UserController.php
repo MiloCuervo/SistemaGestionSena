@@ -96,9 +96,8 @@ class UserController extends Controller
         if (!$user || !$configuration) {
             return redirect()->route('admin.users.index')->with('error', 'User not found');
         }
-
-        $user->delete();
-        $configuration->delete();
+        $configuration->update(['active' => false]);
+        
 
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully');
     }

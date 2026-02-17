@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cases;
+use App\Models\cases;
 use App\Models\Contact;
 use App\Models\OrganizationProcess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CasesController extends Controller
 {
     public function __invoke()
     {
-        $cases = Cases::with('contact', 'organizationProcess', 'user')->get();
+        $cases = cases::with('contact', 'organizationProcess', 'user')->get();
         if (Auth::user()->role_id != 1) {
             return view('user.cases', compact('cases'));
         } else {
@@ -75,7 +76,7 @@ class CasesController extends Controller
 
     public function edit($id)
     {
-        $case = Cases::where('user_id', Auth::id())->findOrFail($id);
+        $case = cases::where('user_id', Auth::id())->findOrFail($id);
         $contacts = Contact::all();
         $processes = OrganizationProcess::all();
 
@@ -84,7 +85,7 @@ class CasesController extends Controller
 
     public function update(Request $request, $id)
     {
-        $case = Cases::where('user_id', Auth::id())->findOrFail($id);
+        $case = cases::where('user_id', Auth::id())->findOrFail($id);
 
         $data = $request->validate([
             'description' => 'required|string',
