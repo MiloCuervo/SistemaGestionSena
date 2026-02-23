@@ -53,7 +53,8 @@
                         {{ __('Reports') }}
                     </flux:sidebar.item>
                     <flux:sidebar.item icon="chart-pie" :href="route('user.cases-tracking')"
-                        :current="request()->routeIs('user.cases-tracking') || request()->routeIs('user.cases.tracking')" wire:navigate>
+                        :current="request()->routeIs('user.cases-tracking') || request()->routeIs('user.cases.tracking')"
+                        wire:navigate>
                         {{ __('Tracking') }}
                     </flux:sidebar.item>
                 </flux:sidebar.group>
@@ -115,6 +116,7 @@
     {{ $slot }}
 
     @fluxScripts
+    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </body>
 
 </html>

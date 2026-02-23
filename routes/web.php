@@ -24,7 +24,8 @@ Route::middleware(['auth', 'verified', 'role:1'])
     ->group(function () {
 
         // Dashboard Admin
-        Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
+        Route::get('/dashboard', [CasesController::class, 'adminDashboard'])->name('dashboard');
+        Route::get('/cases/{id}', [CasesController::class, 'getAdminCases'])->name('cases.show');
 
         // Gestión de Usuarios
         Route::get('/users', [UserController::class, '__invoke'])->name('users');

@@ -1859,21 +1859,7 @@
 <body
     class="page-bg bg-[#FDFDFC] dark:bg-[#0a0a0a] text-[#1b1b18] flex p-6 lg:p-8 items-center lg:justify-center min-h-screen flex-col">
     <header class="w-full lg:max-w-4xl max-w-[335px] text-sm mb-6 not-has-[nav]:hidden">
-        @if (Route::has('login'))
-            <nav class="flex items-center justify-end gap-4">
-                @auth
-                    <a href="{{ Auth::user()->configuration->first()->role_id == 1 ? route('admin.dashboard') : route('user.dashboard') }}"
-                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                        Dashboard
-                    </a>
-                @else
-                    <a href="{{ route('login') }}"
-                        class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal">
-                        {{ __('Login') }}
-                    </a>
-                @endauth
-            </nav>
-        @endif
+
     </header>
     {{-- Cajon de texto --}}
     <div
@@ -1882,7 +1868,9 @@
             <div
                 class="text-[25px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-es-lg rounded-ee-lg lg:rounded-ss-lg lg:rounded-ee-none">
                 <h1 class="mb-1 text-4xl font-medium">Bienvenido a el sistema de gestion del comisionado</h1>
-                <p class="mb-2 text-[black]">La comision de personal es un organo colegiado de direccion y gestion del
+                <p class="mb-2 text-[black] ">La comision de personal es un organo colegiado de
+                    direccion y
+                    gestion del
                     empleo publico y de la gerencia publica, de caracter bipartito. Esta conformado por dos
                     representantes de la entidad, designados por el nominador, y dos representantes de los empleados
                     elegidos por votacion directa de estos. Se constituye entonces para los servidores de las entidades,
@@ -1899,6 +1887,21 @@
                         </span>
                     </li>
                 </ul>
+                @if (Route::has('login'))
+                    <nav class="flex items-center justify-start gap-4">
+                        @auth
+                            <a href="{{ Auth::user()->configuration->first()->role_id == 1 ? route('admin.dashboard') : route('user.dashboard') }}"
+                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-lg leading-normal">
+                                Dashboard
+                            </a>
+                        @else
+                            <a href="{{ route('login') }}"
+                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-lg leading-normal">
+                                {{ __('Login') }}
+                            </a>
+                        @endauth
+                    </nav>
+                @endif
             </div>
             <div
                 class="bg-[#fff2f2] dark:bg-[#1D0002] relative lg:-ms-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-e-lg! aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden">

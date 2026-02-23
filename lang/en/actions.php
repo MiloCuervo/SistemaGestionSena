@@ -113,7 +113,6 @@ return [
         'self'   => 'Open in a current window',
         'top'    => 'Open in the topmost frame',
     ],
-<<<<<<< HEAD
     'translate'       => 'Translate',
     'translate_it'    => 'Translate It',
     'unpack'          => 'Unpack',
@@ -123,24 +122,7 @@ return [
     'user'            => 'User',
     'view'            => 'View',
     'yes'             => 'Yes',
-    'attended'        => 'Attended',
-    'in_progress'     => 'In Progress',
-    'not_attended'    => 'Not Attended',
-    'request'         => 'Request',
-    'right_of_petition' => 'Right of Petition',
     'denunciation' => 'Denunciation',
     'tutelage' => 'Tutelage',
-=======
-    'translate'         => 'Translate',
-    'translate_it'      => 'Translate It',
-    'tutelage'          => 'Tutelage',
-    'unpack'            => 'Unpack',
-    'unsubscribe'       => 'Unsubscribe',
-    'up'                => 'Up',
-    'update'            => 'Update',
-    'user'              => 'User',
-    'view'              => 'View',
-    'yes'               => 'Yes',
->>>>>>> ade442bc41c81b9cd6a4e5adc441d69ef49ebe12
 ];
 

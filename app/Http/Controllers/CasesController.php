@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\cases;
+use App\Models\User;
 use App\Models\Contact;
 use App\Models\OrganizationProcess;
 use Illuminate\Http\Request;
@@ -33,11 +34,7 @@ class CasesController extends Controller
         ]);
 
         $cases = new Cases();
-<<<<<<< HEAD
-        $cases->case_number =date("Ymd") .Auth::id() . rand(1000, 9999);
-=======
         $cases->case_number = "CAD-" . date('YmdHis') . '-' . rand(1000, 9999);
->>>>>>> ade442bc41c81b9cd6a4e5adc441d69ef49ebe12
         $cases->description = $request->description;
         $cases->case_evidence = $request->case_evidence;
         $cases->status = "in_progress";
@@ -56,6 +53,7 @@ class CasesController extends Controller
             ->with(['contact', 'organizationProcess'])
             ->findOrFail($id);
 
+            
         return view('user.cases-show', compact('case'));
     }
 
@@ -117,5 +115,49 @@ class CasesController extends Controller
         $case->save();
 
         return redirect()->route('user.cases')->with('success', 'Estado actualizado correctamente.');
+    }
+ 
+    
+    public function getAdminCases($id){
+        $case = Cases::where('id', $id)->with('user','contact', 'organizationProcess')->first();
+        return view('admin.showCase', compact('case'));
+    }
+
+    public function adminDashboard()
+    {
+        $stats = [
+            'total' => Cases::count(),
+            'attended' => Cases::where('status', 'attended')->count(),
+            'in_progress' => Cases::where('status', 'in_progress')->count(),
+            'not_attended' => Cases::where('status', 'not_attended')->count(),
+        ];
+
+        $chartData = [
+            'series' => [
+                $stats['attended'],
+                $stats['in_progress'],
+                $stats['not_attended'],
+            ],
+            'labels' => [
+                __('Resueltos'),
+                __('En Proceso'),
+                __('No Solucionados'),
+            ]
+        ];
+
+        // Fetch workload per commissioner (including those with 0 cases)
+        $commissioners = User::whereHas('configuration', function($query) {
+            $query->where('role_id', 2);
+        })
+        ->withCount('cases')
+        ->orderBy('cases_count', 'desc')
+        ->get();
+
+        $commissionerStats = [
+            'series' => $commissioners->pluck('cases_count')->toArray(),
+            'labels' => $commissioners->pluck('name')->toArray(),
+        ];
+
+        return view('admin.dashboard', compact('stats', 'chartData', 'commissionerStats'));
     }
 }
