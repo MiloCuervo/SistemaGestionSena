@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -96,10 +96,9 @@ new class extends Component {
     public function getStatusBadge(string $status): array
     {
         return match ($status) {
-            'attended', 'atendido', 'attended' => ['label' => 'Atendido', 'classes' => 'bg-emerald-50 text-emerald-700', 'selectClasses' => 'bg-emerald-50 border-emerald-200', 'color' => '#009914'],
-            'waiting', 'en_espera', 'on_hold', 'in_progress' => ['label' => 'En proceso', 'classes' => 'bg-amber-50 text-amber-700', 'selectClasses' => 'bg-amber-50 border-amber-200', 'color' => '#92400e'],
-            'inactive', 'no_activo', 'not_attended' => ['label' => 'No solucionado', 'classes' => 'bg-rose-50 text-rose-700', 'selectClasses' => 'bg-rose-50 border-rose-200', 'color' => '#c5c904'],
-            'closed', 'cerrado', 'closed' => ['label' => 'Cerrado', 'classes' => 'bg-rose-50 text-rose-700', 'selectClasses' => 'bg-rose-50 border-rose-200', 'color' => '#9f1239'],
+            'active', 'activo', 'in_progress' => ['label' => 'Activo', 'classes' => 'bg-emerald-50 text-emerald-700', 'selectClasses' => 'bg-emerald-50 border-emerald-200', 'color' => '#065f46'],
+            'waiting', 'en_espera', 'on_hold', 'attended' => ['label' => 'En espera', 'classes' => 'bg-amber-50 text-amber-700', 'selectClasses' => 'bg-amber-50 border-amber-200', 'color' => '#92400e'],
+            'inactive', 'no_activo', 'closed', 'not_attended' => ['label' => 'No activo', 'classes' => 'bg-rose-50 text-rose-700', 'selectClasses' => 'bg-rose-50 border-rose-200', 'color' => '#9f1239'],
             default => ['label' => ucfirst(str_replace('_', ' ', $status)), 'classes' => 'bg-zinc-100 text-zinc-700', 'selectClasses' => 'bg-white border-zinc-300', 'color' => '#18181b'],
         };
     }
@@ -162,9 +161,9 @@ new class extends Component {
             <select wire:model.live="statusFilter"
                 class="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white">
                 <option value="">Todos los estados</option>
-                <option value="in_progress">En proceso</option>
-                <option value="attended">Solucionado</option>
-                <option value="not_attended">No solucionado</option>
+                <option value="in_progress">Activo</option>
+                <option value="attended">En espera</option>
+                <option value="not_attended">No activo</option>
                 <option value="closed">Cerrado</option>
             </select>
         </div>
@@ -181,30 +180,30 @@ new class extends Component {
                     <tr>
                         <th scope="col"
                             class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
-                            Radicado
+                            Radicado                        
                         </th>
                         <th scope="col"
-                            class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                             Tipo
                         </th>
                         <th scope="col"
-                            class="w-[240px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[180px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                             Descripción
                         </th>
                         <th scope="col"
-                            class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                             Contacto
                         </th>
                         <th scope="col"
-                            class="w-[180px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[170px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                             Proceso
                         </th>
                         <th scope="col"
-                            class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[110px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                             Estado
                         </th>
                         <th scope="col"
-                            class="w-[120px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[100px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
                             Acciones
                         </th>
                     </tr>
@@ -215,8 +214,10 @@ new class extends Component {
                             $badge = $this->getStatusBadge($caseItem->status ?? 'unknown');
                         @endphp
                         <tr>
-                            <td class="px-6 py-4 text-sm font-medium text-zinc-900 dark:text-white">
-                                {{ $caseItem->case_number ?? '—' }}
+                            <td class="w-[560px] px-6 py-4 text-sm text-zinc-600 dark:text-zinc-300">
+                                <p class="w-full truncate" title="{{ $caseItem->case_number ?? '' }}">
+                                    {{ $caseItem->case_number ?? 'Sin número de radicado' }}
+                                </p>
                             </td>
                             <td class="px-6 py-4 text-sm font-medium text-zinc-900 dark:text-white">
                                 {{ $this->getTypeLabel($caseItem->type ?? '') }}
@@ -236,24 +237,24 @@ new class extends Component {
                                 <select wire:change="updateStatus({{ $caseItem->id }}, $event.target.value)"
                                     class="case-status-select w-full min-w-[90px] max-w-[120px] rounded-md border px-3 py-2 text-xs font-semibold shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white {{ $badge['selectClasses'] }}"
                                     style="color: {{ $badge['color'] }};">
-                                    <option value="in_progress" @selected($caseItem->status === 'in_progress')>En proceso</option>
-                                    <option value="attended" @selected($caseItem->status === 'attended')>Solucionado</option>
-                                    <option value="not_attended" @selected($caseItem->status === 'not_attended')>No solucionado</option>
-                                    <option value="closed" @selected($caseItem->status === 'closed')>Cerrado</option>
+                                    <option value="in_progress" @selected($caseItem->status === 'in_progress')>Activo</option>
+                                    <option value="attended" @selected($caseItem->status === 'attended')>En espera</option>
+                                    <option value="not_attended" @selected($caseItem->status === 'not_attended')>Cerrado
+                                    </option>
                                 </select>
                             </td>
                             <td class="px-6 py-4 text-sm">
-                                <div class="flex flex-wrap items-center gap-2">
-                                    <a href="{{ route('user.cases.edit', $caseItem->id) }}"
+                                <div class="flex flex-wrap items-center">
+                                    <a href="{{ route('user.cases.show', $caseItem->id) }}"
                                         class="inline-flex items-center rounded-md border border-zinc-200 px-3 py-1.5 text-xs font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800">
-                                        Editar
+                                        Ver
                                     </a>
                                 </div>
                             </td>
                         </tr>
                     @empty
                         <tr>
-                            <td colspan="6" class="px-6 py-10 text-center text-sm text-zinc-500 dark:text-zinc-400">
+                            <td colspan="7" class="px-6 py-10 text-center text-sm text-zinc-500 dark:text-zinc-400">
                                 Todavía no hay casos activos para mostrar.
                             </td>
                         </tr>
@@ -316,10 +317,9 @@ new class extends Component {
                                 class="block text-xs font-medium text-zinc-700 dark:text-zinc-200">Estado</label>
                             <select id="case_status" wire:model="status"
                                 class="mt-1 w-full rounded-md border border-zinc-300 px-2.5 py-1.5 text-xs text-zinc-900 shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white">
-                                <option value="in_progress">En proceso</option>
-                                <option value="attended">Solucionado</option>
-                                <option value="not_attended">No solucionado</option>
-                                <option value="closed">Cerrado</option>
+                                <option value="in_progress">Activo</option>
+                                <option value="attended">En espera</option>
+                                <option value="not_attended">No activo</option>
                             </select>
                         </div>
 

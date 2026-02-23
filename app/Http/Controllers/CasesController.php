@@ -2,17 +2,18 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Cases;
+use App\Models\cases;
 use App\Models\Contact;
 use App\Models\OrganizationProcess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CasesController extends Controller
 {
     public function __invoke()
     {
-        $cases = Cases::with('contact', 'organizationProcess', 'user')->get();
+        $cases = cases::with('contact', 'organizationProcess', 'user')->get();
         if (Auth::user()->role_id != 1) {
             return view('user.cases', compact('cases'));
         } else {
@@ -32,7 +33,11 @@ class CasesController extends Controller
         ]);
 
         $cases = new Cases();
+<<<<<<< HEAD
         $cases->case_number =date("Ymd") .Auth::id() . rand(1000, 9999);
+=======
+        $cases->case_number = "CAD-" . date('YmdHis') . '-' . rand(1000, 9999);
+>>>>>>> ade442bc41c81b9cd6a4e5adc441d69ef49ebe12
         $cases->description = $request->description;
         $cases->case_evidence = $request->case_evidence;
         $cases->status = "in_progress";
@@ -47,13 +52,35 @@ class CasesController extends Controller
 
     public function show($id)
     {
-        $case = Cases::with('contact', 'process', 'user')->find($id);
-        return view('user.cases', compact('case'));
+        $case = Cases::where('user_id', Auth::id())
+            ->with(['contact', 'organizationProcess'])
+            ->findOrFail($id);
+
+        return view('user.cases-show', compact('case'));
+    }
+
+    public function tracking($id)
+    {
+        $case = Cases::where('user_id', Auth::id())
+            ->with([
+                'contact',
+                'organizationProcess',
+                'followUps' => function ($query) {
+                    $query->latest();
+                },
+            ])
+            ->findOrFail($id);
+
+        $userCases = Cases::where('user_id', Auth::id())
+            ->latest()
+            ->get(['id', 'case_number', 'status']);
+
+        return view('user.cases-tracking', compact('case', 'userCases'));
     }
 
     public function edit($id)
     {
-        $case = Cases::where('user_id', Auth::id())->findOrFail($id);
+        $case = cases::where('user_id', Auth::id())->findOrFail($id);
         $contacts = Contact::all();
         $processes = OrganizationProcess::all();
 
@@ -62,7 +89,7 @@ class CasesController extends Controller
 
     public function update(Request $request, $id)
     {
-        $case = Cases::where('user_id', Auth::id())->findOrFail($id);
+        $case = cases::where('user_id', Auth::id())->findOrFail($id);
 
         $data = $request->validate([
             'description' => 'required|string',
@@ -91,5 +118,4 @@ class CasesController extends Controller
 
         return redirect()->route('user.cases')->with('success', 'Estado actualizado correctamente.');
     }
-
 }

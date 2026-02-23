@@ -36,11 +36,11 @@ class cases extends Model
 
     public function followUps()
     {
-        return $this->hasMany(FollowUp::class);
+        return $this->hasMany(FollowUp::class, 'case_id');
     }
 
     public function audittings()
     {
-        return $this->hasMany(Auditing::class);
+        return $this->hasMany(Auditing::class, 'case_id');
     }
 }
