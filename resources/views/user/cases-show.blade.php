@@ -65,6 +65,9 @@
             </div>
         </div>
     </div>
+    <div>
+        <h1 class="text-2xl font-semibold text-zinc-900 dark:text-white">Seguimientos</h1>
+    </div>
                     <div class="mt-3 space-y-3 px-6">
                         @forelse ($case->followUps as $followUp)
                             <article class="rounded-md border border-zinc-200 p-4 dark:border-zinc-700">
