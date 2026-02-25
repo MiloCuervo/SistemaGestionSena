@@ -11,7 +11,7 @@
         $statusLabel = match ($case->status) {
             'in_progress' => 'En proceso',
             'attended' => 'Atendido',
-            'not_attended' => 'No Atendido',,
+            'not_attended' => 'No Atendido',
             default => $case->status,
         };
     @endphp
@@ -84,3 +84,4 @@
                         @endforelse
                     </div>
 </x-layouts::app>
+

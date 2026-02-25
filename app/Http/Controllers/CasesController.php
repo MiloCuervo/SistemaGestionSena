@@ -85,12 +85,12 @@ class CasesController extends Controller
 
     public function update(Request $request, $id)
     {
-            $case = cases::where('user_id', Auth::id())->findOrFail($id);
+        $case = cases::where('user_id', Auth::id())->findOrFail($id);
 
         $data = $request->validate([
             'description' => 'required|string',
             'type' => 'required|in:denunciation,request,right_of_petition,tutelage',
-            'status' => 'required|in:attended,in_progress,not_attended,closed',
+            'status' => 'required|in:attended,in_progress,not_attended',
             'contact_id' => 'required|exists:contacts,id',
             'organization_process_id' => 'required|exists:organization_processes,id',
         ]);
@@ -106,7 +106,7 @@ class CasesController extends Controller
         $case = Cases::where('user_id', Auth::id())->findOrFail($id);
 
         $data = $request->validate([
-            'status' => 'required|in:attended,in_progress,not_attended,closed',
+            'status' => 'required|in:attended,in_progress,not_attended,',
         ]);
 
         $case->status = $data['status'];

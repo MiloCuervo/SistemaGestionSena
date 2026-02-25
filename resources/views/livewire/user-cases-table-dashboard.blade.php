@@ -179,7 +179,7 @@ new class extends Component {
                     <tr>
                         <th scope="col"
                             class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
-                            Radicado
+                            Radicado                        
                         </th>
                         <th scope="col"
                             class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
@@ -236,8 +236,7 @@ new class extends Component {
                                     style="color: {{ $badge['color'] }};">
                                     <option value="in_progress" @selected($caseItem->status === 'in_progress')>En proceso</option>
                                     <option value="attended" @selected($caseItem->status === 'attended')>Atendido</option>
-                                    <option value="not_attended" @selected($caseItem->status === 'not_attended')>No atendido
-                                    </option>
+                                    <option value="not_attended" @selected($caseItem->status === 'not_attended')>No atendido</option>
                                 </select>
                             </td>
                             <td class="px-6 py-4 text-sm">
