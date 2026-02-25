@@ -13,6 +13,7 @@
         <div class="mb-6 flex flex-wrap items-start justify-between gap-3">
             <div>
                 <h1 class="text-2xl font-semibold text-zinc-900 dark:text-white">Seguimientos</h1>
+                <h1 class="text-2xl font-semibold text-zinc-900 dark:text-white">Seguimiento</h1>
                 <p class="text-sm text-zinc-500 dark:text-zinc-400">Consulta el avance y cambia de caso desde el panel lateral.</p>
             </div>
             <a href="{{ route('user.cases') }}"
@@ -78,3 +79,4 @@
 
 
 </x-layouts::app>
+

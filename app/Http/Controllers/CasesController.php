@@ -85,7 +85,7 @@ class CasesController extends Controller
 
     public function update(Request $request, $id)
     {
-        $case = cases::where('user_id', Auth::id())->findOrFail($id);
+            $case = cases::where('user_id', Auth::id())->findOrFail($id);
 
         $data = $request->validate([
             'description' => 'required|string',

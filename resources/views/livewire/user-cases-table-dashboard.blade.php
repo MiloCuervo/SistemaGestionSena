@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -96,9 +96,9 @@ new class extends Component {
     public function getStatusBadge(string $status): array
     {
         return match ($status) {
-            'active', 'activo', 'in_progress' => ['label' => 'Activo', 'classes' => 'bg-emerald-50 text-emerald-700', 'selectClasses' => 'bg-emerald-50 border-emerald-200', 'color' => '#065f46'],
-            'waiting', 'en_espera', 'on_hold', 'attended' => ['label' => 'En espera', 'classes' => 'bg-amber-50 text-amber-700', 'selectClasses' => 'bg-amber-50 border-amber-200', 'color' => '#92400e'],
-            'inactive', 'no_activo', 'closed', 'not_attended' => ['label' => 'No activo', 'classes' => 'bg-rose-50 text-rose-700', 'selectClasses' => 'bg-rose-50 border-rose-200', 'color' => '#9f1239'],
+            'in_progress' => ['label' => 'En proceso', 'classes' => 'bg-emerald-50 text-emerald-700', 'selectClasses' => 'bg-emerald-50 border-emerald-200', 'color' => '#065f46'],
+            'attended' => ['label' => 'Atendido', 'classes' => 'bg-amber-50 text-amber-700', 'selectClasses' => 'bg-amber-50 border-amber-200', 'color' => '#92400e'],
+            'not_attended' => ['label' => 'No atendido', 'classes' => 'bg-rose-50 text-rose-700', 'selectClasses' => 'bg-rose-50 border-rose-200', 'color' => '#9f1239'],
             default => ['label' => ucfirst(str_replace('_', ' ', $status)), 'classes' => 'bg-zinc-100 text-zinc-700', 'selectClasses' => 'bg-white border-zinc-300', 'color' => '#18181b'],
         };
     }
@@ -161,10 +161,9 @@ new class extends Component {
             <select wire:model.live="statusFilter"
                 class="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white">
                 <option value="">Todos los estados</option>
-                <option value="in_progress">Activo</option>
-                <option value="attended">En espera</option>
-                <option value="not_attended">No activo</option>
-                <option value="closed">Cerrado</option>
+                <option value="in_progress">En proceso</option>
+                <option value="attended">Atendido</option>
+                <option value="not_attended">No atendido</option>
             </select>
         </div>
     </div>
@@ -180,7 +179,7 @@ new class extends Component {
                     <tr>
                         <th scope="col"
                             class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
-                            Radicado                        
+                            Radicado
                         </th>
                         <th scope="col"
                             class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
@@ -225,8 +224,6 @@ new class extends Component {
                             <td class="w-[560px] px-6 py-4 text-sm text-zinc-600 dark:text-zinc-300">
                                 <p class="w-full truncate" title="{{ $caseItem->description ?? '' }}">
                                     {{ $caseItem->description ?? 'Sin descripción' }}
-                                </p>
-                            </td>
                             <td class="px-6 py-4 text-sm text-zinc-600 dark:text-zinc-300">
                                 {{ $caseItem->contact?->full_name ?? '—' }}
                             </td>
@@ -237,9 +234,9 @@ new class extends Component {
                                 <select wire:change="updateStatus({{ $caseItem->id }}, $event.target.value)"
                                     class="case-status-select w-full min-w-[90px] max-w-[120px] rounded-md border px-3 py-2 text-xs font-semibold shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white {{ $badge['selectClasses'] }}"
                                     style="color: {{ $badge['color'] }};">
-                                    <option value="in_progress" @selected($caseItem->status === 'in_progress')>Activo</option>
-                                    <option value="attended" @selected($caseItem->status === 'attended')>En espera</option>
-                                    <option value="not_attended" @selected($caseItem->status === 'not_attended')>Cerrado
+                                    <option value="in_progress" @selected($caseItem->status === 'in_progress')>En proceso</option>
+                                    <option value="attended" @selected($caseItem->status === 'attended')>Atendido</option>
+                                    <option value="not_attended" @selected($caseItem->status === 'not_attended')>No atendido
                                     </option>
                                 </select>
                             </td>
@@ -317,9 +314,9 @@ new class extends Component {
                                 class="block text-xs font-medium text-zinc-700 dark:text-zinc-200">Estado</label>
                             <select id="case_status" wire:model="status"
                                 class="mt-1 w-full rounded-md border border-zinc-300 px-2.5 py-1.5 text-xs text-zinc-900 shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white">
-                                <option value="in_progress">Activo</option>
-                                <option value="attended">En espera</option>
-                                <option value="not_attended">No activo</option>
+                                <option value="in_progress">En proceso</option>
+                                <option value="attended">Atendido</option>
+                                <option value="not_attended">No atendido</option>
                             </select>
                         </div>
 

@@ -1,4 +1,4 @@
-﻿<x-layouts::app :title="__('Ver caso')">
+<x-layouts::app :title="__('Ver caso')">
     @php
         $typeLabel = match ($case->type) {
             'request' => 'Solicitud',
@@ -10,9 +10,8 @@
 
         $statusLabel = match ($case->status) {
             'in_progress' => 'En proceso',
-            'attended' => 'Solucionado',
-            'not_attended' => 'No solucionado',
-            'closed' => 'Cerrado',
+            'attended' => 'Atendido',
+            'not_attended' => 'No Atendido',,
             default => $case->status,
         };
     @endphp
@@ -64,9 +63,6 @@
                 </div>
             </div>
         </div>
-    </div>
-    <div>
-        <h1 class="text-2xl font-semibold text-zinc-900 dark:text-white">Seguimientos</h1>
     </div>
                     <div class="mt-3 space-y-3 px-6">
                         @forelse ($case->followUps as $followUp)
