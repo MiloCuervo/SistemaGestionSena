@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\cases;
+use Illuminate\Support\Facades\Cache;
 use App\Models\User;
 use App\Models\Contact;
 use App\Models\OrganizationProcess;
@@ -90,11 +91,11 @@ class CasesController extends Controller
         $case = cases::where('user_id', Auth::id())->findOrFail($id);
 
         $data = $request->validate([
-            'description' => 'required|string',
-            'type' => 'required|in:denunciation,request,right_of_petition,tutelage',
-            'status' => 'required|in:attended,in_progress,not_attended,closed',
-            'contact_id' => 'required|exists:contacts,id',
-            'organization_process_id' => 'required|exists:organization_processes,id',
+            'description'              => 'required|string',
+            'type'                     => 'required|in:denunciation,request,right_of_petition,tutelage',
+            'status'                   => 'required|in:attended,in_progress,not_attended,closed',
+            'contact_id'               => 'required|exists:contacts,id',
+            'organization_process_id'  => 'required|exists:organization_processes,id',
         ]);
 
         $case->fill($data);
@@ -125,13 +126,19 @@ class CasesController extends Controller
 
     public function adminDashboard()
     {
+        // ── 1. Stats: una sola query groupBy en vez de 4 COUNT separados ──
+        $statusCounts = Cases::selectRaw('status, COUNT(*) as total')
+            ->groupBy('status')
+            ->pluck('total', 'status'); // Collection keyed by status
+
         $stats = [
-            'total' => Cases::count(),
-            'attended' => Cases::where('status', 'attended')->count(),
-            'in_progress' => Cases::where('status', 'in_progress')->count(),
-            'not_attended' => Cases::where('status', 'not_attended')->count(),
+            'total'        => $statusCounts->sum(),
+            'attended'     => $statusCounts->get('attended', 0),
+            'in_progress'  => $statusCounts->get('in_progress', 0),
+            'not_attended' => $statusCounts->get('not_attended', 0),
         ];
 
+        // ── 2. ChartData para RadialBar (reutiliza $stats, sin queries extra) ──
         $chartData = [
             'series' => [
                 $stats['attended'],
@@ -139,25 +146,40 @@ class CasesController extends Controller
                 $stats['not_attended'],
             ],
             'labels' => [
-                __('Resueltos'),
-                __('En Proceso'),
-                __('No Solucionados'),
-            ]
+                __('attended'),
+                __('in_progress'),
+                __('not_attended'),
+            ],
         ];
 
-        // Fetch workload per commissioner (including those with 0 cases)
-        $commissioners = User::whereHas('configuration', function($query) {
-            $query->where('role_id', 2);
-        })
-        ->withCount('cases')
-        ->orderBy('cases_count', 'desc')
-        ->get();
+        // ── 3. Comisionados: withCount genera LEFT JOIN, 1 sola query ──
+        $commissioners = User::whereHas('configuration', fn($q) => $q->where('role_id', 2))
+            ->withCount('cases')
+            ->orderBy('cases_count', 'desc')
+            ->get(['id', 'name']);
 
         $commissionerStats = [
             'series' => $commissioners->pluck('cases_count')->toArray(),
             'labels' => $commissioners->pluck('name')->toArray(),
         ];
 
-        return view('admin.dashboard', compact('stats', 'chartData', 'commissionerStats'));
+        // ── 4. Mensuales: 1 query agrupada por (mes, status), pivotada en PHP ──
+        $monthlyRaw = Cases::selectRaw('MONTH(created_at) as month, status, COUNT(*) as total')
+            ->whereYear('created_at', date('Y'))
+            ->whereIn('status', ['attended', 'in_progress', 'not_attended'])
+            ->groupBy('month', 'status')
+            ->get();
+
+        $byMonth = $monthlyRaw->groupBy('month');
+        $monthlySeries = ['attended' => [], 'in_progress' => [], 'not_attended' => []];
+
+        foreach (range(1, 12) as $m) {
+            $group = $byMonth->get($m, collect());
+            foreach (array_keys($monthlySeries) as $status) {
+                $monthlySeries[$status][] = (int) ($group->firstWhere('status', $status)?->total ?? 0);
+            }
+        }
+
+        return view('admin.dashboard', compact('stats', 'chartData', 'commissionerStats', 'monthlySeries'));
     }
 }
