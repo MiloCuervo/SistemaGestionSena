@@ -8,6 +8,11 @@ class FollowUp extends Model
 {
 
     protected $table = 'follow_ups';
+
+    protected $casts = [
+        'follow_up_evidence' => 'array',
+    ];
+
     protected $fillable = [
         'case_id',
         'description',
