@@ -33,10 +33,10 @@ class UserSeeder extends Seeder
 
         $User2 = new User();
         $User2->name = 'Jhonatan';
-        $User2->second_name = 'David';
+        $User2->second_name = 'Alexis';
         $User2->last_name = 'Carvajal';
-        $User2->second_last_name = 'Rios';
-        $User2->email = 'comisionado@example.com';
+        $User2->second_last_name = '';
+        $User2->email = 'jhonatan27cv@gmail.com';
         $User2->password = Hash::make('123Comisionado');
         $User2->save();
 
