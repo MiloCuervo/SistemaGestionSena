@@ -3,6 +3,10 @@
 namespace App\Observers;
 
 use App\Models\cases;
+use App\Models\User;
+use App\Notifications\CaseCreatedMail;
+use App\Notifications\CaseCreatedNotification;
+use App\Notifications\CaseStatusMail;
 use Illuminate\Support\Facades\Notification;
 
 class CaseObserver
@@ -13,19 +17,19 @@ class CaseObserver
     public function created(cases $cases): void
     {
         // Get the user who created the case
-        $creator = $cases->user; 
+        $user = $cases->user; 
 
-        // If there is no creator associated with the case, return early
-        if (!$creator) {
+        // If there is no user associated with the case, return early
+        if (!$user) {
             return; 
         }
         
         // Notify the user who created the case via email
-        $creator->notify(new \App\Notifications\CaseCreatedMail($cases));
+        $user->notify(new CaseCreatedMail($cases));
         
         // Notify all users about the new case via database notification
-        $users = \App\Models\User::all();
-        Notification::send($users, new \App\Notifications\CaseCreatedNotification($cases, $creator));
+        $users = User::all();
+        Notification::send($users, new CaseCreatedNotification($cases, $user));
     }
 
     /**
@@ -33,7 +37,19 @@ class CaseObserver
      */
     public function updated(cases $cases): void
     {
-        //
+        // Check if the 'status' attribute was changed
+        if ($cases->wasChanged('status')) {
+            // Get the user associated with the case
+            $user = $cases->user; 
+
+            // If there is no user associated with the case, return early
+            if (!$user) {
+                return; 
+            }
+
+            // Notify the user about the status update via email
+            $user->notify(new CaseStatusMail($cases));
+        }
     }
 
     /**

@@ -7,14 +7,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CaseCreatedNotification extends Notification
+class CaseStatusMail extends Notification
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(public $case, public $user)
+    public function __construct(public $case)
     {
         //
     }
@@ -26,19 +26,20 @@ class CaseCreatedNotification extends Notification
      */
     public function via(object $notifiable): array
     {
-        return ['database'];
+        return ['mail'];
     }
 
     /**
      * Get the mail representation of the notification.
      */
-    public function toDatabase(object $notifiable): array
+    public function toMail(object $notifiable): MailMessage
     {
-        return [
-            'case_id' => $this->case->id,
-            'user_name' => $this->user->name,
-            'message' => $this->user->name . ' has created a new case with ID: ' . $this->case->id,
-        ];
+        return (new MailMessage)
+            ->subject('Case ID: ' . $this->case->id. ', Status was Updated')
+            ->greeting('Hello! ' . $notifiable->name)
+            ->line('Your case status has been updated.')
+            ->line('Current Status: ' . $this->case->status)
+            ->action('Notification Action', url('/'));
     }
 
     /**
