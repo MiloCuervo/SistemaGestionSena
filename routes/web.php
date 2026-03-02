@@ -18,14 +18,14 @@ Route::get('/', function () {
 
 
 // ==========================================
-// RUTAS DE ADMINISTRADOR 
+// ADMINISTRATOR ROUTES 
 // ==========================================
 Route::middleware(['auth', 'verified', 'role:1'])
     ->prefix('admin')
     ->name('admin.')
     ->group(function () {
 
-        // Dashboard Admin
+        // Admin Dashboard
         Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
 
         // Gestion de Usuarios
@@ -48,14 +48,14 @@ Route::middleware(['auth', 'verified', 'role:1'])
     });
 
 // ==========================================
-// RUTAS DE COMISIONADO / USUARIO 
+// User / Commissioner ROUTES
 // ==========================================
 Route::middleware(['auth', 'verified', 'role:2'])
     ->prefix('user')
     ->name('user.')
     ->group(function () {
 
-        // Dashboard Usuario
+        // User Dashboard
         Route::view('/dashboard', 'user.dashboard')->name('dashboard');
 
         // Gestion de Casos

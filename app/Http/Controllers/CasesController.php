@@ -8,6 +8,7 @@ use App\Models\FollowUp;
 use App\Models\OrganizationProcess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class CasesController extends Controller
 {
