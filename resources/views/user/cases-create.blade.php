@@ -1,10 +1,9 @@
-﻿﻿<x-layouts::app :title="__('Ver caso')">
+<x-layouts::app :title="__('Ver caso')">
     <div class="max-w-2xl px-6 py-8 lg:px-8">
         <div class="flex flex-wrap items-start justify-between gap-4">
             <div>
-                <h1 class="text-2xl font-semibold text-zinc-900 dark:text-white">Detalle del caso</h1>
-                <p class="text-sm text-zinc-500 dark:text-zinc-400">Información detallada del caso
-                    #{{ $case->case_number }}.</p>
+                <h1 class="text-2xl font-semibold text-zinc-900 dark:text-white">Crear caso</h1>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">Registra un nuevo caso.</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <a href="{{ route('user.cases') }}"
@@ -14,6 +13,6 @@
             </div>
         </div>
 
-        <x-case-card :case="$case" :processes="$processes" :contacts="$contacts" readonly />
+        <x-case-card :processes="$processes" :contacts="$contacts" />
     </div>
 </x-layouts::app>

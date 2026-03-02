@@ -76,7 +76,7 @@ class User extends Authenticatable
 
     public function configuration()
     {
-        return $this->hasMany(UserConfiguration::class);
+        return $this->hasOne(UserConfiguration::class);
     }
 
     public function reports()

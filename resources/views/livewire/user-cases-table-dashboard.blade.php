@@ -130,7 +130,7 @@ new class extends Component {
 };
 ?>
 
-<div class="space-y-6">
+<div class="space-y-6 ">
     {{-- Flash message --}}
     @if (session()->has('message'))
         <div class="rounded-md bg-emerald-50 p-4 text-sm text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400">
@@ -144,11 +144,6 @@ new class extends Component {
             <h1 class="text-2xl font-semibold text-zinc-900 dark:text-white">Casos</h1>
             <p class="text-sm text-zinc-500 dark:text-zinc-400">Listado de casos activos del usuario</p>
         </div>
-
-        <button type="button" wire:click="openModal"
-            class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
-            Agregar caso
-        </button>
     </div>
 
     {{-- Filters --}}
@@ -180,7 +175,7 @@ new class extends Component {
                     <tr>
                         <th scope="col"
                             class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
-                            Radicado                        
+                            Radicado
                         </th>
                         <th scope="col"
                             class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">

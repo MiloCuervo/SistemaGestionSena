@@ -13,6 +13,9 @@ class UserConfiguration extends Model
         'dark_mode',
         'report_frequency',
     ];
+    protected $casts = [
+        'role_id' => 'integer',
+    ];
 
     public function user()
     {

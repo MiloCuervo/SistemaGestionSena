@@ -23,6 +23,13 @@ class CasesController extends Controller
         }
     }
 
+    public function newCase()
+    {
+        $contacts = Contact::all();
+        $processes = OrganizationProcess::all();
+        return view('user.cases-create', compact('contacts', 'processes'));
+    }
+
 
     public function store(Request $request)
     {
@@ -34,18 +41,18 @@ class CasesController extends Controller
             'type' => 'required|string',
         ]);
 
-        $cases = new Cases();
-        $cases->case_number = "CAD-" . date('YmdHis') . '-' . rand(1000, 9999);
-        $cases->description = $request->description;
-        $cases->case_evidence = $request->case_evidence;
-        $cases->status = "in_progress";
-        $cases->type = $request->type;
-        $cases->contact_id = $request->contact_id;
-        $cases->process_id = $request->process_id;
-        $cases->user_id = Auth::id();
-        $cases->save();
+        $case = new Cases();
+        $case->case_number = "CAD-" . date('YmdHis') . '-' . rand(1000, 9999);
+        $case->description = $request->description;
+        $case->case_evidence = $request->case_evidence;
+        $case->status = "in_progress";
+        $case->type = $request->type;
+        $case->contact_id = $request->contact_id;
+        $case->process_id = $request->process_id;
+        $case->user_id = Auth::id();
+        $case->save();
 
-        return redirect()->route('user.cases')->with('success', 'Caso creado correctamente.');
+        return view('user.cases-show', compact('case'))->with('success', 'Caso creado correctamente.');
     }
 
     public function show($id)
@@ -54,8 +61,10 @@ class CasesController extends Controller
             ->with(['contact', 'organizationProcess'])
             ->findOrFail($id);
 
-            
-        return view('user.cases-show', compact('case'));
+        $processes = OrganizationProcess::all();
+        $contacts = Contact::all();
+
+        return view('user.cases-show', compact('case', 'processes', 'contacts'));
     }
 
     public function tracking($id)
