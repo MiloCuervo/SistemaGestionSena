@@ -1,4 +1,4 @@
-﻿﻿<x-layouts::app :title="__('Ver caso')">
+<x-layouts::app :title="__('Ver caso')">
     @php
         $typeLabel = match ($case->type) {
             'request' => 'Solicitud',
@@ -10,9 +10,8 @@
 
         $statusLabel = match ($case->status) {
             'in_progress' => 'En proceso',
-            'attended' => 'Solucionado',
-            'not_attended' => 'No solucionado',
-            'closed' => 'Cerrado',
+            'attended' => 'Atendido',
+            'not_attended' => 'No Atendido',
             default => $case->status,
         };
     @endphp
@@ -85,3 +84,4 @@
                         @endforelse
                     </div>
 </x-layouts::app>
+

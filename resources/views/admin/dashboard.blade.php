@@ -8,7 +8,7 @@
                     Estadisticas de los casos
                 </h3>
 
-                <livewire:case-stats />
+                <livewire:chart-admin-cases />
             </div>
 
             <!-- Cases table -->
