@@ -17,6 +17,10 @@ class UserConfiguration extends Model
         'role_id' => 'integer',
     ];
 
+    protected $casts = [
+        'active' => 'boolean',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class);

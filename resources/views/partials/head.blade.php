@@ -8,7 +8,7 @@
 <link rel="apple-touch-icon" href="/apple-touch-icon.png">
 
 <link rel="preconnect" href="https://fonts.bunny.net">
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <link
     href="https://fonts.bunny.net/css?family=dm-serif-display:400,400i|instrument-sans:400,400i,500,500i,600,600i,700,700i"
     rel="stylesheet" />

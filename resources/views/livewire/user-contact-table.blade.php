@@ -45,16 +45,17 @@ new class extends Component {
         <flux:table.rows>
             @foreach ($this->contacts as $Contact)
                 <flux:table.row :key="$Contact->id">
-                    <flux:table.cell class="flex items-center gap-3">
+                    <flux:table.cell class="flex items-center gap-3 ">
+                        <flux:table.columns sticky class="bg-white dark:bg-zinc-900 dark:hover:bg-zinc-800">
                         <flux:avatar size="xs" src="{{ $Contact->customer_avatar }}" />
-
+                        
                         {{ $Contact->full_name }}
                     </flux:table.cell>
 
                     <flux:table.cell class="whitespace-nowrap">{{ $Contact->identification_number }}</flux:table.cell>
 
                     <flux:table.cell>
-                        <flux:badge size="sm" :color="$Contact->status_color" inset="top bottom">
+                        <flux:badge transition="hover:bg-zinc-50" size="sm" :color="$Contact->status_color" inset="top bottom">
                             {{ $Contact->email }}</flux:badge>
                     </flux:table.cell>
 

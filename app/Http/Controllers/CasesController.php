@@ -6,6 +6,7 @@ use App\Models\cases;
 use Illuminate\Support\Facades\Cache;
 use App\Models\User;
 use App\Models\Contact;
+use App\Models\FollowUp;
 use App\Models\OrganizationProcess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -118,7 +119,7 @@ class CasesController extends Controller
         $case = Cases::where('user_id', Auth::id())->findOrFail($id);
 
         $data = $request->validate([
-            'status' => 'required|in:attended,in_progress,not_attended,closed',
+            'status' => 'required|in:attended,in_progress,not_attended,',
         ]);
 
         $case->status = $data['status'];
@@ -190,5 +191,35 @@ class CasesController extends Controller
         }
 
         return view('admin.dashboard', compact('stats', 'chartData', 'commissionerStats', 'monthlySeries'));
+
+    public function addFollowUp(Request $request, $id)
+    {
+        $case = Cases::where('user_id', Auth::id())->findOrFail($id);
+
+        $validated = $request->validate([
+            'description' => 'required|string',
+            'follow_up_evidence' => 'nullable|array',
+            'follow_up_evidence.*' => 'file|mimes:pdf,png,jpg,jpeg|max:5120',
+        ]);
+
+        $evidencePaths = [];
+        if ($request->hasFile('follow_up_evidence')) {
+            foreach ($request->file('follow_up_evidence') as $file) {
+                $evidencePaths[] = $file->store('follow-ups', 'public');
+            }
+        }
+
+        $nextFollowUpNumber = ((int) $case->followUps()->max('follow_up_number')) + 1;
+
+        FollowUp::create([
+            'case_id' => $case->id,
+            'description' => $validated['description'],
+            'follow_up_evidence' => empty($evidencePaths) ? null : $evidencePaths,
+            'follow_up_number' => $nextFollowUpNumber,
+        ]);
+
+        return redirect()
+            ->route('user.cases.tracking', $case->id)
+            ->with('success', 'Seguimiento creado correctamente.');
     }
 }
