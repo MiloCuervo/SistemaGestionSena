@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
 use App\Models\Cases;
+use App\Models\OrganizationProcess;
 use App\Observers\CaseObserver;
+use App\Observers\OrganizationProcessObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +29,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->configureDefaults();
         Cases::observe(CaseObserver::class);
+        OrganizationProcess::observe(OrganizationProcessObserver::class);
     }
 
     protected function configureDefaults(): void
