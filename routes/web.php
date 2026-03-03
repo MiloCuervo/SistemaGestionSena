@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 
 
+
 // ==========================================
 // ADMINISTRATOR ROUTES 
 // ==========================================
@@ -25,8 +26,9 @@ Route::middleware(['auth', 'verified', 'role:1'])
     ->name('admin.')
     ->group(function () {
 
-        // Admin Dashboard
-        Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
+        // Dashboard Admin
+        Route::get('/dashboard', [CasesController::class, 'adminDashboard'])->name('dashboard');
+        Route::get('/cases/{id}', [CasesController::class, 'getAdminCases'])->name('cases.show');
 
         // Gestion de Usuarios
         Route::get('/users', [UserController::class, '__invoke'])->name('users');
@@ -55,12 +57,13 @@ Route::middleware(['auth', 'verified', 'role:2'])
     ->name('user.')
     ->group(function () {
 
-        // User Dashboard
-        Route::view('/dashboard', 'user.dashboard')->name('dashboard');
+        // Dashboard Usuario
+        Route::view('/dashboard', 'user.cases')->name('dashboard');
 
         // Gestion de Casos
         Route::get('/cases', [CasesController::class, '__invoke'])->name('cases');
-        Route::post('/cases', [CasesController::class, 'store'])->name('cases.store');
+        Route::get('/new-case', [CasesController::class, 'newCase'])->name('cases.new');
+        Route::post('/new-case', [CasesController::class, 'store'])->name('cases.store');
         Route::get('/cases/{id}/edit', [CasesController::class, 'edit'])->name('cases.edit');
         Route::put('/cases/{id}', [CasesController::class, 'update'])->name('cases.update');
         Route::put('/cases/{id}/status', [CasesController::class, 'updateStatus'])->name('cases.update-status');

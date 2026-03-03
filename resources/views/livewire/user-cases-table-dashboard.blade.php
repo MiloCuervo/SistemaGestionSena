@@ -130,7 +130,7 @@ new class extends Component {
 };
 ?>
 
-<div class="space-y-6">
+<div class="space-y-6 ">
     {{-- Flash message --}}
     @if (session()->has('message'))
         <div class="rounded-md bg-emerald-50 p-4 text-sm text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400">

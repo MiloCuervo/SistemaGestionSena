@@ -12,6 +12,7 @@
 <link
     href="https://fonts.bunny.net/css?family=dm-serif-display:400,400i|instrument-sans:400,400i,500,500i,600,600i,700,700i"
     rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 
 
 @vite(['resources/css/app.css', 'resources/js/app.js'])

@@ -94,7 +94,11 @@ new class extends Component {
         ];
     }
 
-
+    public function viewCase($caseId)
+    {
+        $this->selectedCase = cases::findOrFail($caseId);
+        return redirect()->route('admin.cases.show', $caseId);
+    }
 };
 ?>
 
@@ -203,7 +207,8 @@ new class extends Component {
 
                     <flux:table.cell align="end">
                         <div class="flex justify-end gap-2">
-                            <flux:button size="sm" variant="ghost" icon="eye" title="Ver caso" />
+                            <flux:button size="sm" variant="ghost" icon="eye" title="Ver caso"
+                                wire:click="viewCase({{ $case->id }})" />
                         </div>
                     </flux:table.cell>
                 </flux:table.row>

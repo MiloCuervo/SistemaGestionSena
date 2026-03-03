@@ -18,25 +18,22 @@ class LoginResponse implements LoginResponseContract
         $user = Auth::user();
 
         // Obtener la configuración del usuario para verificar su rol
-        $config = $user->configuration->first();
+        $role = $user->configuration?->role_id;
 
         // Verificar si existe configuración
-        if ($config) {
-            // Redirección basada en el ID del rol
-            // 1: Admin 
-            if ($config->role_id === 1) {
+        switch ($role) {
+            case 1:
                 return redirect()->route('admin.dashboard');
-            }
-
-            // 2: Comisionado 
-            if ($config->role_id === 2) {
+                break;
+            case 2:
                 return redirect()->route('user.dashboard');
-            }
+                break;
+            default:
+                Auth::logout();
+                return redirect()->route('login')->withErrors([
+                    'email' => 'El usuario no tiene un rol   asignado para acceder al sistema.',
+                ]);
+                break;
         }
-        Auth::logout();
-
-        return redirect()->route('login')->withErrors([
-            'email' => 'El usuario no tiene un rol asignado para acceder al sistema.',
-        ]);
     }
 }

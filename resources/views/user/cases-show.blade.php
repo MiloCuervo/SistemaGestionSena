@@ -19,8 +19,9 @@
     <div class="mx-auto max-w-4xl px-6 py-8 lg:px-8">
         <div class="flex flex-wrap items-start justify-between gap-4">
             <div>
-                <h1 class="text-2xl font-semibold text-zinc-900 dark:text-white">Ver caso</h1>
-                <p class="text-sm text-zinc-500 dark:text-zinc-400">Consulta la informacion del caso.</p>
+                <h1 class="text-2xl font-semibold text-zinc-900 dark:text-white">Detalle del caso</h1>
+                <p class="text-sm text-zinc-500 dark:text-zinc-400">Información detallada del caso
+                    #{{ $case->case_number }}.</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
                 <a href="{{ route('user.cases') }}"
@@ -30,40 +31,9 @@
             </div>
         </div>
 
-        <div class="mt-6 rounded-lg border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
-            <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                <div>
-                    <p class="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Radicado</p>
-                    <p class="mt-1 text-sm text-zinc-900 dark:text-white">{{ $case->case_number ?: 'Sin numero' }}</p>
-                </div>
-
-                <div>
-                    <p class="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Estado</p>
-                    <p class="mt-1 text-sm text-zinc-900 dark:text-white">{{ $statusLabel }}</p>
-                </div>
-
-                <div>
-                    <p class="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Tipo</p>
-                    <p class="mt-1 text-sm text-zinc-900 dark:text-white">{{ $typeLabel }}</p>
-                </div>
-
-                <div>
-                    <p class="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Contacto</p>
-                    <p class="mt-1 text-sm text-zinc-900 dark:text-white">{{ $case->contact?->full_name ?: 'Sin contacto' }}</p>
-                </div>
-
-                <div class="sm:col-span-2">
-                    <p class="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Proceso</p>
-                    <p class="mt-1 text-sm text-zinc-900 dark:text-white">{{ $case->organizationProcess?->name ?: 'Sin proceso' }}</p>
-                </div>
-
-                <div class="sm:col-span-2">
-                    <p class="text-xs font-medium uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Descripcion</p>
-                    <p class="mt-1 whitespace-pre-line text-sm text-zinc-900 dark:text-white">{{ $case->description ?: 'Sin descripcion' }}</p>
-                </div>
-            </div>
-        </div>
+        <x-case-card :case="$case" :processes="$processes" :contacts="$contacts" readonly />
     </div>
+</x-layouts::app>
                     <div class="mt-3 space-y-3 px-6">
                         @forelse ($case->followUps as $followUp)
                             <article class="rounded-md border border-zinc-200 p-4 dark:border-zinc-700">

@@ -9,6 +9,9 @@
             <flux:separator variant="subtle" />
         </div>
 
+
+
+
         <div class="grid grid-row-2 gap-x-2 gap-y-4 text-left">
             <p class="text-zinc-500 dark:text-zinc-400">
                 Bienvenido <strong
