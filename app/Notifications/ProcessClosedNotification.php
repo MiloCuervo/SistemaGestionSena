@@ -30,7 +30,7 @@ class ProcessClosedNotification extends Notification implements ShouldQueue
     }
 
     /**
-     * Get the mail representation of the notification.
+     * Get the database representation of the notification.
      */
     public function toDatabase(object $notifiable): array
     {

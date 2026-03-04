@@ -7,14 +7,14 @@ use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
 
-class CaseCreatedMail extends Notification implements ShouldQueue
+class ReportNotification extends Notification implements ShouldQueue
 {
     use Queueable;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct(public $case)
+    public function __construct(public $report)
     {
         //
     }
@@ -26,20 +26,18 @@ class CaseCreatedMail extends Notification implements ShouldQueue
      */
     public function via(object $notifiable): array
     {
-        return ['mail'];
+        return ['database'];
     }
 
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(object $notifiable): MailMessage
+    public function toDatabase(object $notifiable): array
     {
-        return (new MailMessage)
-            ->subject('New Case Created')
-            ->greeting('Hello! '. $notifiable->name)
-            ->line('A new case has been created.')
-            ->line('Case ID: ' . $this->case->id)
-            ->action('View', url('/cases/' . $this->case->id));
+        return [
+            'report_id'=>$this->report->id,
+            'message'=>"new report generated"
+        ];
     }
 
     /**

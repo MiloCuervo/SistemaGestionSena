@@ -39,7 +39,7 @@ class CaseStatusMail extends Notification implements ShouldQueue
             ->greeting('Hello! ' . $notifiable->name)
             ->line('Your case status has been updated.')
             ->line('Current Status: ' . $this->case->status)
-            ->action('Notification Action', url('/'));
+            ->action('View', url('/'));
     }
 
     /**
