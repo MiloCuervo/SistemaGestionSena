@@ -14,8 +14,7 @@ class UserConfiguration extends Model
         'report_frequency',
     ];
     protected $casts = [
-        'role_id' => 'integer',
-        'active' => 'boolean',
+        'role_id' => 'integer'
     ];
 
     public function user()
