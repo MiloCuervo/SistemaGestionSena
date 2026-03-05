@@ -35,11 +35,11 @@ class CaseStatusMail extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('Case ID: ' . $this->case->id. ', Status was Updated')
-            ->greeting('Hello! ' . $notifiable->name)
-            ->line('Your case status has been updated.')
-            ->line('Current Status: ' . $this->case->status)
-            ->action('View', url('/'));
+            ->subject('El caso número: ' . $this->case->case_number. ', se ha actualizado con exito!')
+            ->greeting('Hola! ' . $notifiable->name)
+            ->line('El estado del caso número: ' . $this->case->case_number . '. Ha sido actualizado.')
+            ->line('Estado actual: ' . $this->case->status)
+            ->action('Ver', url('/'));
     }
 
     /**

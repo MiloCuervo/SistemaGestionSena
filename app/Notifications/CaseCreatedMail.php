@@ -35,11 +35,11 @@ class CaseCreatedMail extends Notification implements ShouldQueue
     public function toMail(object $notifiable): MailMessage
     {
         return (new MailMessage)
-            ->subject('New Case Created')
-            ->greeting('Hello! '. $notifiable->name)
-            ->line('A new case has been created.')
-            ->line('Case ID: ' . $this->case->id)
-            ->action('View', url('/cases/' . $this->case->id));
+            ->subject('Nuevo caso creado:')
+            ->greeting('Hola! '. $notifiable->name)
+            ->line('Un nuevo caso ha sido creado.')
+            ->line('Caso numero: ' . $this->case->case_number)
+            ->action('Ver', url('/'));
     }
 
     /**

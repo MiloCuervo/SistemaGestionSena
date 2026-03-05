@@ -10,4 +10,4 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 Schedule::command(NotifyClosingCases::class)->daily();
-schedule::command('reports:generate')->daily();
+schedule::command('reports:notify')->daily();
