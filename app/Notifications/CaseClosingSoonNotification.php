@@ -15,7 +15,7 @@ class CaseClosingSoonNotification extends Notification implements ShouldQueue
      * Create a new notification instance.
      */
     public function __construct(public $case)
-     {
+    {
         //
     }
 
