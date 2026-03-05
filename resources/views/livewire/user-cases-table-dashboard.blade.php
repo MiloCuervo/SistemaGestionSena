@@ -225,6 +225,8 @@ new class extends Component {
                             <td class="w-[560px] px-6 py-4 text-sm text-zinc-600 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800">
                                 <p class="w-full truncate" title="{{ $caseItem->description ?? '' }}">
                                     {{ $caseItem->description ?? 'Sin descripción' }}
+                                </p>
+                            </td>
                             <td class="px-6 py-4 text-sm text-zinc-600 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800">
                                 {{ $caseItem->contact?->full_name ?? '—' }}
                             </td>

@@ -21,5 +21,7 @@
     <flux:separator variant="subtle" />
     <a href="{{ route('user.cases.new') }}"> nuevo caso</a>
     <div class="max-w-7xl mx-auto px-6 py-8 lg:px-8">
-    </div>
+        <livewire:user-cases-table-dashboard />
+        </div>
+
 </x-layouts::app>

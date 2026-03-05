@@ -191,7 +191,7 @@ class CasesController extends Controller
         }
 
         return view('admin.dashboard', compact('stats', 'chartData', 'commissionerStats', 'monthlySeries'));
-
+    }
     public function addFollowUp(Request $request, $id)
     {
         $case = Cases::where('user_id', Auth::id())->findOrFail($id);

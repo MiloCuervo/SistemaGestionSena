@@ -15,9 +15,6 @@ class UserConfiguration extends Model
     ];
     protected $casts = [
         'role_id' => 'integer',
-    ];
-
-    protected $casts = [
         'active' => 'boolean',
     ];
 
