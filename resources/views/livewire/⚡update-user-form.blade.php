@@ -53,9 +53,9 @@ new class extends Component {
 
 <div>
     <p class="text-sm text-gray-200">Solo puedes editar el correo y Rol de los usuarios</p>
-    <form wire:submit="updateProfileInformation" class="my-6 w-1/2 space-y-6 p-4">
+    <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6 p-4">
         <flux:input wire:model="email" :label="__('Email')" type="email" autocomplete="email" />
-        <div class="grid grid-cols-2 gap-4">
+        <div class="grid grid-cols-1 gap-4">
             <flux:select wire:model="role_id" :label="__('Role')">
                 <flux:select.option value="1">Administrador</flux:select.option>
                 <flux:select.option value="2">Comisionado</flux:select.option>
