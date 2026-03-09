@@ -7,15 +7,27 @@ use Illuminate\Database\Eloquent\Model;
 class UserConfiguration extends Model
 {
     protected $table = 'user_configurations';
+
     protected $fillable = [
         'user_id',
         'role_id',
         'dark_mode',
         'report_frequency',
+        'expires_at',
+        'deactivated_reason',
+        'active',
     ];
+
     protected $casts = [
-        'role_id' => 'integer'
+        'role_id' => 'integer',
+        'expires_at' => 'datetime',
+        'active' => 'boolean',
     ];
+
+    public function isExpired(): bool
+    {
+        return $this->expires_at && $this->expires_at->isPast();
+    }
 
     public function user()
     {
