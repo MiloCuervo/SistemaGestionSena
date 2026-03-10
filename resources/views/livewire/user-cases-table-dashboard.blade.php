@@ -59,11 +59,13 @@ new class extends Component {
             'status' => 'nullable|string',
         ]);
 
+        $type = $this->type === 'denunciation' ? 'complaint' : $this->type;
+
         $case = new cases();
         $case->case_number = "CAS-" . date("Ymd") . rand(1000, 9999);
         $case->description = $this->description;
         $case->status = $this->status ?? 'in_progress';
-        $case->type = $this->type;
+        $case->type = $type;
         $case->contact_id = $this->contact_id;
         $case->organization_process_id = $this->organization_process_id;
         $case->user_id = Auth::id();
@@ -87,6 +89,7 @@ new class extends Component {
         return match ($type) {
             'request' => 'Solicitud',
             'denunciation' => 'Denuncia',
+            'complaint' => 'Denuncia',
             'right_of_petition' => 'Derecho de petición',
             'tutelage' => 'Tutela',
             default => $type ?: '—',
@@ -144,11 +147,7 @@ new class extends Component {
             <h1 class="text-2xl font-semibold text-zinc-900 dark:text-white">Casos</h1>
             <p class="text-sm text-zinc-500 dark:text-zinc-400">Listado de casos activos del usuario</p>
         </div>
-
-        <button type="button" wire:click="openModal"
-            class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-400">
-            Agregar caso
-        </button>
+    
     </div>
 
     {{-- Filters --}}
@@ -270,105 +269,6 @@ new class extends Component {
         @endif
     </div>
 
-    {{-- Create Case Modal --}}
-    @if ($showModal)
-        <div class="fixed inset-0 z-[999] flex items-center justify-center bg-zinc-900/50 p-4" wire:click.self="closeModal">
-            <div
-                class="w-full max-w-sm rounded-lg border border-zinc-200 bg-white p-0 shadow-xl dark:border-zinc-700 dark:bg-zinc-900">
-                <form wire:submit="store" class="p-4">
-                    <div class="flex items-start justify-between">
-                        <div>
-                            <h3 class="text-lg font-semibold text-zinc-900 dark:text-white">Nuevo caso</h3>
-                            <p class="text-sm text-zinc-500 dark:text-zinc-400">Completa la información del caso.</p>
-                        </div>
-                        <button type="button" wire:click="closeModal"
-                            class="rounded-md border border-transparent p-2 text-zinc-400 transition hover:bg-zinc-100 hover:text-zinc-600 dark:hover:bg-zinc-800 dark:hover:text-zinc-200">
-                            Cerrar
-                        </button>
-                    </div>
-
-                    <div class="mt-6 grid grid-cols-1 gap-4">
-                        <div>
-                            <label for="case_type" class="block text-xs font-medium text-zinc-700 dark:text-zinc-200">Tipo
-                                de caso</label>
-                            <select id="case_type" wire:model="type"
-                                class="mt-1 w-full rounded-md border border-zinc-300 px-2.5 py-1.5 text-xs text-zinc-900 shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
-                                required>
-                                <option value="request">Solicitud</option>
-                                <option value="denunciation">Denuncia</option>
-                                <option value="right_of_petition">Derecho de petición</option>
-                                <option value="tutelage">Tutela</option>
-                            </select>
-                            @error('type') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
-                        </div>
-
-                        <div>
-                            <label for="case_description"
-                                class="block text-xs font-medium text-zinc-700 dark:text-zinc-200">Descripción</label>
-                            <textarea id="case_description" wire:model="description" rows="3"
-                                class="mt-1 w-full rounded-md border border-zinc-300 px-2.5 py-1.5 text-xs text-zinc-900 shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
-                                placeholder="Describe el caso..." required></textarea>
-                            @error('description') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
-                        </div>
-
-                        <div>
-                            <label for="case_status"
-                                class="block text-xs font-medium text-zinc-700 dark:text-zinc-200">Estado</label>
-                            <select id="case_status" wire:model="status"
-                                class="mt-1 w-full rounded-md border border-zinc-300 px-2.5 py-1.5 text-xs text-zinc-900 shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white">
-                                <option value="in_progress">En proceso</option>
-                                <option value="attended">Atendido</option>
-                                <option value="not_attended">No atendido</option>
-                            </select>
-                        </div>
-
-                        <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
-                            <div>
-                                <label for="case_contact"
-                                    class="block text-xs font-medium text-zinc-700 dark:text-zinc-200">Contacto</label>
-                                <select id="case_contact" wire:model="contact_id"
-                                    class="mt-1 w-full rounded-md border border-zinc-300 px-2.5 py-1.5 text-xs text-zinc-900 shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
-                                    required>
-                                    <option value="" selected disabled>Selecciona un contacto</option>
-                                    @foreach ($contacts as $contact)
-                                        <option value="{{ $contact->id }}">{{ $contact->full_name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('contact_id') <span class="text-xs text-rose-500">{{ $message }}</span> @enderror
-                            </div>
-
-                            <div>
-                                <label for="case_process"
-                                    class="block text-xs font-medium text-zinc-700 dark:text-zinc-200">Proceso</label>
-                                <select id="case_process" wire:model="organization_process_id"
-                                    class="mt-1 w-full rounded-md border border-zinc-300 px-2.5 py-1.5 text-xs text-zinc-900 shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white"
-                                    required>
-                                    <option value="" selected disabled>Selecciona un proceso</option>
-                                    @foreach ($processes as $process)
-                                        <option value="{{ $process->id }}">{{ $process->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('organization_process_id') <span class="text-xs text-rose-500">{{ $message }}</span>
-                                @enderror
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="mt-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
-                        <button type="button" wire:click="closeModal"
-                            class="inline-flex justify-center rounded-md border border-zinc-300 px-3 py-1.5 text-xs font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800">
-                            Cancelar
-                        </button>
-                        <button type="submit"
-                            class="inline-flex justify-center rounded-md bg-zinc-900 px-3 py-1.5 text-xs font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
-                            Guardar
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    @endif
-
     <style>
         .case-status-select:focus {
             color: #000000;
@@ -379,4 +279,3 @@ new class extends Component {
         }
     </style>
 </div>
-

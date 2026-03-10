@@ -38,22 +38,24 @@ class CasesController extends Controller
             'description' => 'required|string',
             'case_evidence' => 'nullable|string',
             'contact_id' => 'required|exists:contacts,id',
-            'process_id' => 'required|exists:organization_processes,id',
-            'type' => 'required|string',
+            'organization_process_id' => 'required|exists:organization_processes,id',
+            'type' => 'required|in:denunciation,complaint,request,right_of_petition,tutelage',
         ]);
+
+        $type = $request->type === 'denunciation' ? 'complaint' : $request->type;
 
         $case = new Cases();
         $case->case_number = "CAD-" . date('YmdHis') . '-' . rand(1000, 9999);
         $case->description = $request->description;
         $case->case_evidence = $request->case_evidence;
         $case->status = "in_progress";
-        $case->type = $request->type;
+        $case->type = $type;
         $case->contact_id = $request->contact_id;
-        $case->process_id = $request->process_id;
+        $case->organization_process_id = $request->organization_process_id;
         $case->user_id = Auth::id();
         $case->save();
 
-        return view('user.cases-show', compact('case'))->with('success', 'Caso creado correctamente.');
+        return redirect()->route('user.cases')->with('success', 'Caso creado correctamente.');
     }
 
     public function show($id)
@@ -102,11 +104,15 @@ class CasesController extends Controller
 
         $data = $request->validate([
             'description'              => 'required|string',
-            'type'                     => 'required|in:denunciation,request,right_of_petition,tutelage',
+            'type'                     => 'required|in:denunciation,complaint,request,right_of_petition,tutelage',
             'status'                   => 'required|in:attended,in_progress,not_attended,closed',
             'contact_id'               => 'required|exists:contacts,id',
             'organization_process_id'  => 'required|exists:organization_processes,id',
         ]);
+
+        if ($data['type'] === 'denunciation') {
+            $data['type'] = 'complaint';
+        }
 
         $case->fill($data);
         $case->save();
