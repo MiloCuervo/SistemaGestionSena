@@ -2,12 +2,21 @@
 
 namespace App\Listeners;
 
-use App\Models\Login;
+use App\Actions\Login\StoreLoginAction;
+use App\DTOs\LoginData;
+use Exception;
 use Illuminate\Auth\Events\Login as LoginEvent;
-use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Log;
 
 class LogSuccessfulLogin
 {
+    private StoreLoginAction $storeLoginAction;
+
+    public function __construct(StoreLoginAction $storeLoginAction)
+    {
+        $this->storeLoginAction = $storeLoginAction;
+    }
+
     /**
      * Handle the event.
      *
@@ -16,15 +25,18 @@ class LogSuccessfulLogin
      */
     public function handle(LoginEvent $event): void
     {
-        $request = request();
+        Log::info('Login listener triggered for user: ' . $event->user->id);
+        
+        try {
 
-        Login::create([
-            'id' => Str::uuid()->toString(),
-            'user_id' => $event->user->id,
-            'ip_address' => $request->ip(),
-            'user_agent' => $request->userAgent(),
-            'session_id' => $request->session()->getId(),
-            'logged_in_at' => now(),
-        ]);
+            $loginData = LoginData::fromRequest(request(), $event->user->id);
+
+            $this->storeLoginAction->execute($loginData);
+
+            Log::info('Login event successfully recorded in database.');
+
+        } catch (Exception $e) {
+            Log::error('Error al registrar login: '.$e->getMessage());
+        }
     }
 }
