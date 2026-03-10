@@ -89,6 +89,15 @@ class CasesController extends Controller
         return view('user.cases-tracking', compact('case', 'userCases'));
     }
 
+    public function createFollowUp($id)
+    {
+        $case = Cases::where('user_id', Auth::id())
+            ->with(['contact', 'organizationProcess'])
+            ->findOrFail($id);
+
+        return view('user.cases-followup-create', compact('case'));
+    }
+
     public function edit($id)
     {
         $case = cases::where('user_id', Auth::id())->findOrFail($id);
