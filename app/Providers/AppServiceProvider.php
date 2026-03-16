@@ -3,12 +3,10 @@
 namespace App\Providers;
 
 use App\Listeners\LogFailedLogin;
-use App\Listeners\LogLogout;
 use App\Listeners\LogSuccessfulLogin;
 use Carbon\CarbonImmutable;
 use Illuminate\Auth\Events\Failed;
 use Illuminate\Auth\Events\Login;
-use Illuminate\Auth\Events\Logout;
 use Illuminate\Support\Facades\Date;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
@@ -29,7 +27,6 @@ class AppServiceProvider extends ServiceProvider
     {
         Event::listen(Login::class, LogSuccessfulLogin::class);
         Event::listen(Failed::class, LogFailedLogin::class);
-        Event::listen(Logout::class, LogLogout::class);
 
     }
 
