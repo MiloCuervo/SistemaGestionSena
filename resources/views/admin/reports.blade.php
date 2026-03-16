@@ -16,6 +16,39 @@
         </p>
     </div>
 
+    {{-- ── QUICK STATS (KPIs) ────────────────────────────────────── --}}
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 px-4 sm:px-0">
+        {{-- KPI Cards --}}
+        <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm">
+            <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Casos Filtrados</p>
+            <div class="flex items-end gap-2">
+                <h4 class="text-3xl font-black text-zinc-900 dark:text-white">142</h4>
+                <span class="text-xs text-lime-600 font-bold mb-1.5 whitespace-nowrap">Obj: 200</span>
+            </div>
+        </div>
+        <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm">
+            <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Eficiencia</p>
+            <div class="flex items-end gap-2">
+                <h4 class="text-3xl font-black text-zinc-900 dark:text-white">78.4%</h4>
+                <span class="text-xs text-emerald-600 font-bold mb-1.5 whitespace-nowrap">↑ 4.2%</span>
+            </div>
+        </div>
+        <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm">
+            <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">T. Promedio</p>
+            <div class="flex items-end gap-2">
+                <h4 class="text-3xl font-black text-zinc-900 dark:text-white">3.2</h4>
+                <span class="text-xs text-zinc-500 font-bold mb-1.5 whitespace-nowrap">días</span>
+            </div>
+        </div>
+        <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm">
+            <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Activos</p>
+            <div class="flex items-end gap-2">
+                <h4 class="text-3xl font-black text-zinc-900 dark:text-white">42</h4>
+                <span class="text-xs text-violet-600 font-bold mb-1.5 whitespace-nowrap">En rango</span>
+            </div>
+        </div>
+    </div>
+
     {{-- ── PRIMARY CONTROL PANEL (Filters & Exports) ──────────────── --}}
     <div
         class="bg-white dark:bg-zinc-900 rounded-3xl border border-zinc-200 dark:border-zinc-800 shadow-xl overflow-hidden mb-8 transition-all hover:shadow-2xl mx-4 sm:mx-0">
@@ -95,62 +128,6 @@
                 </svg>
                 <span id="export-toast-msg">Actualizando resumen operativo…</span>
             </div>
-        </div>
-    </div>
-
-    {{-- ── QUICK STATS (KPIs) ────────────────────────────────────── --}}
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8 px-4 sm:px-0">
-        {{-- KPI Cards --}}
-        <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm">
-            <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Casos Filtrados</p>
-            <div class="flex items-end gap-2">
-                <h4 class="text-3xl font-black text-zinc-900 dark:text-white">142</h4>
-                <span class="text-xs text-lime-600 font-bold mb-1.5 whitespace-nowrap">Obj: 200</span>
-            </div>
-        </div>
-        <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm">
-            <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Eficiencia</p>
-            <div class="flex items-end gap-2">
-                <h4 class="text-3xl font-black text-zinc-900 dark:text-white">78.4%</h4>
-                <span class="text-xs text-emerald-600 font-bold mb-1.5 whitespace-nowrap">↑ 4.2%</span>
-            </div>
-        </div>
-        <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm">
-            <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">T. Promedio</p>
-            <div class="flex items-end gap-2">
-                <h4 class="text-3xl font-black text-zinc-900 dark:text-white">3.2</h4>
-                <span class="text-xs text-zinc-500 font-bold mb-1.5 whitespace-nowrap">días</span>
-            </div>
-        </div>
-        <div class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm">
-            <p class="text-[10px] font-bold text-zinc-400 uppercase tracking-widest mb-1">Activos</p>
-            <div class="flex items-end gap-2">
-                <h4 class="text-3xl font-black text-zinc-900 dark:text-white">42</h4>
-                <span class="text-xs text-violet-600 font-bold mb-1.5 whitespace-nowrap">En rango</span>
-            </div>
-        </div>
-    </div>
-
-    {{-- ── CHARTS & VISUAL DATA ──────────────────────────────────── --}}
-    <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-8 px-4 sm:px-0">
-        {{-- Distribución de Estados --}}
-        <div
-            class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm transition-all hover:border-lime-200">
-            <h3 class="text-sm font-bold text-zinc-800 dark:text-zinc-200 mb-4 flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-lime-500"></span>
-                Distribución por Estado
-            </h3>
-            <div id="chart-status-donut" class="min-h-[250px]"></div>
-        </div>
-
-        {{-- Carga por Comisionado --}}
-        <div
-            class="bg-white dark:bg-zinc-900 rounded-2xl border border-zinc-200 dark:border-zinc-800 p-6 shadow-sm transition-all hover:border-blue-200">
-            <h3 class="text-sm font-bold text-zinc-800 dark:text-zinc-200 mb-4 flex items-center gap-2">
-                <span class="w-2 h-2 rounded-full bg-blue-500"></span>
-                Top Comisionados Resolutores
-            </h3>
-            <div id="chart-commissioner" class="min-h-[250px]"></div>
         </div>
     </div>
 
@@ -253,100 +230,8 @@
         </div>
     </div>
 
-    {{-- ── ApexCharts Scripts ──────────────────────────────────────── --}}
     <script>
-        (function () {
-            /* ── Palette ── */
-            const LIME = '#65a30d';
-            const EMERALD = '#10b981';
-            const BLUE = '#3B82F6';
-            const AMBER = '#f59e0b';
-            const RED = '#ef4444';
-            const VIOLET = '#8b5cf6';
-
-            function isDark() {
-                return document.documentElement.classList.contains('dark');
-            }
-
-            function fg() { return isDark() ? '#a1a1aa' : '#71717a'; }
-            function gridColor() { return isDark() ? '#27272a' : '#f4f4f5'; }
-            function bgTooltip() { return isDark() ? 'dark' : 'light'; }
-
-            function initCharts() {
-                if (typeof ApexCharts === 'undefined') return;
-
-                /* ── 1. Estado de Casos — Donut ── */
-                const donutEl = document.querySelector('#chart-status-donut');
-                if (donutEl && !donutEl._apex) {
-                    donutEl._apex = new ApexCharts(donutEl, {
-                        series: [92, 34, 16],
-                        labels: ['Resueltos', 'En Proceso', 'Pendientes'],
-                        chart: {
-                            type: 'donut', height: 280,
-                            background: 'transparent',
-                            foreColor: fg(),
-                        },
-                        colors: [EMERALD, BLUE, AMBER],
-                        plotOptions: {
-                            pie: {
-                                donut: {
-                                    size: '75%',
-                                    labels: {
-                                        show: true,
-                                        total: {
-                                            show: true,
-                                            label: 'Total Filtrados',
-                                            fontSize: '12px',
-                                            fontWeight: 600,
-                                            color: fg(),
-                                            formatter: () => '142'
-                                        }
-                                    }
-                                }
-                            }
-                        },
-                        legend: { position: 'bottom', labels: { colors: fg() } },
-                        stroke: { show: false },
-                        dataLabels: { enabled: false },
-                        tooltip: { theme: bgTooltip() }
-                    });
-                    donutEl._apex.render();
-                }
-
-                /* ── 2. Carga por Comisionado — Bar ── */
-                const commEl = document.querySelector('#chart-commissioner');
-                if (commEl && !commEl._apex) {
-                    commEl._apex = new ApexCharts(commEl, {
-                        series: [{ name: 'Casos Resueltos', data: [42, 38, 35, 27, 24] }],
-                        chart: {
-                            type: 'bar', height: 280,
-                            toolbar: { show: false },
-                            background: 'transparent',
-                            foreColor: fg(),
-                        },
-                        plotOptions: {
-                            bar: {
-                                borderRadius: 8,
-                                horizontal: true,
-                                barHeight: '60%',
-                                distributed: true,
-                            }
-                        },
-                        colors: [LIME, EMERALD, BLUE, VIOLET, AMBER],
-                        dataLabels: { enabled: true, style: { fontSize: '10px' } },
-                        xaxis: {
-                            categories: ['Andrés T.', 'María L.', 'Carlos V.', 'Sandra M.', 'Luis G.'],
-                            axisBorder: { show: false },
-                            labels: { style: { colors: fg() } }
-                        },
-                        yaxis: { labels: { style: { colors: fg() } } },
-                        grid: { borderColor: gridColor(), strokeDashArray: 4 },
-                        tooltip: { theme: bgTooltip() }
-                    });
-                    commEl._apex.render();
-                }
-            }
-
+        (() => {
             /* ── Export & Filter handler ── */
             window.handleExport = function (format) {
                 const type = document.getElementById('main-report-type').value;
@@ -365,7 +250,8 @@
 
                 const toast = document.getElementById('export-toast');
                 const toastMsg = document.getElementById('export-toast-msg');
-                toastMsg.textContent = `Preparando exportación (${format.toUpperCase()}) para "${labels[type]}" entre ${from} y ${to}...`;
+                toastMsg.textContent = `Preparando exportación (${format.toUpperCase()}) para "${labels[type]}" entre ${from} y
+    ${to}...`;
                 toast.classList.remove('hidden');
                 toast.classList.add('flex');
 
@@ -438,12 +324,6 @@
                 }
             });
 
-            document.addEventListener('livewire:navigated', initCharts);
-            if (document.readyState === 'complete') {
-                initCharts();
-            } else {
-                window.addEventListener('load', initCharts);
-            }
         })();
     </script>
 

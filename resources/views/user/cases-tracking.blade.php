@@ -16,11 +16,10 @@
                 <p class="text-sm text-zinc-500 dark:text-zinc-400">Consulta el avance y cambia de caso desde el panel lateral.</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
-                <flux:modal.trigger name="create-follow-up">
-                    <flux:button variant="primary" size="sm" icon="plus">
-                        Crear seguimiento
-                    </flux:button>
-                </flux:modal.trigger>
+                <a href="{{ route('user.cases.follow-ups.create', $case->id) }}"
+                    class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200">
+                    Crear seguimiento
+                </a>
 
             </div>
         </div>
@@ -42,38 +41,6 @@
                 </ul>
             </div>
         @endif
-
-        <flux:modal name="create-follow-up" class="z-50 w-full max-w-2xl">
-            <form method="POST" action="{{ route('user.cases.follow-ups', $case->id) }}" enctype="multipart/form-data"
-                class="space-y-4">
-                @csrf
-
-                <div>
-                    <flux:heading size="lg">Crear seguimiento</flux:heading>
-                    <flux:text class="mt-1">Agrega una descripcion y adjunta archivos si lo necesitas.</flux:text>
-                </div>
-
-                <div>
-                    <label for="description"
-                        class="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-200">Descripcion</label>
-                    <textarea id="description" name="description" rows="4" required
-                        class="w-full rounded-md border border-zinc-300 bg-white px-3 py-2 text-sm text-zinc-900 shadow-sm focus:border-zinc-400 focus:outline-none focus:ring-2 focus:ring-zinc-200 dark:border-zinc-700 dark:bg-zinc-900 dark:text-zinc-100 dark:focus:border-zinc-500 dark:focus:ring-zinc-800">{{ old('description') }}</textarea>
-                </div>
-
-                <div>
-                    <label for="follow_up_evidence"
-                        class="mb-1 block text-sm font-medium text-zinc-700 dark:text-zinc-200">Archivos adjuntos</label>
-                    <input id="follow_up_evidence" name="follow_up_evidence[]" type="file" multiple accept=".pdf,.png,.jpg,.jpeg"
-                        class="block w-full text-sm text-zinc-700 file:mr-3 file:rounded-md file:border-0 file:bg-zinc-100 file:px-3 file:py-2 file:font-medium file:text-zinc-700 hover:file:bg-zinc-200 dark:text-zinc-300 dark:file:bg-zinc-800 dark:file:text-zinc-100 dark:hover:file:bg-zinc-700" />
-                    <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Formatos permitidos: PDF, PNG, JPG.</p>
-                </div>
-
-                <div class="flex items-center justify-end gap-2">
-                    <flux:button type="button" variant="ghost" wire:close>Cancelar</flux:button>
-                    <flux:button type="submit" variant="primary">Guardar seguimiento</flux:button>
-                </div>
-            </form>
-        </flux:modal>
 
         <div class="grid grid-cols-1 gap-6 lg:grid-cols-[280px_1fr]">
             <aside class="rounded-lg border border-zinc-200 bg-white p-4 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
