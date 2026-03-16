@@ -14,6 +14,10 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Validation\Rules\Password;
+use App\Models\Cases;
+use App\Models\OrganizationProcess;
+use App\Observers\CaseObserver;
+use App\Observers\OrganizationProcessObserver;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -27,6 +31,10 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        $this->configureDefaults();
+        Cases::observe(CaseObserver::class);
+        OrganizationProcess::observe(OrganizationProcessObserver::class);
+      
         Event::listen(Login::class, LogSuccessfulLogin::class);
         Event::listen(Failed::class, LogFailedLogin::class);
         Event::listen(Logout::class, LogLogout::class);
