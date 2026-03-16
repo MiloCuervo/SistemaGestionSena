@@ -3,6 +3,7 @@
         $typeLabel = match ($case->type) {
             'request' => 'Solicitud',
             'denunciation' => 'Denuncia',
+            'complaint' => 'Denuncia',
             'right_of_petition' => 'Derecho de peticion',
             'tutelage' => 'Tutela',
             default => $case->type,
@@ -33,6 +34,7 @@
 
         <x-case-card :case="$case" :processes="$processes" :contacts="$contacts" readonly />
     </div>
+
     <div class="mt-3 space-y-3 px-6">
         @forelse ($case->followUps as $followUp)
             <article class="rounded-md border border-zinc-200 p-4 dark:border-zinc-700">
@@ -49,10 +51,11 @@
                 </p>
             </article>
         @empty
-            <div
-                class="rounded-md border border-dashed border-zinc-300 p-6 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
+            <div class="rounded-md border border-dashed border-zinc-300 p-6 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
                 Este caso aun no tiene seguimientos registrados.
             </div>
         @endforelse
     </div>
+
 </x-layouts::app>
+
