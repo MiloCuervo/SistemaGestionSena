@@ -96,9 +96,9 @@ new class extends Component {
     public function getStatusBadge(string $status): array
     {
         return match ($status) {
-            'active', 'activo', 'in_progress' => ['label' => 'Activo', 'classes' => 'bg-emerald-50 text-emerald-700', 'selectClasses' => 'bg-emerald-50 border-emerald-200', 'color' => '#065f46'],
-            'waiting', 'en_espera', 'on_hold', 'attended' => ['label' => 'En espera', 'classes' => 'bg-amber-50 text-amber-700', 'selectClasses' => 'bg-amber-50 border-amber-200', 'color' => '#92400e'],
-            'inactive', 'no_activo', 'closed', 'not_attended' => ['label' => 'No activo', 'classes' => 'bg-rose-50 text-rose-700', 'selectClasses' => 'bg-rose-50 border-rose-200', 'color' => '#9f1239'],
+            'in_progress' => ['label' => 'En proceso', 'classes' => 'bg-emerald-50 text-emerald-700', 'selectClasses' => 'bg-emerald-50 border-emerald-200', 'color' => '#065f46'],
+            'attended' => ['label' => 'Atendido', 'classes' => 'bg-amber-50 text-amber-700', 'selectClasses' => 'bg-amber-50 border-amber-200', 'color' => '#92400e'],
+            'not_attended' => ['label' => 'No atendido', 'classes' => 'bg-rose-50 text-rose-700', 'selectClasses' => 'bg-rose-50 border-rose-200', 'color' => '#9f1239'],
             default => ['label' => ucfirst(str_replace('_', ' ', $status)), 'classes' => 'bg-zinc-100 text-zinc-700', 'selectClasses' => 'bg-white border-zinc-300', 'color' => '#18181b'],
         };
     }
@@ -130,7 +130,7 @@ new class extends Component {
 };
 ?>
 
-<div class="space-y-6">
+<div class="space-y-6 ">
     {{-- Flash message --}}
     @if (session()->has('message'))
         <div class="rounded-md bg-emerald-50 p-4 text-sm text-emerald-700 dark:bg-emerald-900/20 dark:text-emerald-400">
@@ -146,7 +146,7 @@ new class extends Component {
         </div>
 
         <button type="button" wire:click="openModal"
-            class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-200">
+            class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-white dark:text-zinc-900 dark:hover:bg-zinc-400">
             Agregar caso
         </button>
     </div>
@@ -155,16 +155,15 @@ new class extends Component {
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div class="w-full sm:w-1/3">
             <input type="text" wire:model.live="search" placeholder="Buscar por número o descripción..."
-                class="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white" />
+                class="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm shadow-sm focus:border-zinc-900 focus:ring-zinc-900 hover:border-zinc-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:border-zinc-300" />
         </div>
-        <div class="w-full sm:w-1/4">
-            <select wire:model.live="statusFilter"
-                class="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white">
+        <div class="w-full sm:w-1/4">   
+        <select wire:model.live="statusFilter"
+                class="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm shadow-sm focus:border-zinc-900 focus:ring-zinc-900 hover:border-zinc-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:border-zinc-300">
                 <option value="">Todos los estados</option>
-                <option value="in_progress">Activo</option>
-                <option value="attended">En espera</option>
-                <option value="not_attended">No activo</option>
-                <option value="closed">Cerrado</option>
+                <option value="in_progress">En proceso</option>
+                <option value="attended">Atendido</option>
+                <option value="not_attended">No atendido</option>
             </select>
         </div>
     </div>
@@ -179,31 +178,32 @@ new class extends Component {
                 <thead class="bg-zinc-50 dark:bg-zinc-800">
                     <tr>
                         <th scope="col"
-                            class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                             Radicado                        
                         </th>
                         <th scope="col"
-                            class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                             Tipo
                         </th>
                         <th scope="col"
-                            class="w-[180px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[180px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                             Descripción
                         </th>
                         <th scope="col"
-                            class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                             Contacto
                         </th>
                         <th scope="col"
-                            class="w-[170px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[170px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                             Proceso
                         </th>
                         <th scope="col"
-                            class="w-[110px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[110px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                             Estado
                         </th>
                         <th scope="col"
-                            class="w-[100px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500">
+                            class="w-[100px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100
+                            dark:hover:bg-zinc-700">
                             Acciones
                         </th>
                     </tr>
@@ -214,39 +214,38 @@ new class extends Component {
                             $badge = $this->getStatusBadge($caseItem->status ?? 'unknown');
                         @endphp
                         <tr>
-                            <td class="w-[560px] px-6 py-4 text-sm text-zinc-600 dark:text-zinc-300">
+                            <td class="w-[560px] px-6 py-4 text-sm text-zinc-600 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800">
                                 <p class="w-full truncate" title="{{ $caseItem->case_number ?? '' }}">
                                     {{ $caseItem->case_number ?? 'Sin número de radicado' }}
                                 </p>
                             </td>
-                            <td class="px-6 py-4 text-sm font-medium text-zinc-900 dark:text-white">
+                            <td class="px-6 py-4 text-sm font-medium text-zinc-900 hover:bg-zinc-50 dark:text-white dark:hover:bg-zinc-800">
                                 {{ $this->getTypeLabel($caseItem->type ?? '') }}
                             </td>
-                            <td class="w-[560px] px-6 py-4 text-sm text-zinc-600 dark:text-zinc-300">
+                            <td class="w-[560px] px-6 py-4 text-sm text-zinc-600 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800">
                                 <p class="w-full truncate" title="{{ $caseItem->description ?? '' }}">
                                     {{ $caseItem->description ?? 'Sin descripción' }}
                                 </p>
                             </td>
-                            <td class="px-6 py-4 text-sm text-zinc-600 dark:text-zinc-300">
+                            <td class="px-6 py-4 text-sm text-zinc-600 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800">
                                 {{ $caseItem->contact?->full_name ?? '—' }}
                             </td>
-                            <td class="px-6 py-4 text-sm text-zinc-600 dark:text-zinc-300">
+                            <td class="px-6 py-4 text-sm text-zinc-600 hover:bg-zinc-50 dark:text-zinc-300 dark:hover:bg-zinc-800">
                                 {{ $caseItem->organizationProcess?->name ?? '—' }}
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 <select wire:change="updateStatus({{ $caseItem->id }}, $event.target.value)"
-                                    class="case-status-select w-full min-w-[90px] max-w-[120px] rounded-md border px-3 py-2 text-xs font-semibold shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white {{ $badge['selectClasses'] }}"
+                                    class="case-status-select w-full min-w-[90px] max-w-[120px] rounded-md border px-3 py-2 text-xs font-semibold shadow-sm focus:border-zinc-900 focus:ring-zinc-900 hover:border-zinc-300 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:bg-zinc-400 {{ $badge['selectClasses'] }}"
                                     style="color: {{ $badge['color'] }};">
-                                    <option value="in_progress" @selected($caseItem->status === 'in_progress')>Activo</option>
-                                    <option value="attended" @selected($caseItem->status === 'attended')>En espera</option>
-                                    <option value="not_attended" @selected($caseItem->status === 'not_attended')>Cerrado
-                                    </option>
+                                    <option value="in_progress" @selected($caseItem->status === 'in_progress')>En proceso</option>
+                                    <option value="attended" @selected($caseItem->status === 'attended')>Atendido</option>
+                                    <option value="not_attended" @selected($caseItem->status === 'not_attended')>No atendido</option>
                                 </select>
                             </td>
                             <td class="px-6 py-4 text-sm">
                                 <div class="flex flex-wrap items-center">
                                     <a href="{{ route('user.cases.show', $caseItem->id) }}"
-                                        class="inline-flex items-center rounded-md border border-zinc-200 px-3 py-1.5 text-xs font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800">
+                                        class="inline-flex items-center rounded-md border border-zinc-200 px-3 py-1.5 text-xs font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-400">
                                         Ver
                                     </a>
                                 </div>
@@ -317,9 +316,9 @@ new class extends Component {
                                 class="block text-xs font-medium text-zinc-700 dark:text-zinc-200">Estado</label>
                             <select id="case_status" wire:model="status"
                                 class="mt-1 w-full rounded-md border border-zinc-300 px-2.5 py-1.5 text-xs text-zinc-900 shadow-sm focus:border-zinc-900 focus:ring-zinc-900 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white">
-                                <option value="in_progress">Activo</option>
-                                <option value="attended">En espera</option>
-                                <option value="not_attended">No activo</option>
+                                <option value="in_progress">En proceso</option>
+                                <option value="attended">Atendido</option>
+                                <option value="not_attended">No atendido</option>
                             </select>
                         </div>
 
@@ -380,3 +379,4 @@ new class extends Component {
         }
     </style>
 </div>
+

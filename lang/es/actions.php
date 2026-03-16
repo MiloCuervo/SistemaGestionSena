@@ -37,6 +37,7 @@ return [
     'create'                => 'Crear',
     'created_by'            => 'Creado por',
     'delete'                => 'Borrar',
+    'denunciation'          => 'Denuncia',
     'description'           => 'Descripción',
     'detach'                => 'Desasociar',
     'details'               => 'Detalles',

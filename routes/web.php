@@ -17,6 +17,7 @@ Route::get('/', function () {
 
 
 
+
 // ==========================================
 // ADMINISTRATOR ROUTES 
 // ==========================================
@@ -25,25 +26,26 @@ Route::middleware(['auth', 'verified', 'role:1'])
     ->name('admin.')
     ->group(function () {
 
-        // Admin Dashboard
-        Route::view('/dashboard', 'admin.dashboard')->name('dashboard');
+        // Dashboard Admin
+        Route::get('/dashboard', [CasesController::class, 'adminDashboard'])->name('dashboard');
+        Route::get('/cases/{id}', [CasesController::class, 'getAdminCases'])->name('cases.show');
 
-        // User Management
+        // Gestion de Usuarios
         Route::get('/users', [UserController::class, '__invoke'])->name('users');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
         Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
 
-        // Roles Management
+        // Gestion de Roles
         Route::get('/roles', RolesController::class)->name('roles');
 
-        // processes Management
+        // Gestion de Procesos
         Route::get('/processes', [ProcessesController::class, '__invoke'])->name('processes');
         Route::post('/processes', [ProcessesController::class, 'store'])->name('processes.store');
         Route::put('/processes/{id}', [ProcessesController::class, 'update'])->name('processes.update');
         Route::delete('/processes/{id}', [ProcessesController::class, 'destroy'])->name('processes.destroy');
         Route::get('/processes/{id}', [ProcessesController::class, 'show'])->name('processes.show');
 
-        // reports Management
+        // Gestion de Reportes
         Route::view('/reports', 'admin.reports')->name('reports');
     });
 
@@ -55,19 +57,20 @@ Route::middleware(['auth', 'verified', 'role:2'])
     ->name('user.')
     ->group(function () {
 
-        // User Dashboard
-        Route::view('/dashboard', 'user.dashboard')->name('dashboard');
+        // Dashboard Usuario
+        Route::view('/dashboard', 'user.cases')->name('dashboard');
 
-        // Cases Management
+        // Gestion de Casos
         Route::get('/cases', [CasesController::class, '__invoke'])->name('cases');
-        Route::post('/cases', [CasesController::class, 'store'])->name('cases.store');
+        Route::get('/new-case', [CasesController::class, 'newCase'])->name('cases.new');
+        Route::post('/new-case', [CasesController::class, 'store'])->name('cases.store');
         Route::get('/cases/{id}/edit', [CasesController::class, 'edit'])->name('cases.edit');
         Route::put('/cases/{id}', [CasesController::class, 'update'])->name('cases.update');
         Route::put('/cases/{id}/status', [CasesController::class, 'updateStatus'])->name('cases.update-status');
         Route::get('/cases/{id}/tracking', [CasesController::class, 'tracking'])->name('cases.tracking');
         Route::get('/cases/{id}', [CasesController::class, 'show'])->name('cases.show');
 
-        // General Accsess To Tracking From Sidebar (Without Explicit Id)
+        // Acceso general a tracking desde el sidebar (sin id explicito)
         Route::get('/cases-tracking', function () {
             $latestCaseId = Cases::where('user_id', Auth::id())->latest()->value('id');
 
@@ -79,15 +82,15 @@ Route::middleware(['auth', 'verified', 'role:2'])
         })->name('cases-tracking');
 
 
-        // Contacts Management
+        // Gestion de Contactos
         Route::get('/contacts', [ContactsController::class, '__invoke'])->name('contacts');
         Route::post('/contacts', [ContactsController::class, 'store'])->name('contacts.store');
         Route::get('/contacts/{id}', [ContactsController::class, 'show'])->name('contacts.show');
 
-        // Reports Management
+        // Gestion de Reportes
         Route::get('/reports', [UserController::class, 'reports'])->name('reports');
 
-        // Cases Follow-Ups
+        //Seguimientos de caso
         Route::post('/cases/{id}/follow-ups', [CasesController::class, 'addFollowUp'])->name('cases.follow-ups');
 
     });

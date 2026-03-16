@@ -52,21 +52,15 @@ new class extends Component {
 ?>
 
 <div>
-    <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6 p-4">
-        <flux:input wire:model="name" :label="__('Name')" type="text" autocomplete="name" />
-        <flux:input wire:model="second_name" :label="__('Second Name')" type="text" autocomplete="second_name" />
-        <flux:input wire:model="last_name" :label="__('Last Name')" type="text" autocomplete="last_name" />
-        <flux:input wire:model="second_last_name" :label="__('Second Last Name')" type="text"
-            autocomplete="second_last_name" />
+    <p class="text-sm text-gray-200">Solo puedes editar el correo y Rol de los usuarios</p>
+    <form wire:submit="updateProfileInformation" class="my-6 w-1/2 space-y-6 p-4">
         <flux:input wire:model="email" :label="__('Email')" type="email" autocomplete="email" />
-
-        <div class="m-4">
+        <div class="grid grid-cols-2 gap-4">
             <flux:select wire:model="role_id" :label="__('Role')">
                 <flux:select.option value="1">Administrador</flux:select.option>
                 <flux:select.option value="2">Comisionado</flux:select.option>
             </flux:select>
         </div>
-
         <flux:separator variant="subtle" />
         <div class="flex items-center gap-4">
             <div class="flex items-center justify-center">

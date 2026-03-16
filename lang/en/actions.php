@@ -29,6 +29,7 @@ return [
     'connect'           => 'Connect',
     'create'            => 'Create',
     'delete'            => 'Delete',
+    'denunciation'      => 'Denunciation',
     'detach'            => 'Detach',
     'details'           => 'Details',
     'disable'           => 'Disable',

@@ -18,17 +18,6 @@ new class extends Component {
     public $description = '';
     public $active = true;
 
-    // Estadísticas
-    public function getStatsProperty()
-    {
-        return [
-            'total' => OrganizationProcess::count(),
-            'active' => OrganizationProcess::where('active', true)->count(),
-            'inactive' => OrganizationProcess::where('active', false)->count(),
-            'cases' => OrganizationProcess::count(),
-        ];
-    }
-
     public function getProcessesProperty()
     {
         return OrganizationProcess::withCount('cases')
@@ -95,44 +84,6 @@ new class extends Component {
 ?>
 <div class="py-8">
     <div class="space-y-8">
-        <!-- stats Card -->
-        <div
-            style="display: flex !important; flex-direction: row !important; gap: 1rem !important; align-items: stretch !important;">
-            <div class="flex-1 py-8">
-                <flux:card class="flex flex-col gap-2 p-6 border-l-4 border-lime-500 h-full">
-                    <flux:text icon="" variant="subtle" size="sm" class="uppercase font-semibold tracking-wider">Activos
-                    </flux:text>
-                    <div class="flex items-baseline gap-2">
-                        <flux:heading size="3xl" class="text-lime-600 dark:text-lime-400">{{ $this->stats['active'] }}
-                        </flux:heading>
-                    </div>
-                </flux:card>
-            </div>
-
-            <div class="flex-1 py-8">
-                <flux:card class="flex flex-col gap-2 p-6 border-l-4 border-lime-500 h-full">
-                    <flux:text variant="subtle" size="sm" class="uppercase font-semibold tracking-wider">Inactivos
-                    </flux:text>
-                    <div class="flex items-baseline gap-2">
-                        <flux:heading size="3xl" class="text-zinc-600 dark:text-lime-400">{{ $this->stats['inactive'] }}
-                        </flux:heading>
-                    </div>
-                </flux:card>
-            </div>
-
-            <div class="flex-1 py-8">
-                <flux:card class="flex flex-col gap-2 p-6 border-l-4 border-blue-500 h-full">
-                    <flux:text variant="subtle" size="sm" class="uppercase font-semibold tracking-wider">Proceso Totales
-                    </flux:text>
-                    <div class="flex items-baseline gap-2">
-                        <flux:heading size="3xl" class="text-blue-600 dark:text-blue-400">{{ $this->stats['cases'] }}
-                        </flux:heading>
-                    </div>
-                </flux:card>
-            </div>
-        </div>
-
-
         <div class="flex flex-col gap-2">
             <flux:heading size="xl" variant="strong"
                 style="font-family: 'DM Serif Display', serif; font-style: italic;">PROCESOS DEL SISTEMA

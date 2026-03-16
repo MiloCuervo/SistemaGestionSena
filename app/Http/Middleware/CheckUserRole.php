@@ -19,13 +19,12 @@ class CheckUserRole
         if (!Auth::check()) {
             return redirect('login');
         }
-
         $user = Auth::user();
-        // Obtener la configuración del usuario (asumiendo la primera como la activa)
-        $config = $user->configuration->first();
+        // Obtener la configuración del usuario
+        $config = $user->configuration;
 
         // Convertir roleId a entero para la comparación segura
-        if (!$config || $config->role_id != (int) $roleId) {
+        if (!$config || $config->role_id != $roleId) {
             abort(403, 'No tienes permiso para acceder a esta sección.');
         }
 
