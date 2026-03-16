@@ -68,6 +68,7 @@ Route::middleware(['auth', 'verified', 'role:2'])
         Route::put('/cases/{id}', [CasesController::class, 'update'])->name('cases.update');
         Route::put('/cases/{id}/status', [CasesController::class, 'updateStatus'])->name('cases.update-status');
         Route::get('/cases/{id}/tracking', [CasesController::class, 'tracking'])->name('cases.tracking');
+        Route::get('/cases/{id}/follow-ups/create', [CasesController::class, 'createFollowUp'])->name('cases.follow-ups.create');
         Route::get('/cases/{id}', [CasesController::class, 'show'])->name('cases.show');
 
         // Acceso general a tracking desde el sidebar (sin id explicito)

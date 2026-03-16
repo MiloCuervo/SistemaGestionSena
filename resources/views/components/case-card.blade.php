@@ -27,7 +27,7 @@
                 <select name="organization_process_id" id="organization_process_id" {{ $readonly ? 'disabled' : '' }}
                     class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
                     @foreach ($processes as $process)
-                        <option value="{{ $process->id }}" {{ ($case?->process_id == $process->id) ? 'selected' : '' }}>
+                        <option value="{{ $process->id }}" {{ ($case?->organization_process_id == $process->id) ? 'selected' : '' }}>
                             {{ $process->name }}
                         </option>
                     @endforeach
@@ -43,7 +43,7 @@
                         <option value="">Seleccionar contacto</option>
                         @foreach ($contacts as $contact)
                             <option value="{{ $contact->id }}" {{ ($case?->contact_id == $contact->id) ? 'selected' : '' }}>
-                                {{ $contact->name }} {{ $contact->last_name }}
+                                {{ $contact->full_name }}
                             </option>
                         @endforeach
                     </select>

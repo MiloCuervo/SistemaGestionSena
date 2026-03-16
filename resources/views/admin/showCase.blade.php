@@ -3,6 +3,7 @@
         $typeLabel = match ($case->type) {
             'request' => 'Solicitud',
             'denunciation' => 'Denuncia',
+            'complaint' => 'Denuncia',
             'right_of_petition' => 'Derecho de peticion',
             'tutelage' => 'Tutela',
             default => $case->type,
