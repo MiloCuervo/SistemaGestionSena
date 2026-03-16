@@ -18,8 +18,6 @@
                     </div>
                     <div id="chart-cases-monthly" class="min-h-[280px]"></div>
                 </div>
-
-                <livewire:chart-admin-cases />
             </div>
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
 

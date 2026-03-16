@@ -3,14 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\cases;
-use Illuminate\Support\Facades\Cache;
-use App\Models\User;
 use App\Models\Contact;
 use App\Models\FollowUp;
 use App\Models\OrganizationProcess;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
 
 class CasesController extends Controller
 {
@@ -28,9 +26,9 @@ class CasesController extends Controller
     {
         $contacts = Contact::all();
         $processes = OrganizationProcess::all();
+
         return view('user.cases-create', compact('contacts', 'processes'));
     }
-
 
     public function store(Request $request)
     {
@@ -53,6 +51,7 @@ class CasesController extends Controller
         $case->contact_id = $request->contact_id;
         $case->organization_process_id = $request->organization_process_id;
         $case->user_id = Auth::id();
+        $case->closed_date = now()->addMonths(2);
         $case->save();
 
         return redirect()->route('user.cases')->with('success', 'Caso creado correctamente.');
@@ -112,6 +111,11 @@ class CasesController extends Controller
         $case = cases::where('user_id', Auth::id())->findOrFail($id);
 
         $data = $request->validate([
+            'description' => 'required|string',
+            'type' => 'required|in:denunciation,request,right_of_petition,tutelage',
+            'status' => 'required|in:attended,in_progress,not_attended,closed',
+            'contact_id' => 'required|exists:contacts,id',
+            'organization_process_id' => 'required|exists:organization_processes,id',
             'description'              => 'required|string',
             'type'                     => 'required|in:denunciation,complaint,request,right_of_petition,tutelage',
             'status'                   => 'required|in:attended,in_progress,not_attended,closed',
@@ -142,10 +146,11 @@ class CasesController extends Controller
 
         return redirect()->route('user.cases')->with('success', 'Estado actualizado correctamente.');
     }
- 
-    
-    public function getAdminCases($id){
-        $case = Cases::where('id', $id)->with('user','contact', 'organizationProcess')->first();
+
+    public function getAdminCases($id)
+    {
+        $case = Cases::where('id', $id)->with('user', 'contact', 'organizationProcess')->first();
+
         return view('admin.showCase', compact('case'));
     }
 
@@ -157,9 +162,9 @@ class CasesController extends Controller
             ->pluck('total', 'status'); // Collection keyed by status
 
         $stats = [
-            'total'        => $statusCounts->sum(),
-            'attended'     => $statusCounts->get('attended', 0),
-            'in_progress'  => $statusCounts->get('in_progress', 0),
+            'total' => $statusCounts->sum(),
+            'attended' => $statusCounts->get('attended', 0),
+            'in_progress' => $statusCounts->get('in_progress', 0),
             'not_attended' => $statusCounts->get('not_attended', 0),
         ];
 
@@ -178,7 +183,7 @@ class CasesController extends Controller
         ];
 
         // ── 3. Comisionados: withCount genera LEFT JOIN, 1 sola query ──
-        $commissioners = User::whereHas('configuration', fn($q) => $q->where('role_id', 2))
+        $commissioners = User::whereHas('configuration', fn ($q) => $q->where('role_id', 2))
             ->withCount('cases')
             ->orderBy('cases_count', 'desc')
             ->get(['id', 'name']);
@@ -207,6 +212,7 @@ class CasesController extends Controller
 
         return view('admin.dashboard', compact('stats', 'chartData', 'commissionerStats', 'monthlySeries'));
     }
+
     public function addFollowUp(Request $request, $id)
     {
         $case = Cases::where('user_id', Auth::id())->findOrFail($id);
