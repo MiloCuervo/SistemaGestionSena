@@ -109,4 +109,11 @@ class UserController extends Controller
 
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully');
     }
+
+    public function getRoleInt($user)
+    {
+        $userRole = UserConfiguration::where('user_id', $user->id)->firstOrFail();
+
+        return $userRole;
+    }
 }

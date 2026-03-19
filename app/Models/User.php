@@ -75,6 +75,11 @@ class User extends Authenticatable
         return $this->hasOne(UserConfiguration::class);
     }
 
+    public function isAdmin()
+    {
+        return $this->configuration && $this->configuration->rol_id === 1;
+    }
+
     public function reports()
     {
         return $this->hasMany(Report::class);
