@@ -60,9 +60,13 @@ class CasesController extends Controller
 
     public function show($id)
     {
-        $case = Cases::where('user_id', Auth::id())
-            ->with(['contact', 'organizationProcess'])
-            ->findOrFail($id);
+        $case = Cases::with([
+            'contact',
+            'organizationProcess',
+            'followUps' => function ($query) {
+                $query->latest();
+            },
+        ])->findOrFail($id);
 
         $processes = OrganizationProcess::all();
         $contacts = Contact::all();

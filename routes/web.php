@@ -58,7 +58,7 @@ Route::middleware(['auth', 'verified', 'role:2'])
     ->group(function () {
 
         // Dashboard Usuario
-        Route::view('/dashboard', 'user.cases')->name('dashboard');
+        Route::view('/dashboard', 'user.dashboard')->name('dashboard');
 
         // Gestion de Casos
         Route::get('/cases', [CasesController::class, '__invoke'])->name('cases');
