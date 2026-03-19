@@ -2,6 +2,7 @@
 
 use Livewire\Component;
 use App\Models\OrganizationProcess;
+use App\Http\Controllers\ProcessesController
 use App\Models\cases;
 use Livewire\WithPagination;
 
@@ -72,14 +73,9 @@ new class extends Component {
         $process = OrganizationProcess::findOrFail($id);
         $process->active = !$process->active;
         $process->save();
-        session()->flash('message', 'Estado actualizado.');
+        session()->flash('message', 'Proceso Actualizado con exito!');
     }
 
-    public function deleteProcess($id)
-    {
-        OrganizationProcess::findOrFail($id)->delete();
-        session()->flash('message', 'Proceso eliminado.');
-    }
 };
 ?>
 <div class="py-8">
@@ -138,10 +134,6 @@ new class extends Component {
                                 <div class="flex justify-end gap-2">
                                     <flux:button size="sm" variant="ghost" icon="pencil-square" title="Editar"
                                         wire:click="openEditModal({{ $process->id }})" />
-                                    <flux:button size="sm" variant="ghost"
-                                        :icon="$process->active ? 'no-symbol' : 'check-circle'"
-                                        :class="$process->active ? 'text-red-500' : 'text-lime-500'"
-                                        wire:click="toggleStatus({{ $process->id }})" title="Activar/Desactivar" />
                                     <flux:button size="sm" variant="ghost" icon="trash" color="red"
                                         wire:confirm="¿Estás seguro de eliminar este proceso?"
                                         wire:click="deleteProcess({{ $process->id }})" title="Eliminar" />
