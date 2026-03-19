@@ -84,6 +84,7 @@ Route::middleware(['auth', 'verified', 'role:2'])
 
 
         // Gestion de Contactos
+        Route::resource('contacts', ContactsController::class);
         Route::get('/contacts', [ContactsController::class, '__invoke'])->name('contacts');
         Route::post('/contacts', [ContactsController::class, 'store'])->name('contacts.store');
         Route::get('/contacts/{id}', [ContactsController::class, 'show'])->name('contacts.show');

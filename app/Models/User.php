@@ -77,7 +77,8 @@ class User extends Authenticatable
 
     public function isAdmin()
     {
-        return $this->configuration && $this->configuration->rol_id === 1;
+        $isAdmin =  $this->configuration?->rol_id === 1;
+        return $isAdmin;
     }
 
     public function reports()

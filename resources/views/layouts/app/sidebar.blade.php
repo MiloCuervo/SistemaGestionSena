@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}" class="dark">
 
-<head>::
+<head>
     @include('partials.head')
 </head>
 
@@ -14,7 +14,7 @@
         </flux:sidebar.header>
 
 
-        @if (auth()->user()->isAdmin() === 1)
+        @if (auth()->user()->isAdmin())
             <flux:sidebar.nav> <!-- BARRA SUPERIOR CON LOS BASICOS DEL ADMINISTRADOR-->
                 <flux:sidebar.group :heading="__('Platform')" class="grid">
                     <flux:sidebar.item icon="home" :href="route('admin.dashboard')"
