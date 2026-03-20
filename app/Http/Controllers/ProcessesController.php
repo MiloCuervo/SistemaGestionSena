@@ -16,15 +16,7 @@ class ProcessesController extends Controller
 
         return view('admin.processes', compact('Processes'));
     }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
+    
     /**
      * Display the specified resource.
      */
@@ -62,7 +54,7 @@ class ProcessesController extends Controller
     {
         $this->processService->update($id, $request->validated());
 
-        return redirect()->route('')->with('message', '');
+        return redirect()->route('admin.processes')->with('message', 'Proceso actualizado correctamente.');
     }
 
     /**

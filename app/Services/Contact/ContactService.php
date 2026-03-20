@@ -29,6 +29,6 @@ class ContactService
 
     public function delete(int $id) : bool
     {
-        return Contact::where('id', $id)->delete();
+        return Contact::where('id', $id)->update(['active' => false]);
     }
 }

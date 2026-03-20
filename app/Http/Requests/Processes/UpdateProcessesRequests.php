@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\Processes;
 
+use App\Http\Requests\Contacts\CreateContactsRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UpdateProcessesRequests extends FormRequest
@@ -21,9 +22,6 @@ class UpdateProcessesRequests extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string',
-        ];
+        return(new CreateContactsRequest())->rules();
     }
 }

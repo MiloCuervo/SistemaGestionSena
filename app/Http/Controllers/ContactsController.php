@@ -35,7 +35,7 @@ class ContactsController extends Controller
     public function edit(int $id)
     {
         $contact = $this->contactService->find($id);
-        return view('user.contacts.edit', compact('contact'));
+        return view('user.contacts.edit', compact('contact'));//debe retornar al ofrmulario de edicion de contactos con el contacto a editar
     }
 
     public function update(UpdateContactsRequest $request, int $id)
