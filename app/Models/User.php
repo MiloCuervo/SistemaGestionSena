@@ -95,9 +95,4 @@ class User extends Authenticatable
     {
         return $this->hasMany(Login::class);
     }
-
-    public function activeLogin()
-    {
-        return $this->hasOne(Login::class)->whereNull('logged_out_at');
-    }
 }

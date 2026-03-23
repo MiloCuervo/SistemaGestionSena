@@ -26,7 +26,7 @@ Route::middleware(['auth', 'verified', 'role:1'])
         Route::get('/cases/{id}', [CasesController::class, 'getAdminCases'])->name('cases.show');
 
         // Gestion de Usuarios
-        Route::get('/users', [UserController::class, '__invoke'])->name('users');
+        Route::get('/users', [UserController::class, 'index'])->name('users');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
         Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
 

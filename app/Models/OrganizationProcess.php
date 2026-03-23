@@ -8,8 +8,6 @@ class OrganizationProcess extends Model
 {
     protected $table = 'organization_processes';
 
-    public const PAGINATE = 10;
-
     protected $fillable = [
         'name',
         'description',
@@ -23,4 +21,6 @@ class OrganizationProcess extends Model
     {
         return $this->hasMany(Cases::class);
     }
+
+    public const PAGINATE = 10;
 }

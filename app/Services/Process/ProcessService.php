@@ -9,7 +9,7 @@ class ProcessService
 {
     public function getAll(): LengthAwarePaginator
     {
-        $query = OrganizationProcess::latest();
+        $query = OrganizationProcess::where('active', true)->latest();
 
         return $query->paginate(OrganizationProcess::PAGINATE);
     }
