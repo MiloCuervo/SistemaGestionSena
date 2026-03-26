@@ -53,13 +53,14 @@ Route::middleware(['auth', 'verified', 'role:2'])
     ->group(function () {
 
         // Dashboard Usuario
-        Route::view('/dashboard', 'user.cases')->name('dashboard');
+        Route::view('/dashboard', 'user.dashboard')->name('dashboard');
 
         // Gestion de Casos
         Route::get('/cases', [CasesController::class, '__invoke'])->name('cases');
         Route::get('/new-case', [CasesController::class, 'newCase'])->name('cases.new');
         Route::post('/new-case', [CasesController::class, 'store'])->name('cases.store');
         Route::get('/cases/{id}/edit', [CasesController::class, 'edit'])->name('cases.edit');
+        Route::get('/cases/{id}/status/edit', [CasesController::class, 'editStatus'])->name('cases.status.edit');
         Route::put('/cases/{id}', [CasesController::class, 'update'])->name('cases.update');
         Route::put('/cases/{id}/status', [CasesController::class, 'updateStatus'])->name('cases.update-status');
         Route::get('/cases/{id}/tracking', [CasesController::class, 'tracking'])->name('cases.tracking');
@@ -78,7 +79,10 @@ Route::middleware(['auth', 'verified', 'role:2'])
         })->name('cases-tracking');
 
         // Gestion de Contactos
-        Route::resource('/contacts', ContactsController::class);
+        Route::get('/contacts', [ContactsController::class, '__invoke'])->name('contacts');
+        Route::get('/contacts/create', [ContactsController::class, 'create'])->name('contacts.create');
+        Route::post('/contacts', [ContactsController::class, 'store'])->name('contacts.store');
+        Route::get('/contacts/{id}', [ContactsController::class, 'show'])->name('contacts.show');
 
         // Gestion de Reportes
         Route::get('/reports', [UserController::class, 'reports'])->name('reports');

@@ -19,6 +19,13 @@ class ContactsController extends Controller
         return view('user.contacts', compact('contacts'));
     }
 
+    public function create(Request $request)
+    {
+        $returnTo = $request->query('return_to', route('user.contacts'));
+        return view('user.contacts-create', compact('returnTo'));
+    }
+    
+
     public function show($id)
     {
         $contact = $this->contactService->find($id);
@@ -27,15 +34,37 @@ class ContactsController extends Controller
 
     public function store(CreateContactsRequest $request)
     {
-        $this->contactService->create($request->validated());
+        $request->validate([
+            'full_name' => 'required|string|max:255',
+            'identification_number' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255',
+            'phone' => 'nullable|string|max:15',
+            'position' => 'nullable|string|max:255',
+        ]);
 
-        return redirect()->route('user.contacts')->with('message', 'Contacto creado correctamente.');
-    }
+        $contact = Contact::create([
+            'full_name' => $request->full_name,
+            'identification_number' => $request->identification_number,
+            'email' => $request->email,
+            'phone' => $request->phone,
+            'position' => $request->position
+        ]);
 
-    public function edit(int $id)
-    {
-        $contact = $this->contactService->find($id);
-        return view('user.contacts.edit', compact('contact'));//debe retornar al ofrmulario de edicion de contactos con el contacto a editar
+        if ($request->expectsJson()) {
+            return response()->json([
+                'id' => $contact->id,
+                'full_name' => $contact->full_name,
+            ]);
+        }
+
+        $returnTo = $request->input('return_to');
+        if ($returnTo) {
+            $separator = str_contains($returnTo, '?') ? '&' : '?';
+            return redirect()->to($returnTo . $separator . 'contact_id=' . $contact->id)
+                ->with('success', 'Contacto creado correctamente.');
+        }
+
+        return redirect()->route('user.contacts')->with('success', 'Contacto creado correctamente.');
     }
 
     public function update(UpdateContactsRequest $request, int $id)
