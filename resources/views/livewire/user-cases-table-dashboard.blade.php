@@ -49,32 +49,6 @@ new class extends Component {
         $this->showModal = false;
     }
 
-    public function store()
-    {
-        $this->validate([
-            'description' => 'required|string',
-            'contact_id' => 'required|exists:contacts,id',
-            'organization_process_id' => 'required|exists:organization_processes,id',
-            'type' => 'required|string',
-            'status' => 'nullable|string',
-        ]);
-
-        $type = $this->type === 'denunciation' ? 'complaint' : $this->type;
-
-        $case = new cases();
-        $case->case_number = "CAS-" . date("Ymd") . rand(1000, 9999);
-        $case->description = $this->description;
-        $case->status = $this->status ?? 'in_progress';
-        $case->type = $type;
-        $case->contact_id = $this->contact_id;
-        $case->organization_process_id = $this->organization_process_id;
-        $case->user_id = Auth::id();
-        $case->save();
-
-        $this->showModal = false;
-        $this->reset(['type', 'description', 'status', 'contact_id', 'organization_process_id']);
-        session()->flash('message', 'Caso creado correctamente.');
-    }
 
     public function updateStatus($id, $newStatus)
     {

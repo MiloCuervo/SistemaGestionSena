@@ -12,9 +12,8 @@ class ProcessesController extends Controller
 
     public function index()
     {
-        $Processes = $this->processService->getAll();
-
-        return view('admin.processes', compact('Processes'));
+        $processes = $this->processService->getAll();
+        return view('admin.processes', compact('processes'));
     }
     
     /**

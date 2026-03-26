@@ -38,4 +38,14 @@ class UserConfiguration extends Model
     {
         return $this->belongsTo(Role::class);
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', true);
+    }
+
+    public function scopeExpired($query)
+    {
+        return $query->where('expires_at', '<', now());
+    }
 }
