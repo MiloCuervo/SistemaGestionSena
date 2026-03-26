@@ -13,6 +13,12 @@ class ContactsController extends Controller
         $contacts = Contact::with('cases')->get();
         return view('user.contacts', compact('contacts'));
     }
+
+    public function create(Request $request)
+    {
+        $returnTo = $request->query('return_to', route('user.contacts'));
+        return view('user.contacts-create', compact('returnTo'));
+    }
     
 
    public function show($id)
@@ -24,19 +30,33 @@ class ContactsController extends Controller
     {
         $request->validate([
             'full_name' => 'required|string|max:255',
-            'identification_number' => 'required|int|max:255',
+            'identification_number' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
             'phone' => 'nullable|string|max:15',
             'position' => 'nullable|string|max:255',
         ]);
 
-        Contact::create([
+        $contact = Contact::create([
             'full_name' => $request->full_name,
             'identification_number' => $request->identification_number,
             'email' => $request->email,
             'phone' => $request->phone,
             'position' => $request->position
         ]);
+
+        if ($request->expectsJson()) {
+            return response()->json([
+                'id' => $contact->id,
+                'full_name' => $contact->full_name,
+            ]);
+        }
+
+        $returnTo = $request->input('return_to');
+        if ($returnTo) {
+            $separator = str_contains($returnTo, '?') ? '&' : '?';
+            return redirect()->to($returnTo . $separator . 'contact_id=' . $contact->id)
+                ->with('success', 'Contacto creado correctamente.');
+        }
 
         return redirect()->route('user.contacts')->with('success', 'Contacto creado correctamente.');
     }

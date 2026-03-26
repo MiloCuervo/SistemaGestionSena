@@ -28,13 +28,14 @@ class CasesController extends Controller
     {
         $contacts = Contact::all();
         $processes = OrganizationProcess::all();
-        return view('user.cases-create', compact('contacts', 'processes'));
+        $selectedContactId = request()->query('contact_id');
+        return view('user.cases-create', compact('contacts', 'processes', 'selectedContactId'));
     }
 
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'description' => 'required|string',
             'case_evidence' => 'nullable|string',
             'contact_id' => 'required|exists:contacts,id',
@@ -55,7 +56,7 @@ class CasesController extends Controller
         $case->user_id = Auth::id();
         $case->save();
 
-        return redirect()->route('user.cases')->with('success', 'Caso creado correctamente.');
+        return redirect()->route('user.dashboard')->with('success', 'Caso creado correctamente.');
     }
 
     public function show($id)
@@ -72,6 +73,15 @@ class CasesController extends Controller
         $contacts = Contact::all();
 
         return view('user.cases-show', compact('case', 'processes', 'contacts'));
+    }
+
+    public function editStatus($id)
+    {
+        $case = Cases::where('user_id', Auth::id())
+            ->with(['contact', 'organizationProcess'])
+            ->findOrFail($id);
+
+        return view('user.cases-status-edit', compact('case'));
     }
 
     public function tracking($id)
@@ -138,13 +148,13 @@ class CasesController extends Controller
         $case = Cases::where('user_id', Auth::id())->findOrFail($id);
 
         $data = $request->validate([
-            'status' => 'required|in:attended,in_progress,not_attended,',
+            'status' => 'required|in:attended,not_attended,in_progress',
         ]);
 
         $case->status = $data['status'];
         $case->save();
 
-        return redirect()->route('user.cases')->with('success', 'Estado actualizado correctamente.');
+        return redirect()->route('user.dashboard')->with('success', 'Estado actualizado correctamente.');
     }
  
     

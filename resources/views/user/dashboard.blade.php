@@ -26,7 +26,12 @@
     <flux:separator variant="subtle" />
 
     <flux:separator variant="subtle" />
-    <a href="{{ route('user.cases.new') }}"> nuevo caso</a>
+    <div class="flex justify-end px-6 pt-6">
+        <a href="{{ route('user.cases.new') }}"
+            class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200">
+            Crear caso
+        </a>
+    </div>
     <div class="max-w-7xl mx-auto px-6 py-8 lg:px-8">
         <livewire:user-cases-table-dashboard />
         </div>

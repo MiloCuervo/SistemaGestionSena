@@ -170,12 +170,17 @@ new class extends Component {
                                 {{ $this->getStatusLabel($caseItem->status ?? 'unknown') }}
                             </td>
                             <td class="px-6 py-4 text-sm">
-                                <div class="flex flex-wrap items-center">
+                            <div class="flex items-center gap-2">
                                     <a href="{{ route('user.cases.show', $caseItem->id) }}"
-                                        class="inline-flex items-center rounded-md border border-zinc-200 px-3 py-1.5 text-xs font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-400">
-                                        Ver
+                                        class="inline-flex items-center rounded-md border border-zinc-200 p-2 text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-400"
+                                        title="Ver caso" aria-label="Ver caso">
+                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                            <circle cx="12" cy="12" r="3" stroke-width="2" />
+                                        </svg>
                                     </a>
-                                </div>
+                            </div>
                             </td>
                         </tr>
                     @empty
