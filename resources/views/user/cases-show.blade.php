@@ -51,11 +51,11 @@
                 </p>
             </article>
         @empty
-            <div class="rounded-md border border-dashed border-zinc-300 p-6 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
+            <div
+                class="rounded-md border border-dashed border-zinc-300 p-6 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
                 Este caso aun no tiene seguimientos registrados.
             </div>
         @endforelse
     </div>
 
 </x-layouts::app>
-
