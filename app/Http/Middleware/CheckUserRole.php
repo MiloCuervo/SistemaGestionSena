@@ -18,7 +18,7 @@ class CheckUserRole
     {
         $user = Auth::user();
 
-        if ($user->isAdmin()) {
+        if ($user->configuration?->role_id != '') {
             return $next($request);
         }
 

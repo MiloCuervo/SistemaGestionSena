@@ -78,7 +78,8 @@ Route::middleware(['auth', 'verified', 'role:2'])
         })->name('cases-tracking');
 
         // Gestion de Contactos
-        Route::resource('/contacts', ContactsController::class);
+        Route::get('/contacts', [ContactsController::class, 'index'])->name('contacts');
+        Route::get('/contacts/{id}', [ContactsController::class, 'show'])->name('contacts.show');
 
         // Gestion de Reportes
         Route::get('/reports', [UserController::class, 'reports'])->name('reports');

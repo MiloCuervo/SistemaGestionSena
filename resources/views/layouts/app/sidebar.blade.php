@@ -42,7 +42,7 @@
                         :current="request()->routeIs('user.cases')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="home" :href="route('user.dashboard')"
+                    <flux:sidebar.item icon="home" :href="route('user.cases')"
                         :current="request()->routeIs('user.dashboard')" wire:navigate>
                         {{ __('My Cases') }}
                     </flux:sidebar.item>

@@ -2,8 +2,7 @@
 
 use Livewire\Component;
 use App\Models\OrganizationProcess;
-use App\Http\Controllers\ProcessesController
-use App\Models\cases;
+use App\Http\Controllers\ProcessesController;
 use Livewire\WithPagination;
 
 new class extends Component {
