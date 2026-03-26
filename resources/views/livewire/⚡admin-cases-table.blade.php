@@ -103,7 +103,7 @@ new class extends Component {
 ?>
 
 <div class="mt-10 space-y-6">
-    <flux:heading size="xl" level="1">{{ __('Cases Management') }}</flux:heading>
+    <flux:heading size="xl" level="1">{{ __('Cases of the system') }}</flux:heading>
 
     <!-- Filters -->
     <div class="flex flex-col sm:flex-row gap-4 items-center">

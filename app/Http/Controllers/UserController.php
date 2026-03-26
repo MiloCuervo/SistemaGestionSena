@@ -10,15 +10,19 @@ class UserController extends Controller
 {
     public function __invoke()
     {
-        $configuration = UserConfiguration::with('role', 'user')->orderBy("id", "asc")->get();
-        return view("admin.users", compact("configuration"));
+        $configuration = UserConfiguration::with('role', 'user')->orderBy('id', 'asc')->get();
+
+        return view('admin.users', compact('configuration'));
     }
+
     public function show($id)
     {
         $user = User::find($id);
-        $configuration = UserConfiguration::where("user_id", $user->id)->first();
-        return view("admin.showUser", compact("user", "configuration"));
+        $configuration = UserConfiguration::where('user_id', $user->id)->first();
+
+        return view('admin.showUser', compact('user', 'configuration'));
     }
+
     public function store(array $data)
     {
         // Crear Request internamente para validación
@@ -35,7 +39,7 @@ class UserController extends Controller
         ]);
 
         // Crear el usuario
-        $user = new User();
+        $user = new User;
         $user->name = $validated['name'];
         $user->second_name = $validated['second_name'];
         $user->last_name = $validated['last_name'];
@@ -50,13 +54,17 @@ class UserController extends Controller
             'role_id' => 2,
             'dark_mode' => false,
             'report_frequency' => 'monthly',
+            'active' => true,
+            'expires_at' => now()->addYear(2),
+            'deactivated_reason' => null,
         ]);
 
     }
+
     public function update($data, $id)
     {
         $user = User::findOrFail($id);
-        $configuration = UserConfiguration::where("user_id", $user->id)->firstOrFail();
+        $configuration = UserConfiguration::where('user_id', $user->id)->firstOrFail();
 
         // Si $data es un Request, obtener los datos validados
         if ($data instanceof Request) {
@@ -65,7 +73,7 @@ class UserController extends Controller
                 'second_name' => ['nullable', 'string', 'max:255'],
                 'last_name' => ['required', 'string', 'max:255'],
                 'second_last_name' => ['nullable', 'string', 'max:255'],
-                'email' => ['required', 'email', 'unique:users,email,' . $user->id],
+                'email' => ['required', 'email', 'unique:users,email,'.$user->id],
                 'role_id' => ['required', 'integer'],
             ]);
         } else {
@@ -89,17 +97,23 @@ class UserController extends Controller
 
         return true;
     }
+
     public function destroy($id)
     {
         $user = User::find($id);
-        $configuration = UserConfiguration::where("user_id", $user->id)->first();
-        if (!$user || !$configuration) {
+        $configuration = UserConfiguration::where('user_id', $user->id)->first();
+        if (! $user || ! $configuration) {
             return redirect()->route('admin.users.index')->with('error', 'User not found');
         }
         $configuration->update(['active' => false]);
-        
 
         return redirect()->route('admin.users.index')->with('success', 'User deleted successfully');
     }
 
+    public function getRoleInt($user)
+    {
+        $userRole = UserConfiguration::where('user_id', $user->id)->firstOrFail();
+
+        return $userRole;
+    }
 }

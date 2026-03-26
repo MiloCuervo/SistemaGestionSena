@@ -6,8 +6,6 @@
             <div class="me-10 w-full pb-4 md:w-55">
                 <flux:navlist aria-label="{{ __('Settings') }}">
                     <flux:navlist.item :href="route('admin.users.show', $user->id)" wire:navigate>{{ __('Profile') }}
-                    </flux:navlist.item>
-                    <livewire:change-password-modal :user="$user" />
                 </flux:navlist>
             </div>
         </div>
@@ -54,7 +52,7 @@
         <div class="w-full p-4">
             <flux:heading size="xl" variant="strong"
                 style="font-family: 'DM Serif Display', serif; font-style: italic;">
-                Desempeño del usuario  
+                Desempeño del usuario
             </flux:heading>
 
             <flux:separator variant="subtle" />
@@ -63,7 +61,8 @@
                 <!-- Tarjeta de Sesiones -->
                 <div class="bg-zinc-900 rounded-lg border border-zinc-700 p-5">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-gray-800 bg-opacity-10 flex items-center justify-center text-blue-500 text-xl">
+                        <div
+                            class="w-10 h-10 rounded-lg bg-gray-800 bg-opacity-10 flex items-center justify-center text-blue-500 text-xl">
                             <flux:icon name="clock" />
                         </div>
                         <flux:heading size="sm" variant="strong">Sesiones</flux:heading>
@@ -87,7 +86,8 @@
                 <!-- Tarjeta de Casos -->
                 <div class="bg-zinc-900 rounded-lg border border-zinc-700 p-5">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-gray-800 bg-opacity-10 flex items-center justify-center text-orange-500 text-xl">
+                        <div
+                            class="w-10 h-10 rounded-lg bg-gray-800 bg-opacity-10 flex items-center justify-center text-orange-500 text-xl">
                             <flux:icon name="inbox-arrow-down" />
                         </div>
                         <flux:heading size="sm" variant="strong">Casos por Estado</flux:heading>
@@ -111,7 +111,8 @@
                 <!-- Tarjeta de Estadísticas -->
                 <div class="bg-zinc-900 rounded-lg border border-zinc-700 p-5">
                     <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-gray-800 bg-opacity-10 flex items-center justify-center text-purple-500 text-xl">
+                        <div
+                            class="w-10 h-10 rounded-lg bg-gray-800 bg-opacity-10 flex items-center justify-center text-purple-500 text-xl">
                             <flux:icon name="chart-bar" />
                         </div>
                         <flux:heading size="sm" variant="strong">Estadísticas</flux:heading>
@@ -136,5 +137,5 @@
         </div>
 
     </div>
-    </div>
+
 </x-layouts::app>

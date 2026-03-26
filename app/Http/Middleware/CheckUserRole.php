@@ -4,8 +4,8 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
-use Symfony\Component\HttpFoundation\Response;
 use Illuminate\Support\Facades\Auth;
+use Symfony\Component\HttpFoundation\Response;
 
 class CheckUserRole
 {
@@ -14,20 +14,14 @@ class CheckUserRole
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next, $roleId): Response
+    public function handle(Request $request, Closure $next): Response
     {
-        if (!Auth::check()) {
-            return redirect('login');
-        }
         $user = Auth::user();
-        // Obtener la configuración del usuario
-        $config = $user->configuration;
 
-        // Convertir roleId a entero para la comparación segura
-        if (!$config || $config->role_id != $roleId) {
-            abort(403, 'No tienes permiso para acceder a esta sección.');
+        if ($user->configuration?->role_id != '') {
+            return $next($request);
         }
 
-        return $next($request);
+        return redirect()->route('user.dashboard');
     }
 }

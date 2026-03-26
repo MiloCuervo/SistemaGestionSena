@@ -138,52 +138,103 @@ new class extends Component {
         </flux:dropdown>
     </div>
 
+    <div class="overflow-x-auto bg-white dark:bg-zinc-800 rounded-lg shadow dark:shadow-gray-800/50">
+        <table class="min-w-full divide-y divide-zinc-200 dark:divide-gray-700">
+            <thead class="bg-gray-50 dark:bg-zinc-800">
+                <tr>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                        wire:click="sort('user_id')">
+                        <div class="flex items-center gap-1">
+                            {{ __('User') }}
+                            @if($sortBy === 'user_id')
+                                <span class="ml-1">
+                                    @if($sortDirection === 'asc')
+                                        ↑
+                                    @else
+                                        ↓
+                                    @endif
+                                </span>
+                            @endif
+                        </div>
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        {{ __('Email') }}
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        {{ __('Role') }}
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        {{ __('Last Session') }}
+                    </th>
+                    <th scope="col"
+                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        {{ __('Actions') }}
+                    </th>
+                </tr>
+            </thead>
+            <tbody class="bg-white dark:bg-zinc-800 divide-y divide-gray-200 dark:divide-gray-700">
+                @forelse ($users as $userConfiguration)
+                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/80 transition-colors duration-200"
+                                wire:key="{{ $userConfiguration->id }}">
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="flex items-center gap-3">
+                                        <!-- Avatar con iniciales -->
+                                        <div
+                                            class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
+                                            <span class="text-sm font-medium text-indigo-800 dark:text-indigo-300">
+                                                {{ $userConfiguration->user->initials() }}
+                                            </span>
+                                        </div>
+                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                            {{ $userConfiguration->user->name . ' ' . ($userConfiguration->user->second_name ?? 'N/A') }}
+                                        </div>
+                                    </div>
+                                </td>
 
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-600 dark:text-gray-300">
+                                        {{ $userConfiguration->user->email }}
+                                    </div>
+                                </td>
 
-    <flux:table :paginate="$users">
-        <flux:table.columns>
-            <flux:table.column sortable :sorted="$sortBy === 'user_id'" :direction="$sortDirection"
-                wire:click="sort('user_id')">
-                {{ __('User') }}
-            </flux:table.column>
-            <flux:table.column> {{ __('Email') }} </flux:table.column>
-            <flux:table.column> {{ __('Role') }} </flux:table.column>
-            <flux:table.column> {{ __('Last Session') }} </flux:table.column>
-            <flux:table.column> {{ __('Actions') }} </flux:table.column>
-        </flux:table.columns>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                        {{ $userConfiguration->role->name ?? 'N/A' }}
+                                    </span>
+                                </td>
 
-        <flux:table.rows>
-            @foreach ($users as $userConfiguration)
-                <flux:table.row :key="$userConfiguration->id">
-                    <flux:table.cell class="flex items-center gap-3">
-                        <flux:avatar :name="$userConfiguration->user->name"
-                            :initials="$userConfiguration->user->initials()" />
-                        <flux:text>
-                            {{ $userConfiguration->user->name . ' ' . $userConfiguration->user->second_name ?? 'N/A' }}
-                        </flux:text>
-                    </flux:table.cell>
+                                <td class="px-6 py-4 whitespace-nowrap">
+                                    <div class="text-sm text-gray-600 dark:text-gray-300">
+                                        {{ $userConfiguration->last_activity
+                    ? \Carbon\Carbon::createFromTimestamp($userConfiguration->last_activity)->diffForHumans()
+                    : __('Never') }}
+                                    </div>
+                                </td>
 
-                    <flux:table.cell class="whitespace-nowrap">{{ $userConfiguration->user->email }}</flux:table.cell>
-
-                    <flux:table.cell variant="strong">{{ $userConfiguration->role->name ?? 'N/A' }}</flux:table.cell>
-
-                    <flux:table.cell>
-                        {{ $userConfiguration->last_activity
-                            ? Carbon::createFromTimestamp($userConfiguration->last_activity)->diffForHumans()
-                            : __('Never') }}
-                    </flux:table.cell>
-
-                    <flux:table.cell>
-
-                        <flux:button icon="identification" wire:click="showUser({{ $userConfiguration->user->id }})">
-                            {{ __('Details') }}
-                        </flux:button>
-
-
-
-                    </flux:table.cell>
-                </flux:table.row>
-            @endforeach
-        </flux:table.rows>
-    </flux:table>
-</div>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm">
+                                    <button wire:click="showUser({{ $userConfiguration->user->id }})"
+                                        class="inline-flex items-center px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 dark:bg-lime-400 dark:hover:bg-lime-900/50 text-gray-700 dark:text-gray-800 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900">
+                                        <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
+                                        </svg>
+                                        {{ __('Details') }}
+                                    </button>
+                                </td>
+                            </tr>
+                @empty
+                    <tr>
+                        <td colspan="5" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                            {{ __('No users found') }}
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+    <div>
+        <div>
