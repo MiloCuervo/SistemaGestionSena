@@ -26,13 +26,13 @@ class CasesController extends Controller
     {
         $contacts = Contact::all();
         $processes = OrganizationProcess::all();
-
-        return view('user.cases-create', compact('contacts', 'processes'));
+        $selectedContactId = request()->query('contact_id');
+        return view('user.cases-create', compact('contacts', 'processes', 'selectedContactId'));
     }
 
     public function store(Request $request)
     {
-        $request->validate([
+        $validated = $request->validate([
             'description' => 'required|string',
             'case_evidence' => 'nullable|string',
             'contact_id' => 'required|exists:contacts,id',
@@ -54,19 +54,32 @@ class CasesController extends Controller
         $case->closed_date = now()->addMonths(2);
         $case->save();
 
-        return redirect()->route('user.cases')->with('success', 'Caso creado correctamente.');
+        return redirect()->route('user.dashboard')->with('success', 'Caso creado correctamente.');
     }
 
     public function show($id)
     {
-        $case = Cases::where('user_id', Auth::id())
-            ->with(['contact', 'organizationProcess'])
-            ->findOrFail($id);
+        $case = Cases::with([
+            'contact',
+            'organizationProcess',
+            'followUps' => function ($query) {
+                $query->latest();
+            },
+        ])->findOrFail($id);
 
         $processes = OrganizationProcess::all();
         $contacts = Contact::all();
 
         return view('user.cases-show', compact('case', 'processes', 'contacts'));
+    }
+
+    public function editStatus($id)
+    {
+        $case = Cases::where('user_id', Auth::id())
+            ->with(['contact', 'organizationProcess'])
+            ->findOrFail($id);
+
+        return view('user.cases-status-edit', compact('case'));
     }
 
     public function tracking($id)
@@ -138,13 +151,13 @@ class CasesController extends Controller
         $case = Cases::where('user_id', Auth::id())->findOrFail($id);
 
         $data = $request->validate([
-            'status' => 'required|in:attended,in_progress,not_attended,',
+            'status' => 'required|in:attended,not_attended,in_progress',
         ]);
 
         $case->status = $data['status'];
         $case->save();
 
-        return redirect()->route('user.cases')->with('success', 'Estado actualizado correctamente.');
+        return redirect()->route('user.dashboard')->with('success', 'Estado actualizado correctamente.');
     }
 
     public function getAdminCases($id)

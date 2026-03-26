@@ -1,6 +1,6 @@
 @props(['processes', 'contacts', 'case' => null, 'readonly' => false])
 
-<div class="mt-6 rounded-lg border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
+<div class="rounded-lg border border-zinc-200 bg-white p-6 shadow-sm dark:border-zinc-700 dark:bg-zinc-900">
     <form action="{{ $readonly ? '#' : route('user.cases.store') }}" method="POST">
         @if(!$readonly)
             @csrf

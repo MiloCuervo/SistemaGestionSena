@@ -2,8 +2,8 @@
     @php
         $statusLabel = match ($case->status) {
             'in_progress' => 'En proceso',
-            'attended' => 'Solucionado',
-            'not_attended' => 'No solucionado',
+            'attended' => 'Atendido',
+            'not_attended' => 'No atendido',
             'closed' => 'Cerrado',
             default => $case->status,
         };
