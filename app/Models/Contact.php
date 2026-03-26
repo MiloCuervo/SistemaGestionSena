@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Contact extends Model
 {
     protected $table = 'contacts';
+
     protected $fillable = [
         'full_name',
         'identification_number',
@@ -22,5 +23,8 @@ class Contact extends Model
     public function cases()
     {
         return $this->hasMany(cases::class);
+
     }
+
+    public const PAGINATE = 15;
 }

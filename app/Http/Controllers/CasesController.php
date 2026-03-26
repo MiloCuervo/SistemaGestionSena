@@ -42,11 +42,11 @@ class CasesController extends Controller
 
         $type = $request->type === 'denunciation' ? 'complaint' : $request->type;
 
-        $case = new Cases();
-        $case->case_number = "CAD-" . date('YmdHis') . '-' . rand(1000, 9999);
+        $case = new Cases;
+        $case->case_number = 'CAD-'.date('YmdHis').'-'.rand(1000, 9999);
         $case->description = $request->description;
         $case->case_evidence = $request->case_evidence;
-        $case->status = "in_progress";
+        $case->status = 'in_progress';
         $case->type = $type;
         $case->contact_id = $request->contact_id;
         $case->organization_process_id = $request->organization_process_id;
@@ -116,11 +116,11 @@ class CasesController extends Controller
             'status' => 'required|in:attended,in_progress,not_attended,closed',
             'contact_id' => 'required|exists:contacts,id',
             'organization_process_id' => 'required|exists:organization_processes,id',
-            'description'              => 'required|string',
-            'type'                     => 'required|in:denunciation,complaint,request,right_of_petition,tutelage',
-            'status'                   => 'required|in:attended,in_progress,not_attended,closed',
-            'contact_id'               => 'required|exists:contacts,id',
-            'organization_process_id'  => 'required|exists:organization_processes,id',
+            'description' => 'required|string',
+            'type' => 'required|in:denunciation,complaint,request,right_of_petition,tutelage',
+            'status' => 'required|in:attended,in_progress,not_attended,closed',
+            'contact_id' => 'required|exists:contacts,id',
+            'organization_process_id' => 'required|exists:organization_processes,id',
         ]);
 
         if ($data['type'] === 'denunciation') {

@@ -1,25 +1,20 @@
-﻿<?php
+<?php
 
-use App\Http\Controllers\ContactsController;
-use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\RolesController;
-use App\Http\Controllers\ProcessesController;
 use App\Http\Controllers\CasesController;
+use App\Http\Controllers\ContactsController;
+use App\Http\Controllers\ProcessesController;
+use App\Http\Controllers\RolesController;
+use App\Http\Controllers\UserController;
 use App\Models\Cases;
 use Illuminate\Support\Facades\Auth;
-
-
+use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 })->name('home');
 
-
-
-
 // ==========================================
-// ADMINISTRATOR ROUTES 
+// ADMINISTRATOR ROUTES
 // ==========================================
 Route::middleware(['auth', 'verified', 'role:1'])
     ->prefix('admin')
@@ -39,7 +34,7 @@ Route::middleware(['auth', 'verified', 'role:1'])
         Route::get('/roles', RolesController::class)->name('roles');
 
         // Gestion de Procesos
-        Route::get('/processes', [ProcessesController::class, '__invoke'])->name('processes');
+        Route::get('/processes', [ProcessesController::class, 'index'])->name('processes');
         Route::post('/processes', [ProcessesController::class, 'store'])->name('processes.store');
         Route::put('/processes/{id}', [ProcessesController::class, 'update'])->name('processes.update');
         Route::delete('/processes/{id}', [ProcessesController::class, 'destroy'])->name('processes.destroy');
@@ -75,25 +70,22 @@ Route::middleware(['auth', 'verified', 'role:2'])
         Route::get('/cases-tracking', function () {
             $latestCaseId = Cases::where('user_id', Auth::id())->latest()->value('id');
 
-            if (!$latestCaseId) {
+            if (! $latestCaseId) {
                 return redirect()->route('user.cases');
             }
 
             return redirect()->route('user.cases.tracking', $latestCaseId);
         })->name('cases-tracking');
 
-
         // Gestion de Contactos
-        Route::get('/contacts', [ContactsController::class, '__invoke'])->name('contacts');
-        Route::post('/contacts', [ContactsController::class, 'store'])->name('contacts.store');
-        Route::get('/contacts/{id}', [ContactsController::class, 'show'])->name('contacts.show');
+        Route::resource('/contacts', ContactsController::class);
 
         // Gestion de Reportes
         Route::get('/reports', [UserController::class, 'reports'])->name('reports');
 
-        //Seguimientos de caso
+        // Seguimientos de caso
         Route::post('/cases/{id}/follow-ups', [CasesController::class, 'addFollowUp'])->name('cases.follow-ups');
 
     });
 
-require __DIR__ . '/settings.php';
+require __DIR__.'/settings.php';
