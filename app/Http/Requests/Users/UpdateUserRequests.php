@@ -23,8 +23,9 @@ class UpdateUserRequests extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email', 'unique:users,email'],
+            'email' => ['required', 'email', 'unique:users,email,' . $this->route('id')],
             'email_verified_at' => ['nullable', 'date'],
+            'role_id' => ['required', 'integer'],
         ];
     }
 }
