@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 
 class UserService
 {
@@ -31,14 +33,15 @@ class UserService
 
     public function create(array $data)
     {
-        DB::transaction(function () use ($data) {
+        
+        $user = DB::transaction(function () use ($data, $temporalPassword) {
             
             // 1. Crear el usuario
             $user = User::create([
                 'name'     => $data['name'],
                 'email'    => $data['email'],
                 //hashear la contraseña 
-                'password' => Hash::make($data['password']), 
+                'password' => Hash::make(Str::random(20)), 
             ]);
 
             // 2. Crear la configuración base usando la relación
@@ -54,10 +57,14 @@ class UserService
             // Crear la configuración asociada
             $user->configuration()->create($defaultConfig);
 
-            // 3. Retornar el usuario creado recargando la relación para incluir la configuración
-            return $user->fresh('configuration');
-        });
 
+            // 3. Retornar el usuario creado recargando la relación para incluir la configuración
+            return $user;
+        });
+         // Fuera de la transaction de creacion, Esto garantiza que si el correo falla, el usuario de todas formas se creó en BD.
+        Password::sendResetLink($user->only('email'));       
+
+        return $user->fresh('configuration');
     }
 
     public function update(int $id, array $data)
@@ -95,10 +102,10 @@ class UserService
         });
     }
 
-        public function getRoleInt(int $id): int
-        {
-            $configuration = $this->getBaseQuery()->findOrFail($id)->configuration;
-            return $configuration->role_id ?? 0; // Retorna 0 si no tiene rol
-        }
+    public function getRoleInt(int $id): int
+    {
+        $configuration = $this->getBaseQuery()->findOrFail($id)->configuration;
+        return $configuration->role_id ?? 0; // Retorna 0 si no tiene rol
+    }
 
 }

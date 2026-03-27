@@ -12,7 +12,7 @@ class UpdateUserRequests extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return auth()->check() && auth()->user()->isAdmin();
     }
 
     /**
@@ -23,7 +23,8 @@ class UpdateUserRequests extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'email' => ['required', 'email', 'unique:users,email'],
+            'email_verified_at' => ['nullable', 'date'],
         ];
     }
 }

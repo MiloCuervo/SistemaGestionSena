@@ -13,7 +13,7 @@ class CreateUserRequests extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return auth()->check() && auth()->user()->isAdmin();
     }
 
     /**
@@ -30,7 +30,6 @@ class CreateUserRequests extends FormRequest
             'second_last_name' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
             'email_verified_at' => ['nullable', 'date'],
-            'password' => ['required', 'string', 'min:8'],
         ];
     }
 }
