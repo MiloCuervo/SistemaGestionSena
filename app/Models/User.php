@@ -75,6 +75,15 @@ class User extends Authenticatable
         return $this->hasOne(UserConfiguration::class);
     }
 
+    public function getIsAdminAttribute()
+    {
+    // Accedemos a la relación y verificamos si el role_id es 1
+    // El ?-> evita errores si el usuario no tiene configuración creada
+    $isAdmin = $this->configuration?->role_id === 1;
+
+    return is_bool($isAdmin) ? $isAdmin : false;
+    }   
+
     public function reports()
     {
         return $this->hasMany(Report::class);
@@ -88,10 +97,5 @@ class User extends Authenticatable
     public function logins()
     {
         return $this->hasMany(Login::class);
-    }
-
-    public function activeLogin()
-    {
-        return $this->hasOne(Login::class)->whereNull('logged_out_at');
     }
 }

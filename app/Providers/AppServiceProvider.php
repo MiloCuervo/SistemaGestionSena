@@ -37,7 +37,6 @@ class AppServiceProvider extends ServiceProvider
       
         Event::listen(Login::class, LogSuccessfulLogin::class);
         Event::listen(Failed::class, LogFailedLogin::class);
-        Event::listen(Logout::class, LogLogout::class);
 
     }
 

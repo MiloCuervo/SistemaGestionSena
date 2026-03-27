@@ -3,18 +3,16 @@
 
 <head>
     @include('partials.head')
-    {{ $userRole = auth()->user()->configuration?->role_id }}
 </head>
 
 <body class="min-h-screen bg-white dark:bg-zinc-800">
-    <flux:sidebar sticky collapsible="mobile"
+    <flux:sidebar collapsible="mobile" sticky
         class="border-e border-zinc-200 bg-zinc-50 dark:border-zinc-700 dark:bg-zinc-900">
         <flux:sidebar.header>
             <x-app-logo :sidebar="true" href="{{ route('home') }}" wire:navigate />
             <flux:sidebar.collapse class="lg:hidden" />
         </flux:sidebar.header>
-
-        @if ($userRole == 1)
+        @if (auth()->user()->is_admin)
             <flux:sidebar.nav> <!-- BARRA SUPERIOR CON LOS BASICOS DEL ADMINISTRADOR-->
                 <flux:sidebar.group :heading="__('Platform')" class="grid">
                     <flux:sidebar.item icon="home" :href="route('admin.dashboard')"
@@ -116,6 +114,7 @@
 
     {{ $slot }}
 
+    @livewireScripts
     @fluxScripts
     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </body>
