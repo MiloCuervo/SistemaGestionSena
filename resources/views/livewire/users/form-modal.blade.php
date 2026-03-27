@@ -2,9 +2,10 @@
 
 use Livewire\Component;
 use Illuminate\Http\Request;
-use App\Http\Controllers\UserController;
 use App\Models\User;
 use App\Models\UserConfiguration;
+use App\Services\UserService;
+
 
 new class extends Component {
     public User $user;
@@ -17,34 +18,36 @@ new class extends Component {
     public $email;
     public $role_id;
 
-    public function mount(User $user)
+    public function mount(User $user = null)
     {
-        $this->user = $user;
-        $this->configuration = UserConfiguration::where("user_id", $user->id)->first();
+        $this->user = User::find($user?->id) ?? new User();
 
-        $this->name = $user->name;
-        $this->second_name = $user->second_name;
-        $this->last_name = $user->last_name;
-        $this->second_last_name = $user->second_last_name;
-        $this->email = $user->email;
-        $this->role_id = $this->configuration->role_id;
+        if ($this->user->exists) {
+            $this->name = $user->name;
+            $this->second_name = $user->second_name;
+            $this->last_name = $user->last_name;
+            $this->second_last_name = $user->second_last_name;
+            $this->email = $user->email;
+            $this->role_id = $this->configuration?->role_id;
+        }
+        
     }
 
     public function updateProfileInformation()
     {
         $data = $this->validate([
-            'name' => 'required|string|max:255',
-            'second_name' => 'nullable|string|max:255',
-            'last_name' => 'required|string|max:255',
-            'second_last_name' => 'nullable|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users,email,' . $this->user->id,
-            'role_id' => 'required|integer',
+            'email' => ['required|email|unique:users,email,' . $this->user->id,],
+            'role_id' => ['required|exists:roles,id'],
         ]);
 
-        if (app(UserController::class)->update($data, $this->user->id)) {
+        try {
+            $this->userService->updateUser($this->user, $data);
+
             session()->flash('success', 'Usuario actualizado correctamente.');
+
             return redirect()->route('admin.users.show', $this->user->id);
-        } else {
+
+        } catch (\Exception $e) {
             session()->flash('error', 'Error al actualizar el usuario.');
         }
     }
