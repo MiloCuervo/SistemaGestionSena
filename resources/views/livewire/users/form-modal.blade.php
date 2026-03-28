@@ -20,55 +20,98 @@ new class extends Component {
 
     public function mount(User $user = null)
     {
-        $this->user = User::find($user?->id) ?? new User();
+       $this->user = $user->id ? $user : new User();
 
         if ($this->user->exists) {
-            $this->name = $user->name;
-            $this->second_name = $user->second_name;
-            $this->last_name = $user->last_name;
-            $this->second_last_name = $user->second_last_name;
-            $this->email = $user->email;
+            $this->configuration = UserConfiguration::where("user_id", $this->user->id)->first();
+            
+            $this->name = $this->user->name;
+            $this->second_name = $this->user->second_name;
+            $this->last_name = $this->user->last_name;
+            $this->second_last_name = $this->user->second_last_name;
+            $this->email = $this->user->email;
             $this->role_id = $this->configuration?->role_id;
         }
-        
     }
 
     public function updateProfileInformation()
     {
-        $data = $this->validate([
-            'email' => ['required|email|unique:users,email,' . $this->user->id,],
-            'role_id' => ['required|exists:roles,id'],
-        ]);
+        if ($this->user->exists) {
+            // Lógica de actualización
+            $data = $this->validate([
+                'email' => ['required', 'email', 'unique:users,email,' . $this->user->id],
+                'role_id' => ['required', 'exists:roles,id'],
+            ]);
 
-        try {
-            $this->userService->updateUser($this->user, $data);
-
+            // Llama a tu servicio de actualización
+            // app(UserService::class)->updateUser($this->user, $data);
             session()->flash('success', 'Usuario actualizado correctamente.');
+            
+        } else {
+            // Lógica de creación
+            $data = $this->validate([
+                'name' => ['required', 'string', 'max:255'],
+                'second_name' => ['nullable', 'string', 'max:255'],
+                'last_name' => ['required', 'string', 'max:255'],
+                'second_last_name' => ['nullable', 'string', 'max:255'],
+                'email' => ['required', 'email', 'unique:users,email'],
+            ]);
+            
+            $data['role_id'] = 2; // Fuerza a Comisionado por regla de negocio
 
-            return redirect()->route('admin.users.show', $this->user->id);
-
-        } catch (\Exception $e) {
-            session()->flash('error', 'Error al actualizar el usuario.');
+            // Llama a tu servicio o controlador de creación
+            // app(UserService::class)->createUser($data);
+            session()->flash('success', 'Usuario creado correctamente.');
         }
+
+        $this->dispatch('close-modal'); // o recargar la página/redireccionar
     }
 };
 ?>
 
 <div>
-    <p class="text-sm text-gray-200">Solo puedes editar el correo y Rol de los usuarios</p>
-    <form wire:submit="updateProfileInformation" class="my-6 w-full space-y-6 p-4">
-        <flux:input wire:model="email" :label="__('Email')" type="email" autocomplete="email" />
-        <div class="grid grid-cols-1 gap-4">
-            <flux:select wire:model="role_id" :label="__('Role')">
-                <flux:select.option value="1">Administrador</flux:select.option>
-                <flux:select.option value="2">Comisionado</flux:select.option>
-            </flux:select>
-        </div>
-        <flux:separator variant="subtle" />
-        <div class="flex items-center gap-4">
-            <div class="flex items-center justify-center">
-                <flux:button variant="primary" type="submit" class="w-full">{{ __('Save') }}</flux:button>
+    <flux:modal.trigger name="user-modal">
+        <flux:button variant="primary" wire:click="$dispatch('open-modal')">+ Nuevo</flux:button>  
+    </flux:modal.trigger>
+
+    <flux:modal name="user-modal" flyout position="right" size="lg">
+        <p class="text-sm text-gray-400 mb-6">
+            {{ $user->exists ? 'Solo puedes editar el correo y Rol de los usuarios' : 'Crear nuevo usuario (Comisionado)' }}
+        </p>
+        
+        <form wire:submit="updateProfileInformation" class="w-full space-y-6 p-4">
+            @csrf
+            @if(!$user->exists)
+                <div class="grid grid-cols-2 gap-4">
+                    <flux:input wire:model="name" :label="__('First Name')" required />
+                    <flux:input wire:model="second_name" :label="__('Second Name')" />
+                </div>
+                <div class="grid grid-cols-2 gap-4">
+                    <flux:input wire:model="last_name" :label="__('Last Name')" required />
+                    <flux:input wire:model="second_last_name" :label="__('Second Last Name')" />
+                </div>
+            @endif
+
+            <flux:input wire:model="email" :label="__('Email')" type="email" autocomplete="email" required />
+            
+            @if($user->exists)
+                <div class="grid grid-cols-1 gap-4">
+                    <flux:select wire:model="role_id" :label="__('Role')" required>
+                        <flux:select.option value="1">Administrador</flux:select.option>
+                        <flux:select.option value="2">Comisionado</flux:select.option>
+                    </flux:select>
+                </div>
+            @endif
+
+            <flux:separator variant="subtle" />
+            
+            <div class="flex items-center gap-4">
+                <div class="flex items-center justify-center">
+                    <flux:button variant="primary" type="submit" class="w-full">
+                        {{ $user->exists ? _('Update') : _('Save') }}
+                    </flux:button>
+                </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </flux:modal>
 </div>

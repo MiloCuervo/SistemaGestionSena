@@ -54,12 +54,7 @@ new class extends Component {
             class="w-full md:w-1/3"
         />
 
-        <flux:button 
-            variant="primary"
-            wire:click="$dispatch('open-modal')"
-        >
-            + Nuevo
-        </flux:button>
+        @livewire ("users.form-modal")
 
     </div>
 
