@@ -12,8 +12,5 @@
     @livewire('users.user-stats')
     {{-- tabla de usuarios --}}
     @livewire('users.user-table')
-    {{-- Modal --}}
-    @livewire('users.form-modal')
-
     </div>
 </x-layouts::app>

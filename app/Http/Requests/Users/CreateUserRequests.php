@@ -30,6 +30,7 @@ class CreateUserRequests extends FormRequest
             'second_last_name' => ['nullable', 'string', 'max:255'],
             'email' => ['required', 'email', 'unique:users,email'],
             'email_verified_at' => ['nullable', 'date'],
+            'telephone' => ['nullable', 'integer', 'max:10'],
         ];
     }
 }
