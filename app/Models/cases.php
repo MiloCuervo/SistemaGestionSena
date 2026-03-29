@@ -43,4 +43,9 @@ class cases extends Model
     {
         return $this->hasMany(Auditing::class, 'case_id');
     }
+
+    public function scopeActive($query)
+    {
+        return $query->where('active', 1);
+    }
 }

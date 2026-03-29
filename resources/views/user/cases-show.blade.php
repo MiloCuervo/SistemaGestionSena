@@ -65,3 +65,4 @@
     </div>
 
 </x-layouts::app>
+
