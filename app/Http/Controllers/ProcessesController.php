@@ -2,50 +2,67 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\OrganizationProcess;
-use Illuminate\Http\Request;
+use App\Http\Requests\Processes\CreateProcessesRequests;
+use App\Http\Requests\Processes\UpdateProcessesRequests;
+use App\Services\Process\ProcessService;
 
 class ProcessesController extends Controller
 {
-    public function __invoke()
+    public function __construct(protected ProcessService $processService) {}
+
+    public function index()
     {
-        $processes = OrganizationProcess::all();
+        $processes = $this->processService->getAll();
         return view('admin.processes', compact('processes'));
     }
-
+    
+    /**
+     * Display the specified resource.
+     */
     public function show($id)
     {
-        $process = OrganizationProcess::find($id);
+        $process = $this->processService->find($id);
+
         return view('admin.processes', compact('process'));
     }
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'description' => 'nullable|string'
-        ]);
 
-        OrganizationProcess::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'activo' => true
-        ]);
-
-        return redirect()->route('admin.processes')->with('success', 'Proceso creado correctamente.');
-    }
-    public function update(Request $request, $id)
+    /**
+     * Store a newly created resource in storage.
+     */
+    public function store(CreateProcessesRequests $request)
     {
-        $process = OrganizationProcess::find($id);
-        $process->name = $request->name;
-        $process->description = $request->description;
-        $process->save();
-        return redirect()->route('admin.processes')->with('success', 'Proceso actualizado correctamente.');
+        $this->processService->create($request->validated());
+
+        return redirect()->route('admin.processes')->with('message', 'Proceso creado correctamente.');
     }
 
-    public function destroy($id)
+    /**
+     * Show the form for editing the specified resource.
+     */
+    public function edit(int $id)
     {
-        $process = OrganizationProcess::find($id);
-        $process->delete();
-        return redirect()->route('admin.processes')->with('success', 'Proceso eliminado correctamente.');
+        $process = $this->processService->find($id);
+
+        return view('admin.processes', compact('process'));
+    }
+
+    /**
+     * Update the specified resource in storage.
+     */
+    public function update(UpdateProcessesRequests $request, int $id)
+    {
+        $this->processService->update($id, $request->validated());
+
+        return redirect()->route('admin.processes')->with('message', 'Proceso actualizado correctamente.');
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     */
+    public function destroy(string $id)
+    {
+        $this->processService->delete($id);
+
+        return redirect()->route('admin.processes')->with('message', 'Proceso eliminado correctamente.');
     }
 }

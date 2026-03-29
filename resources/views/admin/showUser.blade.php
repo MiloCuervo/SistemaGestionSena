@@ -1,140 +1,117 @@
 <x-layouts::app>
+<div class="max-w-screen-2xl mx-auto px-8 py-8 space-y-8">
 
+    {{-- HERO SECTION --}}
+    <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex items-center justify-between shadow-sm">
+        
+        <div class="flex items-center gap-6 flex-1">
+            {{-- Avatar --}}
+            <div class="w-24 h-24 bg-lime-500 text-zinc-950 rounded-xl flex items-center justify-center text-3xl font-bold ">
+                {{ strtoupper(substr($user->name, 0, 2)) }}
+            </div>
 
-    <div class="flex items-start max-md:flex-col">
-        <div class="flex items-start max-md:flex-col">
-            <div class="me-10 w-full pb-4 md:w-55">
-                <flux:navlist aria-label="{{ __('Settings') }}">
-                    <flux:navlist.item :href="route('admin.users.show', $user->id)" wire:navigate>{{ __('Profile') }}
-                    </flux:navlist.item>
-                    <livewire:change-password-modal :user="$user" />
-                </flux:navlist>
+            {{-- Info Principal --}}
+            <div>
+                <h1 class="text-2xl font-semibold tracking-tight">
+                    {{ $user->name }} {{ $user->last_name }}
+                </h1>
+                
+                <div class="flex items-center gap-3 mt-2">
+                    <span class="px-3 py-1 text-xs rounded-lg bg-lime-700 text-lime-100">
+                        {{ $configuration->role->name ?? 'Sin rol' }}
+                    </span>
+                </div>
+
+                <p class="text-slate-300 text-sm mt-3">
+                    Comision: {{ $user->created_at->format('Y') ?? 'N/A' }}
+                </p>
             </div>
         </div>
 
-        <flux:separator vertical />
+        {{-- Porcentaje Perfil --}}
+        <div class="text-right">
+            <p class="text-xs text-zinc-400 uppercase tracking-wide">Perfil</p>
+            <p class="text-4xl font-bold text-lime-400 mt-1">40%</p>
+        </div>
+    </div>
 
-        <div class="w-full p-4 mb-4">
-            <flux:heading size="xl" variant="strong"
-                style="font-family: 'DM Serif Display', serif; font-style: italic;">{{ __('Profile') }}
-            </flux:heading>
-            <flux:separator variant="subtle" />
-            <div class="grid grid-cols-1 gap-x-6 gap-y-4 sm:grid-cols-2  p-4">
-                <div>
-                    <flux:heading level="3" size="sm" class="mb-1">{{ __('Name') }}</flux:heading>
-                    <flux:text>{{ $user->name }}</flux:text>
-                </div>
-                <div>
-                    <flux:heading level="3" size="sm" class="mb-1">{{ __('Second Name') }}</flux:heading>
-                    <flux:text>{{ $user->second_name ?? '-' }}</flux:text>
-                </div>
-                <div>
-                    <flux:heading level="3" size="sm" class="mb-1">{{ __('Last Name') }}</flux:heading>
-                    <flux:text>{{ $user->last_name }}</flux:text>
-                </div>
-                <div>
-                    <flux:heading level="3" size="sm" class="mb-1">{{ __('Second Last Name') }}</flux:heading>
-                    <flux:text>{{ $user->second_last_name ?? 'N/A' }}</flux:text>
-                </div>
-                <div>
-                    <flux:heading level="3" size="sm" class="mb-1">{{ __('Email') }}</flux:heading>
-                    <flux:text>{{ $user->email }}</flux:text>
-                </div>
-                <div>
-                    <flux:heading level="3" size="sm" class="mb-1">{{ __('Role') }}</flux:heading>
-                    <flux:text>{{ $configuration->role->name }}</flux:text>
+    {{-- GRID PRINCIPAL --}}
+    <div class="grid grid-cols-3 gap-8">
+
+        {{-- COLUMNA IZQUIERDA (Información Personal) --}}
+        <div class="col-span-2 space-y-6">
+
+            {{-- Información Personal --}}
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-sm">
+                <h2 class="text-lg font-semibold mb-4">Información Personal</h2>
+                
+                <div class="grid grid-cols-2 gap-6">
+                    <div>
+                        <p class="text-xs text-zinc-400 uppercase tracking-wide">Nombre</p>
+                        <p class="text-base font-medium mt-1">{{ $user->name }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-zinc-400 uppercase tracking-wide">Segundo Nombre</p>
+                        <p class="text-base font-medium mt-1">{{ $user->second_name ?? '-' }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-zinc-400 uppercase tracking-wide">Apellido</p>
+                        <p class="text-base font-medium mt-1">{{ $user->last_name }}</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-zinc-400 uppercase tracking-wide">Segundo Apellido</p>
+                        <p class="text-base font-medium mt-1">{{ $user->second_last_name ?? '-' }}</p>
+                    </div>
                 </div>
             </div>
-            <livewire:update-user-form :user="$user" />
+
+            {{-- Información de Contacto --}}
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-sm">
+                <h2 class="text-lg font-semibold mb-4">Información de Contacto (Editable)</h2>
+                
+                <div class="space-y-4">
+                    <div>
+                        <p class="text-xs text-zinc-400 uppercase tracking-wide">Email</p>
+                        <p class="text-base font-medium mt-1">{{ $user->email }}</p>
+                        <p class="text-xs text-zinc-400 uppercase tracking-wide">Teléfono</p>
+                        <p class="text-base font-medium mt-1">{{ $user->telephone ?? '-' }}</p>
+                    </div>
+                </div>
+            </div>
+
         </div>
 
+        {{-- COLUMNA DERECHA (Rol y Estadísticas) --}}
+        <div class="col-span-1 space-y-6">
 
-        <flux:separator vertical />
+            {{-- Rol y Seguridad --}}
+            <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 shadow-sm">
+                <h2 class="text-lg font-semibold mb-4">Rol y Seguridad</h2>
+                <flux:dropdown>
+                    <button wire:click="editUser"
+                        class="w-full bg-lime-600 hover:bg-lime-700 text-black px-4 py-3 rounded-xl font-medium transition text-sm">
+                        Editar usuario 
+                    </button>
 
-        <div class="w-full p-4">
-            <flux:heading size="xl" variant="strong"
-                style="font-family: 'DM Serif Display', serif; font-style: italic;">
-                Desempeño del usuario  
-            </flux:heading>
-
-            <flux:separator variant="subtle" />
-
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mt-4">
-                <!-- Tarjeta de Sesiones -->
-                <div class="bg-zinc-900 rounded-lg border border-zinc-700 p-5">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-gray-800 bg-opacity-10 flex items-center justify-center text-blue-500 text-xl">
-                            <flux:icon name="clock" />
-                        </div>
-                        <flux:heading size="sm" variant="strong">Sesiones</flux:heading>
-                    </div>
-                    <div class="space-y-3">
-                        <div>
-                            <div class="text-sm text-gray-500">Sesiones este mes</div>
-                            <div class="text-2xl font-bold text-white">30</div>
-                        </div>
-                        <div>
-                            <div class="text-sm text-gray-500">Última sesión</div>
-                            <div class="text-sm text-white">Ayer</div>
-                        </div>
-                        <div>
-                            <div class="text-sm text-gray-500">Última actividad</div>
-                            <div class="text-sm text-white">Hace 2 dias</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tarjeta de Casos -->
-                <div class="bg-zinc-900 rounded-lg border border-zinc-700 p-5">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-gray-800 bg-opacity-10 flex items-center justify-center text-orange-500 text-xl">
-                            <flux:icon name="inbox-arrow-down" />
-                        </div>
-                        <flux:heading size="sm" variant="strong">Casos por Estado</flux:heading>
-                    </div>
-                    <div class="space-y-2">
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">Pendiente</span>
-                            <span class="text-lg font-bold text-yellow-400">20</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">En Proceso</span>
-                            <span class="text-lg font-bold text-blue-400">5</span>
-                        </div>
-                        <div class="flex justify-between items-center">
-                            <span class="text-sm text-gray-500">Completado</span>
-                            <span class="text-lg font-bold text-green-400">4</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Tarjeta de Estadísticas -->
-                <div class="bg-zinc-900 rounded-lg border border-zinc-700 p-5">
-                    <div class="flex items-center gap-3 mb-4">
-                        <div class="w-10 h-10 rounded-lg bg-gray-800 bg-opacity-10 flex items-center justify-center text-purple-500 text-xl">
-                            <flux:icon name="chart-bar" />
-                        </div>
-                        <flux:heading size="sm" variant="strong">Estadísticas</flux:heading>
-                    </div>
-                    <div class="space-y-3">
-                        <div>
-                            <div class="text-sm text-gray-500">Promedio casos/mes</div>
-                            <div class="text-2xl font-bold text-white">12</div>
-                        </div>
-                        <div>
-                            <div class="text-sm text-gray-500">Promedio sesiones/mes</div>
-                            <div class="text-2xl font-bold text-white"> 4</div>
-                        </div>
-                        <div>
-                            <div class="text-sm text-gray-500">% Casos resueltos</div>
-                            <div class="text-2xl font-bold text-green-400">50%</div>
-                        </div>
-                    </div>
-                </div>
+                    <flux:menu>
+                            <form wire:submit.prevent="deleteUser" class="w-full">
+                                <input type="email" wire:model="userEmail" placeholder="Email del usuario"
+                                    class="w-full px-4 py-2 text-sm rounded-lg bg-zinc-800 text-zinc-200 focus:outline-none focus:ring-2 focus:ring-lime-500">
+                                <input type="telephone">
+                            </form>                     
+                    </flux:menu>
+                </flux:dropdown>
             </div>
+
+            {{-- Estadísticas de Sesiones --}}
+            <livewire:users.user-statistics :user="$user" />
 
         </div>
 
     </div>
-    </div>
+
+    {{-- TABLA DE HISTORIAL --}}
+    <livewire:users.user-sessions-table :user="$user" />
+
+</div>
 </x-layouts::app>
