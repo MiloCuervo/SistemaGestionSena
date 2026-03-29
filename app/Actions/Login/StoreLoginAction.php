@@ -14,8 +14,10 @@ class StoreLoginAction
     public function execute(LoginData $data): Login
     {
         try {
-            // Creamos el registro con los datos proporcionados
-            return Login::create($data->toArray());
+            // Convertimos el DTO a un array para crear el modelo
+            $loginData = $data->toArray();
+            // Creamos el registro con los datos proporcionados.
+            return Login::create($loginData);
 
         } catch (\Exception $e) {
             // Registramos el error para debugging
