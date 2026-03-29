@@ -18,7 +18,7 @@
 
 
         @if (auth()->user()->isAdmin())
->>>>>>> 5123fed96c77c0b99f2a73c43072608765ace576
+>>>>>>>>> Temporary merge branch 2
             <flux:sidebar.nav> <!-- BARRA SUPERIOR CON LOS BASICOS DEL ADMINISTRADOR-->
                 <flux:sidebar.group :heading="__('Platform')" class="grid">
                     <flux:sidebar.item icon="home" :href="route('admin.dashboard')"
