@@ -12,7 +12,13 @@
             <x-app-logo :sidebar="true" href="{{ route('home') }}" wire:navigate />
             <flux:sidebar.collapse class="lg:hidden" />
         </flux:sidebar.header>
+<<<<<<< HEAD
         @if (auth()->user()->is_admin)
+=======
+
+
+        @if (auth()->user()->isAdmin())
+>>>>>>> 5123fed96c77c0b99f2a73c43072608765ace576
             <flux:sidebar.nav> <!-- BARRA SUPERIOR CON LOS BASICOS DEL ADMINISTRADOR-->
                 <flux:sidebar.group :heading="__('Platform')" class="grid">
                     <flux:sidebar.item icon="home" :href="route('admin.dashboard')"
@@ -36,13 +42,13 @@
         @else
             <flux:sidebar.nav> <!-- BARRA SUPERIOR CON LOS BASICOS DEL USUARIO-->
                 <flux:sidebar.group :heading="__('Gestion')" class="grid">
-                    <flux:sidebar.item icon="chart-bar" :href="route('user.cases')"
-                        :current="request()->routeIs('user.cases')" wire:navigate>
+                    <flux:sidebar.item icon="chart-bar" :href="route('user.dashboard')"
+                        :current="request()->routeIs('user.dashboard')" wire:navigate>
                         {{ __('Dashboard') }}
                     </flux:sidebar.item>
-                    <flux:sidebar.item icon="home" :href="route('user.dashboard')"
-                        :current="request()->routeIs('user.dashboard')" wire:navigate>
-                        {{ __('My Cases') }}
+                    <flux:sidebar.item icon="home" :href="route('user.cases')"
+                        :current="request()->routeIs('user.cases')" wire:navigate>
+                        {{ __('Cases') }}
                     </flux:sidebar.item>
                     <flux:sidebar.item icon="users" :href="route('user.contacts')"
                         :current="request()->routeIs('user.contacts')" wire:navigate>
@@ -60,10 +66,6 @@
             </flux:sidebar.nav>
         @endif
         <flux:spacer />
-
-        <flux:sidebar.nav>
-
-        </flux:sidebar.nav>
 
         <x-desktop-user-menu class="hidden lg:block" :name="auth()->user()->name" />
     </flux:sidebar>

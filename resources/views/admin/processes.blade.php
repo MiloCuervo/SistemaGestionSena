@@ -25,5 +25,7 @@
         </div>
     </div>
     <flux:separator variant="subtle" />
-    <livewire:create-processes-panel />
+    
+    <livewire:processes-table/>
+
 </x-layouts::app>
