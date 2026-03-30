@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\cases;
+use App\Models\Cases;
 use App\Models\Contact;
 use App\Models\FollowUp;
 use App\Models\OrganizationProcess;
