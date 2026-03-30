@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Models\cases;
+use App\Models\Cases;
 use App\Models\User;
 use App\Notifications\CaseCreatedMail;
 use App\Notifications\CaseCreatedNotification;

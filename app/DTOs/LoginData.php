@@ -24,7 +24,7 @@ readonly class LoginData
     {
         return new self(
             user_id: $user_id,
-            ip_address: $request->ip() ?? '127.0.0.1',
+            ip_address: $request->ip() ?? null,
             user_agent: $request->userAgent() ?? 'CLI/Unknown',
             session_id: $request->hasSession() ? $request->session()->getId() : 'no-session',
         );
