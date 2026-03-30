@@ -160,10 +160,18 @@ class CasesController extends Controller
         return redirect()->route('user.dashboard')->with('success', 'Estado actualizado correctamente.');
     }
 
-    public function getAdminCases($id)
+    public function deactivate($id)
     {
-        $case = Cases::where('id', $id)->with('user', 'contact', 'organizationProcess')->first();
+        $case = Cases::where('user_id', Auth::id())->findOrFail($id);
+        $case->active = false;
+        $case->save();
 
+        return redirect()->back()->with('message', 'Caso desactivado correctamente.');
+    }
+ 
+    
+    public function getAdminCases($id){
+        $case = Cases::where('id', $id)->with('user','contact', 'organizationProcess')->first();
         return view('admin.showCase', compact('case'));
     }
 
