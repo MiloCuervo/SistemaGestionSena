@@ -3,6 +3,7 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,12 +17,20 @@ class CheckUserRole
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $user = Auth::user();
+        $user = $request->user();
 
-        if ($user->configuration?->role_id != '') {
-            return $next($request);
+        // 1. validar usuario autenticado
+        if (!$user) {
+            return redirect()->route('login')->with('message', 'El usuario no pertenece al sistema!');
         }
 
-        return redirect()->route('user.dashboard');
+        // 2. validar relación y role_id
+        $user->loadMissing('configuration.role');
+
+        if (!$user->configuration || !$user->configuration->role) { //se valida que el usuario tiene configuracion y que existe su rol 
+            return redirect()->route('user.dashboard');
+        }
+
+        return $next($request);
     }
 }

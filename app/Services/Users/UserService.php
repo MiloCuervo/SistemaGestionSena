@@ -19,6 +19,11 @@ class UserService
                 $query->where('active', true);
             });
     }    
+    
+    public function query(): Builder
+    {
+        return $this->getBaseQuery();
+    }
 
     public function getAll(): LengthAwarePaginator
     {
@@ -34,7 +39,7 @@ class UserService
     public function create(array $data)
     {
         
-        $user = DB::transaction(function () use ($data, $temporalPassword) {
+        $user = DB::transaction(function () use ($data) {
             
             // 1. Crear el usuario
             $user = User::create([
@@ -63,7 +68,6 @@ class UserService
         });
          // Fuera de la transaction de creacion, Esto garantiza que si el correo falla, el usuario de todas formas se creó en BD.
         Password::sendResetLink($user->only('email'));       
-
         return $user->fresh('configuration');
     }
 
