@@ -3,15 +3,12 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Str;
 use Laravel\Fortify\TwoFactorAuthenticatable;
-use App\Models\Cases;
-use App\Models\UserConfiguration;
-use App\Models\Report;
-use App\Models\Auditing;
 
 class User extends Authenticatable
 {
@@ -65,8 +62,13 @@ class User extends Authenticatable
         return Str::of($this->name)
             ->explode(' ')
             ->take(2)
-            ->map(fn($word) => Str::substr($word, 0, 1))
+            ->map(fn ($word) => Str::substr($word, 0, 1))
             ->implode('');
+    }
+
+    public function isAdmin()
+    {
+        return $this->configuration?->role_id === 1;
     }
 
     public function cases()
@@ -79,6 +81,15 @@ class User extends Authenticatable
         return $this->hasOne(UserConfiguration::class);
     }
 
+    public function getIsAdminAttribute()
+    {
+    // Accedemos a la relación y verificamos si el role_id es 1
+    // El ?-> evita errores si el usuario no tiene configuración creada
+    $isAdmin = $this->configuration?->role_id === 1;
+
+    return is_bool($isAdmin) ? $isAdmin : false;
+    }   
+
     public function reports()
     {
         return $this->hasMany(Report::class);
@@ -87,5 +98,10 @@ class User extends Authenticatable
     public function audittings()
     {
         return $this->hasMany(Auditing::class);
+    }
+
+    public function logins()
+    {
+        return $this->hasMany(Login::class);
     }
 }

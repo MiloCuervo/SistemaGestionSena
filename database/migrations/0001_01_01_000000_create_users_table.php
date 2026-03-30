@@ -4,7 +4,8 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
@@ -18,6 +19,7 @@ return new class extends Migration {
             $table->string('second_last_name')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
+            $table->integer('telephone')->nullable();
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();
@@ -38,6 +40,17 @@ return new class extends Migration {
             $table->integer('last_activity')->index();
         });
 
+        Schema::create('Logins', function (Blueprint $table) {
+            $table->string('id')->primary();
+            $table->foreignId('user_id')->nullable()->index()->onDelete('cascade');
+            $table->string('ip_address', 45)->nullable();
+            $table->text('user_agent')->nullable();
+            $table->string('session_id')->nullable();
+            $table->timestamp('logged_in_at')->nullable();
+            $table->timestamp('logged_out_at')->nullable();
+            $table->timestamps();
+        });
+
         Schema::create('roles', function (Blueprint $table) {
             $table->id();
             $table->string('name');
@@ -50,6 +63,8 @@ return new class extends Migration {
             $table->foreignId('user_id')->nullable()->index()->onDelete('cascade');
             $table->boolean('dark_mode')->default(false);
             $table->enum('report_frequency', ['daily', 'weekly', 'monthly'])->default('monthly');
+            $table->timestamp('expires_at')->nullable();
+            $table->string('deactivated_reason')->nullable();
             $table->boolean('active')->default(true);
             $table->timestamps();
         });

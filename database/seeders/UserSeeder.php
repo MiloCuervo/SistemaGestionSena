@@ -34,10 +34,10 @@ class UserSeeder extends Seeder
 
         $User2 = new User();
         $User2->name = 'Jhonatan';
-        $User2->second_name = 'SENA';
+        $User2->second_name = 'Alexis';
         $User2->last_name = 'Carvajal';
         $User2->second_last_name = '';
-        $User2->email = 'comisionado@sena.com';
+        $User2->email = 'jhonatan27cv@gmail.com';
         $User2->password = Hash::make('123Comisionado');
         $User2->save();
 
@@ -46,7 +46,7 @@ class UserSeeder extends Seeder
         $User3->second_name = 'SENA';
         $User3->last_name = 'Cuervo';
         $User3->second_last_name = '';
-        $User3->email = 'comisionado2@sena.com';
+        $User3->email = 'camilo.cuervojobs@gmail.com';
         $User3->password = Hash::make('123Comisionado');
         $User3->save();
 
@@ -55,7 +55,7 @@ class UserSeeder extends Seeder
         $User4->second_name = 'SENA';
         $User4->last_name = 'Quintero';
         $User4->second_last_name = '';
-        $User4->email = 'comisionado3@sena.com';
+        $User4->email = 'josequin318@gmail.com';
         $User4->password = Hash::make('123Comisionado');
         $User4->save();
     }
