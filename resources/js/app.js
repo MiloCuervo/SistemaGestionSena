@@ -1,11 +1,5 @@
-import Alpine from 'alpinejs'
-import { Livewire, Alpine as AlpineWire } from '../../vendor/livewire/livewire/dist/livewire.esm'
-
-// Registrar plugin de Livewire en Alpine
-Alpine.plugin(AlpineWire)
+import { Livewire, Alpine } from '../../vendor/livewire/livewire/dist/livewire.esm'
+import 'flux'
 
 // Iniciar Livewire
 Livewire.start()
-
-// Iniciar Alpine - Flux manejará componentes dinámicos
-Alpine.start()

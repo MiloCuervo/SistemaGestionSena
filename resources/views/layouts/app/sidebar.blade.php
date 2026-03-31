@@ -12,13 +12,7 @@
             <x-app-logo :sidebar="true" href="{{ route('home') }}" wire:navigate />
             <flux:sidebar.collapse class="lg:hidden" />
         </flux:sidebar.header>
-<<<<<<< HEAD
         @if (auth()->user()->is_admin)
-=======
-
-
-        @if (auth()->user()->isAdmin())
->>>>>>>>> Temporary merge branch 2
             <flux:sidebar.nav> <!-- BARRA SUPERIOR CON LOS BASICOS DEL ADMINISTRADOR-->
                 <flux:sidebar.group :heading="__('Platform')" class="grid">
                     <flux:sidebar.item icon="home" :href="route('admin.dashboard')"

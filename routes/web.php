@@ -80,7 +80,7 @@ Route::middleware(['auth', 'verified', 'role:2'])
         })->name('cases-tracking');
 
         // Gestion de Contactos
-        Route::get('/contacts', [ContactsController::class, '__invoke'])->name('contacts');
+        Route::get('/contacts', [ContactsController::class, 'index'])->name('contacts');
         Route::get('/contacts/create', [ContactsController::class, 'create'])->name('contacts.create');
         Route::post('/contacts', [ContactsController::class, 'store'])->name('contacts.store');
         Route::get('/contacts/{id}', [ContactsController::class, 'show'])->name('contacts.show');
