@@ -44,6 +44,7 @@ return new class extends Migration
             $table->foreignId('organization_process_id')->nullable()->index();
             $table->date('closed_date')->nullable();
             $table->timestamps();
+            $table->boolean('active')->default(true);
         });
 
         Schema::create('follow_ups', function (Blueprint $table) {

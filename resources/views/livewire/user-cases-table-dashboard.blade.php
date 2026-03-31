@@ -49,6 +49,33 @@ new class extends Component {
         $this->showModal = false;
     }
 
+    public function store()
+    {
+        $this->validate([
+            'description' => 'required|string',
+            'contact_id' => 'required|exists:contacts,id',
+            'organization_process_id' => 'required|exists:organization_processes,id',
+            'type' => 'required|string',
+            'status' => 'nullable|string',
+        ]);
+
+        $type = $this->type === 'denunciation' ? 'complaint' : $this->type;
+
+        $case = new cases();
+        $case->case_number = "CAS-" . date("Ymd") . rand(1000, 9999);
+        $case->description = $this->description;
+        $case->status = $this->status ?? 'in_progress';
+        $case->type = $type;
+        $case->contact_id = $this->contact_id;
+        $case->organization_process_id = $this->organization_process_id;
+        $case->user_id = Auth::id();
+        $case->active = 1;
+        $case->save();
+
+        $this->showModal = false;
+        $this->reset(['type', 'description', 'status', 'contact_id', 'organization_process_id']);
+        session()->flash('message', 'Caso creado correctamente.');
+    }
 
     public function updateStatus($id, $newStatus)
     {
@@ -83,7 +110,8 @@ new class extends Component {
     public function with()
     {
         $query = cases::with(['contact', 'organizationProcess'])
-            ->where('user_id', Auth::id());
+            ->where('user_id', Auth::id())
+            ->active();
 
         // Apply status filter
         if ($this->statusFilter !== '') {
@@ -227,6 +255,19 @@ new class extends Component {
                                                 d="M6 22v-2a4 4 0 014-4h4a4 4 0 014 4v2" />
                                         </svg>
                                     </a>
+                                    <form method="POST" action="{{ route('user.cases.deactivate', $caseItem->id) }}"
+                                        onsubmit="return confirm('¿Seguro que deseas desactivar este caso?');">
+                                        @csrf
+                                        @method('PUT')
+                                        <button type="submit"
+                                            class="inline-flex items-center rounded-md border border-red-200 p-2 text-red-700 shadow-sm transition hover:bg-red-50 dark:border-red-700 dark:text-red-200 dark:hover:bg-red-500/20"
+                                            title="Desactivar caso" aria-label="Desactivar caso">
+                                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                                    d="M6 18L18 6M6 6l12 12" />
+                                            </svg>
+                                        </button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>

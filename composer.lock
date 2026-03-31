@@ -3433,61 +3433,6 @@
             "time": "2026-03-10T20:25:56+00:00"
         },
         {
-            "name": "laravel/laravel",
-            "version": "v12.12.2",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/laravel.git",
-                "reference": "945f4e5a9fd3695dc0ee512f497c650fb82cfbb8"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/laravel/zipball/945f4e5a9fd3695dc0ee512f497c650fb82cfbb8",
-                "reference": "945f4e5a9fd3695dc0ee512f497c650fb82cfbb8",
-                "shasum": ""
-            },
-            "require": {
-                "laravel/framework": "^12.0",
-                "laravel/tinker": "^2.10.1",
-                "php": "^8.2"
-            },
-            "require-dev": {
-                "fakerphp/faker": "^1.23",
-                "laravel/pail": "^1.2.2",
-                "laravel/pint": "^1.24",
-                "laravel/sail": "^1.41",
-                "mockery/mockery": "^1.6",
-                "nunomaduro/collision": "^8.6",
-                "phpunit/phpunit": "^11.5.50"
-            },
-            "type": "project",
-            "extra": {
-                "laravel": {
-                    "dont-discover": []
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "App\\": "app/",
-                    "Database\\Seeders\\": "database/seeders/",
-                    "Database\\Factories\\": "database/factories/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "The skeleton application for the Laravel framework.",
-            "keywords": [
-                "framework",
-                "laravel"
-            ],
-            "support": {
-                "source": "https://github.com/laravel/laravel/tree/v12.12.2"
-            },
-            "time": "2026-03-14T16:54:00+00:00"
-        },
-        {
             "name": "laravel/prompts",
             "version": "v0.3.14",
             "source": {
@@ -9537,16 +9482,16 @@
         },
         {
             "name": "laravel/sail",
-            "version": "v1.53.0",
+            "version": "v1.55.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/sail.git",
-                "reference": "e340eaa2bea9b99192570c48ed837155dbf24fbb"
+                "reference": "67dc1b72da4e066a2fb54c1c7582fd2f140ea191"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/sail/zipball/e340eaa2bea9b99192570c48ed837155dbf24fbb",
-                "reference": "e340eaa2bea9b99192570c48ed837155dbf24fbb",
+                "url": "https://api.github.com/repos/laravel/sail/zipball/67dc1b72da4e066a2fb54c1c7582fd2f140ea191",
+                "reference": "67dc1b72da4e066a2fb54c1c7582fd2f140ea191",
                 "shasum": ""
             },
             "require": {
@@ -9596,7 +9541,7 @@
                 "issues": "https://github.com/laravel/sail/issues",
                 "source": "https://github.com/laravel/sail"
             },
-            "time": "2026-02-06T12:16:02+00:00"
+            "time": "2026-03-23T15:56:34+00:00"
         },
         {
             "name": "mockery/mockery",
