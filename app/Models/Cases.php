@@ -4,8 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class Cases extends Model
-{   
+class cases extends Model
+{
     protected $table = 'cases';
     protected $fillable = [
         'case_number',

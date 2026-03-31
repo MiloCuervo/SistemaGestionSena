@@ -34,14 +34,6 @@ class ContactsController extends Controller
 
     public function store(CreateContactsRequest $request)
     {
-        $request->validate([
-            'full_name' => 'required|string|max:255',
-            'identification_number' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255',
-            'phone' => 'nullable|string|max:15',
-            'position' => 'nullable|string|max:255',
-        ]);
-
         $contact = Contact::create([
             'full_name' => $request->full_name,
             'identification_number' => $request->identification_number,
