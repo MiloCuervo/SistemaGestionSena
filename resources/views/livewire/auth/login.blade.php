@@ -10,12 +10,12 @@
 
             <!-- Email Address -->
             <flux:input name="email" :label="__('Email address')" :value="old('email')" type="email" required autofocus
-                autocomplete="email" placeholder="email@example.com" />
+                autocomplete="email" placeholder="email@example.com" clearable/>
 
             <!-- Password -->
             <div class="relative">
                 <flux:input name="password" :label="__('Password')" type="password" required
-                    autocomplete="current-password" :placeholder="__('Password')" viewable />
+                    autocomplete="current-password" :placeholder="__('Password')" value="password" viewable/>
 
                 @if (Route::has('password.request'))
                     <flux:link class="absolute top-0 text-sm end-0" :href="route('password.request')" wire:navigate>
