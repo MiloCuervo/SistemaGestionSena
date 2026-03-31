@@ -16,20 +16,6 @@ class LogFailedLogin
      */
     public function handle(Failed $event): void
     {
-        try {
-            if ($event->user) {
-                $request = request();
-
-                Login::create([
-                    'user_id' => $event->user->id,
-                    'ip_address' => $request->ip(),
-                    'user_agent' => $request->userAgent(),
-                    'session_id' => $request->session()->getId(),
-                    'logged_in_at' => now(),
-                ]);
-            }
-        } catch (Exception $e) {
-            Log::error('Error al registrar login: '.$e->getMessage());
-        }
+        Log::info('Failed login listener triggered for user: ' . ($event->user ? $event->user->id : 'unknown user'));
     }
 }

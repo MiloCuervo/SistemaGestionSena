@@ -1,7 +1,7 @@
 <x-layouts::app>
 <div class="max-w-screen-2xl mx-auto px-8 py-8 space-y-8">
 
-    {{-- HERO SECTION --}}
+    {{-- Tarjeta  --}}
     <div class="bg-zinc-900 border border-zinc-800 rounded-2xl p-6 flex items-center justify-between shadow-sm">
         
         <div class="flex items-center gap-6 flex-1">

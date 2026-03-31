@@ -3,7 +3,6 @@
 namespace App\Listeners;
 
 use App\Actions\Login\StoreLoginAction;
-use App\DTOs\LoginData;
 use Exception;
 use Illuminate\Auth\Events\Login as LoginEvent;
 use Illuminate\Support\Facades\Log;
@@ -28,13 +27,9 @@ class LogSuccessfulLogin
         Log::info('Login listener triggered for user: ' . $event->user->id);
         
         try {
-
-            $loginData = LoginData::fromRequest(request(), $event->user->id);
-
-            $this->storeLoginAction->execute($loginData);
-
+            
             Log::info('Login event successfully recorded in database.');
-
+            
         } catch (Exception $e) {
             Log::error('Error al registrar login: '.$e->getMessage());
         }

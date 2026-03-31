@@ -45,12 +45,6 @@ new class extends Component
                 <input wire:model.live="search" type="search" placeholder="Buscar procesos..." 
                        class="block w-full pl-10 pr-3 py-2 border border-zinc-300 dark:border-zinc-700 rounded-lg bg-white dark:bg-zinc-900 text-zinc-900 dark:text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-zinc-900 dark:focus:ring-white focus:border-transparent focus:text-dar sm:text-sm transition-colors shadow-sm" />
             </div>
-
-            <button x-data x-on:click="$dispatch('open-modal', 'create-process')" 
-                    class="inline-flex items-center gap-2 px-4 py-2 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-lg font-medium text-sm hover:bg-zinc-800 dark:hover:bg-zinc-100 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-zinc-900 dark:focus:ring-white transition-colors shadow-sm">
-                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
-                Crear Proceso
-            </button>
         </div>
 
         <!-- Tabla de Procesos -->
