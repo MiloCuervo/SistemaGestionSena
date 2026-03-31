@@ -4,13 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-<<<<<<< HEAD
-class cases extends Model
-{
-=======
 class Cases extends Model
 {   
->>>>>>> main
     protected $table = 'cases';
     protected $fillable = [
         'case_number',
@@ -48,12 +43,9 @@ class Cases extends Model
     {
         return $this->hasMany(Auditing::class, 'case_id');
     }
-<<<<<<< HEAD
-=======
 
     public function scopeActive($query)
     {
         return $query->where('active', 1);
     }
->>>>>>> main
 }
