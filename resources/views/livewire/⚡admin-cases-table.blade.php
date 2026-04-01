@@ -27,10 +27,6 @@ new class extends Component {
     public string $processFilter = '';
     public string $searchError = '';
 
-    // Modal state
-    public bool $showModal = false;
-    public $selectedCase = null;
-
     public function updatingSearch()
     {
         $this->resetPage();
@@ -105,6 +101,11 @@ new class extends Component {
 <div class="mt-10 space-y-6">
     <flux:heading size="xl" level="1">{{ __('Cases of the system') }}</flux:heading>
 
+    <!-- Search Error -->
+    @if($searchError)
+        <flux:badge color="red" icon="exclamation-triangle" class="w-full">{{ $searchError }}</flux:badge>
+    @endif
+
     <!-- Filters -->
     <div class="flex flex-col sm:flex-row gap-4 items-center">
         <div class="w-full sm:w-1/3">
@@ -144,11 +145,6 @@ new class extends Component {
             </flux:menu>
         </flux:dropdown>
     </div>
-
-    <!-- Search Error -->
-    @if($searchError)
-        <flux:badge color="red" icon="exclamation-triangle" class="w-full">{{ $searchError }}</flux:badge>
-    @endif
 
     <!-- Table -->
     <flux:table :paginate="$cases">

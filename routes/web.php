@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\CasesController;
 use App\Http\Controllers\ContactsController;
 use App\Http\Controllers\ProcessesController;
@@ -41,7 +42,7 @@ Route::middleware(['auth', 'verified', 'role:1'])
         Route::get('/processes/{id}', [ProcessesController::class, 'show'])->name('processes.show');
 
         // Gestion de Reportes
-        Route::view('/reports', 'admin.reports')->name('reports');
+        Route::get('/reports', [AdminController::class, 'reports'])->name('reports');
     });
 
 // ==========================================
