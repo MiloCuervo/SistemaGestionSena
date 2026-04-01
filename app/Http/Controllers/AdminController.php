@@ -23,5 +23,10 @@ class AdminController extends Controller
     /**
     * Mostrar vista de dashboard
     */
+    public function dashboard()
+    {
+        $data = $this->adminservice->getDashboardStats();
+        return view('admin.dashboard', compact('data'));
+    }
 }
 
