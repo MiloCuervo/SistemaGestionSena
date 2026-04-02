@@ -34,6 +34,7 @@ return new class extends Migration
 
         Schema::create('cases', function (Blueprint $table) {
             $table->id();
+            $table->text('sena_number')->nullable();
             $table->text('case_number')->nullable();
             $table->text('description')->nullable();
             $table->json('case_evidence')->nullable();

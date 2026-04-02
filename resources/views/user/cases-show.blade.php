@@ -25,9 +25,9 @@
                     #{{ $case->case_number }}.</p>
             </div>
             <div class="flex flex-wrap items-center gap-2">
-                <a href="{{ route('user.cases') }}"
+                <a href="{{ route('user.dashboard') }}"
                     class="inline-flex items-center justify-center rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800">
-                    Volver
+                    Volver a panel principal
                 </a>
                 <a href="{{ route('user.cases.follow-ups.create', $case->id) }}"
                     class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200">
@@ -61,27 +61,8 @@
                 class="rounded-md border border-dashed border-zinc-300 p-6 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
                 Este caso aun no tiene seguimientos registrados.
             </div>
-            <div class="space-y-3">
-                @forelse ($case->followUps as $followUp)
-                    <article class="rounded-md border border-zinc-200 p-4 dark:border-zinc-700">
-                        <div class="flex flex-wrap items-center justify-between gap-2">
-                            <p class="text-xs font-semibold uppercase tracking-wide text-zinc-500 dark:text-zinc-400">
-                                Seguimiento #{{ $followUp->follow_up_number ?: $followUp->id }}
-                            </p>
-                            <p class="text-xs text-zinc-500 dark:text-zinc-400">
-                                {{ optional($followUp->created_at)->format('d/m/Y H:i') }}
-                            </p>
-                        </div>
-                        <p class="mt-2 whitespace-pre-line text-sm text-zinc-800 dark:text-zinc-200">
-                            {{ $followUp->description ?: 'Sin descripcion registrada.' }}
-                        </p>
-                    </article>
-                @empty
-                    <div class="rounded-md border border-dashed border-zinc-300 p-6 text-sm text-zinc-500 dark:border-zinc-700 dark:text-zinc-400">
-                        Este caso aun no tiene seguimientos registrados.
-                    </div>
-                @endforelse
-            </div>
+        @endforelse
+    </div>
         </div>
     </div>
 
