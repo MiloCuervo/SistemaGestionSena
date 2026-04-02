@@ -28,5 +28,10 @@ class AdminController extends Controller
         $data = $this->adminservice->getDashboardStats();
         return view('admin.dashboard', compact('data'));
     }
-}
 
+    public function getAdminCases($id)
+    {
+        $data = $this->adminservice->getAdminCases($id);
+        return view('admin.showCase', compact('data'));
+    }
+}

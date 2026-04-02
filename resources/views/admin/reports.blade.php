@@ -28,19 +28,19 @@
                 </svg>
             </div>
             <div class="mb-4">
-                <p class="text-xs text-blue-700 dark:text-blue-300 font-semibold mb-1">{{ $topCommissioners->first()?->name ?? 'Sin datos' }}</p>
-                <h4 class="text-3xl font-black text-blue-900 dark:text-blue-100">{{ $topCommissioners->first()?->cases_count ?? 0 }}</h4>
+                <p class="text-xs text-blue-700 dark:text-blue-300 font-semibold mb-1">{{ $data['topCommissioners']->first()?->name ?? 'Sin datos' }}</p>
+                <h4 class="text-3xl font-black text-blue-900 dark:text-blue-100">{{ $data['topCommissioners']->first()?->cases_count ?? 0 }}</h4>
             </div>
             <div class="space-y-2 pt-4 border-t border-blue-200/50 dark:border-blue-800/30">
-                @if($topCommissioners->count() > 1)
+                @if($data['topCommissioners']->count() > 1)
                 <div class="flex justify-between items-start">
                     <span class="text-[11px] text-blue-600 dark:text-blue-400 font-medium">Segundo puesto:</span>
                     <span class="text-xs font-semibold text-blue-800 dark:text-blue-200 text-right max-w-[60%]">
-                        {{ $topCommissioners->last()?->name ?? '-' }}
+                        {{ $data['topCommissioners']->last()?->name ?? '-' }}
                     </span>
                 </div>
                 <div class="text-[10px] text-blue-500 dark:text-blue-500">
-                    {{ $topCommissioners->last()?->cases_count ?? 0 }} casos
+                    {{ $data['topCommissioners']->last()?->cases_count ?? 0 }} casos
                 </div>
                 @endif
             </div>
@@ -55,19 +55,19 @@
                 </svg>
             </div>
             <div class="mb-4">
-                <p class="text-xs text-purple-700 dark:text-purple-300 font-semibold mb-1">{{ $topProcesses->first()?->name ?? 'Sin datos' }}</p>
-                <h4 class="text-3xl font-black text-purple-900 dark:text-purple-100">{{ $topProcesses->first()?->cases_count ?? 0 }}</h4>
+                <p class="text-xs text-purple-700 dark:text-purple-300 font-semibold mb-1">{{ $data['topProcesses']->first()?->name ?? 'Sin datos' }}</p>
+                <h4 class="text-3xl font-black text-purple-900 dark:text-purple-100">{{ $data['topProcesses']->first()?->cases_count ?? 0 }}</h4>
             </div>
             <div class="space-y-2 pt-4 border-t border-purple-200/50 dark:border-purple-800/30">
-                @if($topProcesses->count() > 1)
+                @if($data['topProcesses']->count() > 1)
                 <div class="flex justify-between items-start">
                     <span class="text-[11px] text-purple-600 dark:text-purple-400 font-medium">Segundo puesto:</span>
                     <span class="text-xs font-semibold text-purple-800 dark:text-purple-200 text-right max-w-[60%]">
-                        {{ $topProcesses->last()?->name ?? '-' }}
+                        {{ $data['topProcesses']->last()?->name ?? '-' }}
                     </span>
                 </div>
                 <div class="text-[10px] text-purple-500 dark:text-purple-500">
-                    {{ $topProcesses->last()?->cases_count ?? 0 }} casos
+                    {{ $data['topProcesses']->last()?->cases_count ?? 0 }} casos
                 </div>
                 @endif
             </div>
@@ -82,14 +82,14 @@
                 </svg>
             </div>
             <div class="flex items-end gap-3">
-                <h4 class="text-3xl font-black text-emerald-900 dark:text-emerald-100">{{ $activeCases }}</h4>
+                <h4 class="text-3xl font-black text-emerald-900 dark:text-emerald-100">{{ $data['activeCases'] }}</h4>
             </div>
             <div class="flex justify-between items-start">
                 <div class="mt-4 pt-4 border-t border-emerald-200/50 dark:border-emerald-800/30">
                     <span class="text-[11px] text-emerald-600 dark:text-emerald-400 font-medium">Creados Hoy:</span>
                 </div>
                 <div class="mt-4 pt-4 border-t border-emerald-200/50 dark:border-emerald-800/30 text-right">
-                    <span class="text-[11px] text-emerald-600 dark:text-emerald-200 font-medium">{{ $casesToday }} nuevos</span>
+                    <span class="text-[11px] text-emerald-600 dark:text-emerald-200 font-medium">{{ $data['casesToday'] }} nuevos</span>
                 </div>
             </div>
         </div>
@@ -103,7 +103,7 @@
                 </svg>
             </div>
             <div class="flex items-end gap-3">
-                <h4 class="text-3xl font-black text-rose-900 dark:text-rose-100">{{ $overdueCases }}</h4>
+                <h4 class="text-3xl font-black text-rose-900 dark:text-rose-100">{{ $data['overdueCases'] }}</h4>
             </div>
             <div class="mt-4 pt-4 border-t border-rose-200/50 dark:border-rose-800/30">
                 <span class="text-[11px] text-rose-600 dark:text-rose-400 font-medium">Requieren atención</span>

@@ -27,6 +27,7 @@ class CasesController extends Controller
         $contacts = Contact::all();
         $processes = OrganizationProcess::all();
         $selectedContactId = request()->query('contact_id');
+        
         return view('user.cases-create', compact('contacts', 'processes', 'selectedContactId'));
     }
 
@@ -40,7 +41,7 @@ class CasesController extends Controller
             'type' => 'required|in:denunciation,complaint,request,right_of_petition,tutelage',
         ]);
 
-        $type = $request->type === 'denunciation' ? 'complaint' : $request->type;
+       $type = $request->type === 'denunciation' ? 'complaint' : $request->type;
 
         $case = new Cases;
         $case->case_number = 'CAD-'.date('YmdHis').'-'.rand(1000, 9999);
@@ -52,7 +53,7 @@ class CasesController extends Controller
         $case->organization_process_id = $request->organization_process_id;
         $case->user_id = Auth::id();
         $case->closed_date = now()->addMonths(2);
-        $case->save();
+        $case->save(); 
 
         return redirect()->route('user.dashboard')->with('success', 'Caso creado correctamente.');
     }
@@ -168,71 +169,8 @@ class CasesController extends Controller
 
         return redirect()->back()->with('message', 'Caso desactivado correctamente.');
     }
- 
-    
-    public function getAdminCases($id){
-        $case = Cases::where('id', $id)->with('user','contact', 'organizationProcess')->first();
-        return view('admin.showCase', compact('case'));
-    }
 
-    public function adminDashboard()
-    {
-        // ── 1. Stats: una sola query groupBy en vez de 4 COUNT separados ──
-        $statusCounts = Cases::selectRaw('status, COUNT(*) as total')
-            ->groupBy('status')
-            ->pluck('total', 'status'); // Collection keyed by status
 
-        $stats = [
-            'total' => $statusCounts->sum(),
-            'attended' => $statusCounts->get('attended', 0),
-            'in_progress' => $statusCounts->get('in_progress', 0),
-            'not_attended' => $statusCounts->get('not_attended', 0),
-        ];
-
-        // ── 2. ChartData para RadialBar (reutiliza $stats, sin queries extra) ──
-        $chartData = [
-            'series' => [
-                $stats['attended'],
-                $stats['in_progress'],
-                $stats['not_attended'],
-            ],
-            'labels' => [
-                __('attended'),
-                __('in_progress'),
-                __('not_attended'),
-            ],
-        ];
-
-        // ── 3. Comisionados: withCount genera LEFT JOIN, 1 sola query ──
-        $commissioners = User::whereHas('configuration', fn ($q) => $q->where('role_id', 2))
-            ->withCount('cases')
-            ->orderBy('cases_count', 'desc')
-            ->get(['id', 'name']);
-
-        $commissionerStats = [
-            'series' => $commissioners->pluck('cases_count')->toArray(),
-            'labels' => $commissioners->pluck('name')->toArray(),
-        ];
-
-        // ── 4. Mensuales: 1 query agrupada por (mes, status), pivotada en PHP ──
-        $monthlyRaw = Cases::selectRaw('MONTH(created_at) as month, status, COUNT(*) as total')
-            ->whereYear('created_at', date('Y'))
-            ->whereIn('status', ['attended', 'in_progress', 'not_attended'])
-            ->groupBy('month', 'status')
-            ->get();
-
-        $byMonth = $monthlyRaw->groupBy('month');
-        $monthlySeries = ['attended' => [], 'in_progress' => [], 'not_attended' => []];
-
-        foreach (range(1, 12) as $m) {
-            $group = $byMonth->get($m, collect());
-            foreach (array_keys($monthlySeries) as $status) {
-                $monthlySeries[$status][] = (int) ($group->firstWhere('status', $status)?->total ?? 0);
-            }
-        }
-
-        return view('admin.dashboard', compact('stats', 'chartData', 'commissionerStats', 'monthlySeries'));
-    }
 
     public function addFollowUp(Request $request, $id)
     {

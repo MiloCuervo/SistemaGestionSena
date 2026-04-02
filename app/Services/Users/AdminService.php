@@ -114,6 +114,8 @@ class AdminService
         // 4. Total de casos
         $total = array_sum($statusData['series']);
 
+        
+
         // Consolidar todos los datos para la vista
         return [
             'total' => $total,
@@ -123,5 +125,10 @@ class AdminService
         ];
     }
 
+    public function getAdminCases($id)
+    {
+        $case = Cases::where('id', $id)->with('user','contact', 'organizationProcess')->first();
+        return compact('case');
+    }
 
 }
