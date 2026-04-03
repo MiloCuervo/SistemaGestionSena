@@ -9,6 +9,7 @@ class Cases extends Model
     protected $table = 'cases';
     protected $fillable = [
         'case_number',
+        'sena_number',
         'description',
         'case_evidence',
         'status',
@@ -23,7 +24,7 @@ class Cases extends Model
     {
         return $this->belongsTo(User::class);
     }
-
+    
     public function contact()
     {
         return $this->belongsTo(Contact::class);
@@ -46,6 +47,6 @@ class Cases extends Model
 
     public function scopeActive($query)
     {
-        return $query->where('active', 1);
+        return $query->where('active', true);
     }
 }

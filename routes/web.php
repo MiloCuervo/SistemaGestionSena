@@ -23,8 +23,8 @@ Route::middleware(['auth', 'verified', 'role:1'])
     ->group(function () {
 
         // Dashboard Admin
-        Route::get('/dashboard', [CasesController::class, 'adminDashboard'])->name('dashboard');
-        Route::get('/cases/{id}', [CasesController::class, 'getAdminCases'])->name('cases.show');
+        Route::get('/dashboard', [AdminController::class, 'adminDashboard'])->name('dashboard');
+        Route::get('/cases/{id}', [AdminController::class, 'getAdminCases'])->name('cases.show');
 
         // Gestion de Usuarios
         Route::get('/users', [UserController::class, 'index'])->name('users');
@@ -62,7 +62,6 @@ Route::middleware(['auth', 'verified', 'role:2'])
         Route::post('/new-case', [CasesController::class, 'store'])->name('cases.store');
         Route::get('/cases/{id}/edit', [CasesController::class, 'edit'])->name('cases.edit');
         Route::get('/cases/{id}/status/edit', [CasesController::class, 'editStatus'])->name('cases.status.edit');
-        Route::put('/cases/{id}', [CasesController::class, 'update'])->name('cases.update');
         Route::put('/cases/{id}/status', [CasesController::class, 'updateStatus'])->name('cases.update-status');
         Route::put('/cases/{id}/deactivate', [CasesController::class, 'deactivate'])->name('cases.deactivate');
         Route::get('/cases/{id}/tracking', [CasesController::class, 'tracking'])->name('cases.tracking');
