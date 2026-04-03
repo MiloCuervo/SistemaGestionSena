@@ -9,29 +9,35 @@ use Carbon\Carbon;
 
 class NotifyClosingCases extends Command
 {
-    /**
-     * The name and signature of the console command.
-     *
-     * @var string
-     */
     protected $signature = 'app:notify-closing-cases';
+    protected $description = 'Notifica casos próximos a cerrar';
 
-    /**
-     * The console command description.
-     *
-     * @var string
-     */
-    protected $description = 'Command description';
-
-    /**
-     * Execute the console command.
-     */
     public function handle()
     {
-        $targetDate = Carbon::now()->addDays(15)->toDateString();
-        $cases = Cases::where('closed_date', $targetDate)->get();
+        $start = Carbon::now()->addDays(1)->toDateString();
+        $end = Carbon::now()->addDays(10)->toDateString();
+
+        $this->info("Buscando casos con fecha de cierre entre: {$start} y {$end}");
+
+        $cases = Cases::whereBetween('closed_date', [$start, $end])->get();
+
+        $this->info("Total de casos encontrados: " . $cases->count());
+
+        if ($cases->isEmpty()) {
+            $this->warn("No hay casos en ese proximos a cerrar.");
+            return;
+        }
+
         foreach ($cases as $case) {
+            $this->line("Procesando caso número: {$case->case_number}, cierra: {$case->closed_date}");
+
+            if (!$case->user) {
+                $this->error("El caso no tiene usuario asociado (user_id = {$case->user_id})");
+                continue;
+            }
+
             $case->user->notify(new CaseClosingSoonNotification($case));
+            $this->info("Notificación enviada al usuario {$case->user->name}");
         }
     }
 }

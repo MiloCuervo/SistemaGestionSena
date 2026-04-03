@@ -35,9 +35,8 @@ class CaseClosingSoonNotification extends Notification implements ShouldQueue
     public function toDatabase(object $notifiable): array
     {
         return [
-            'case_id' => $this->case->id,
-            'title' => 'Case Closing Soon',
-            'message' => 'The case # ' . $this->case->case_number . ' is closing soon on ' . $this->case->closed_date,
+            'title' => 'Caso proximo a cerrar',
+            'message' => 'El caso # ' . $this->case->case_number . ' se cerrara en la diguiente fecha: ' . $this->case->closed_date,
         ];
     }
 
