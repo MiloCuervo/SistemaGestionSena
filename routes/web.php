@@ -23,8 +23,8 @@ Route::middleware(['auth', 'verified', 'role:1'])
     ->group(function () {
 
         // Dashboard Admin
-        Route::get('/dashboard', [CasesController::class, 'adminDashboard'])->name('dashboard');
-        Route::get('/cases/{id}', [CasesController::class, 'getAdminCases'])->name('cases.show');
+        Route::get('/dashboard', [AdminController::class, 'adminDashboard'])->name('dashboard');
+        Route::get('/cases/{id}', [AdminController::class, 'getAdminCases'])->name('cases.show');
 
         // Gestion de Usuarios
         Route::get('/users', [UserController::class, 'index'])->name('users');

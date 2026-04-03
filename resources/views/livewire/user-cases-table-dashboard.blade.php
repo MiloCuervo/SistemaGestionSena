@@ -221,13 +221,13 @@ new class extends Component {
                                         </svg>
                                     </a>
                                     <form method="POST" action="{{ route('user.cases.deactivate', $caseItem->id) }}"
-                                        onsubmit="return confirm('¿Seguro que deseas desactivar este caso?');"
+                                        onsubmit="return confirm('¿Seguro que deseas eliminar este caso?');"
                                         class="w-full sm:w-auto">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit"
                                             class="w-full sm:w-auto rounded-md border border-red-200 p-2 text-red-700 shadow-sm transition hover:bg-red-50 dark:border-red-700 dark:text-red-200 dark:hover:bg-red-500/20"
-                                            title="Desactivar caso" aria-label="Eliminar caso">
+                                            title="Eliminar caso" aria-label="Eliminar caso">
                                             <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M6 18L18 6M6 6l12 12" />

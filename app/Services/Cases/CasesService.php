@@ -6,43 +6,41 @@ use App\Models\Cases;
 use App\Models\FollowUp;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\DB;
 
 class CasesService
 {
-    protected function baseQuery(): Builder
+    protected function getBaseQuery(User $user): Builder
     {
-        return Cases::with(['contact', 'organizationProcess', 'user']);
+        return Cases::with(['contact', 'organizationProcess', 'user'])
+        ->where('user_id', $user->id);
     }
 
-    public function getIndexCases(User $user)
+    public function query(User $user): Builder
     {
-        if ($user->isAdmin()) {
-            return $this->baseQuery()->latest()->get();
-        }
-
-        return $this->baseQuery()
-            ->where('user_id', $user->id)
-            ->latest()
-            ->get();
+        return $this->getBaseQuery($user);
     }
 
-    public function findForUserOrAdmin(int $id, User $user, array $with = []): Cases
+    public function getAll(User $user): LengthAwarePaginator
     {
-        $query = Cases::query()->with($with);
-
-        if (!$user->isAdmin()) {
-            $query->where('user_id', $user->id);
-        }
-
-        return $query->findOrFail($id);
+        $query = $this->getBaseQuery($user)->latest();
+        return $query->paginate(Cases::PAGINATE);
     }
 
-    public function findForUser(int $id, int $userId, array $with = []): Cases
+    public function find(User $user, int $id): Cases
     {
-        return Cases::with($with)
-            ->where('user_id', $userId)
-            ->findOrFail($id);
+        return $this->getBaseQuery($user)->findOrFail($id);
+    }
+
+    public function getUserCases(User $user): Builder
+    {
+        return $this->getBaseQuery($user);
+    }
+
+    public function getIndexCases(User $user): LengthAwarePaginator
+    {
+        return $this->getBaseQuery($user)->latest()->paginate(Cases::PAGINATE);
     }
 
     public function create(array $data, User $user): Cases
@@ -67,7 +65,7 @@ class CasesService
 
     public function updateStatus(int $id, array $data, User $user): Cases
     {
-        $case = $this->findForUserOrAdmin($id, $user);
+        $case = $this->getBaseQuery($user)->findOrFail($id);
         $case->status = $data['status'];
         $case->save();
 
@@ -76,7 +74,7 @@ class CasesService
 
     public function deactivate(int $id, User $user): Cases
     {
-        $case = $this->findForUserOrAdmin($id, $user);
+        $case = $this->getBaseQuery($user)->findOrFail($id);
         $case->active = false;
         $case->save();
 
@@ -85,7 +83,7 @@ class CasesService
 
     public function addFollowUp(int $id, array $data, User $user, ?array $evidencePaths = null): FollowUp
     {
-        $case = $this->findForUserOrAdmin($id, $user);
+        $case = $this->getBaseQuery($user)->findOrFail($id);
 
         $nextFollowUpNumber = ((int) $case->followUps()->max('follow_up_number')) + 1;
 

@@ -9,7 +9,6 @@ use App\Http\Requests\Cases\UpdateCaseStatusRequest;
 use App\Models\Cases;
 use App\Models\Contact;
 use App\Models\OrganizationProcess;
-use App\Models\User;
 use App\Services\Cases\CasesService;
 use Illuminate\Support\Facades\Auth;
 
@@ -46,13 +45,13 @@ class CasesController extends Controller
 
     public function show($id)
     {
-        $case = $this->casesService->findForUserOrAdmin($id, Auth::user(), [
+        $case = $this->casesService->getUserCases(Auth::user())->with([
             'contact',
             'organizationProcess',
             'followUps' => function ($query) {
                 $query->latest();
             },
-        ]);
+        ])->findOrFail($id);
 
         $processes = OrganizationProcess::all();
         $contacts = Contact::all();
@@ -62,22 +61,25 @@ class CasesController extends Controller
 
     public function editStatus($id)
     {
-        $case = $this->casesService->findForUser($id, Auth::id(), ['contact', 'organizationProcess']);
+        $case = $this->casesService->getUserCases(Auth::user())
+            ->with(['contact', 'organizationProcess'])
+            ->findOrFail($id);
 
         return view('user.cases-status-edit', compact('case'));
     }
 
     public function tracking($id)
     {
-        $case = $this->casesService->findForUser($id, Auth::id(), [
+        $case = $this->casesService->getUserCases(Auth::user())->with([
             'contact',
             'organizationProcess',
             'followUps' => function ($query) {
                 $query->latest();
             },
-        ]);
+        ])->findOrFail($id);
 
-        $userCases = Cases::where('user_id', Auth::id())
+        $userCases = $this->casesService->getUserCases(Auth::user())
+            ->active()
             ->latest()
             ->get(['id', 'case_number', 'status']);
 
@@ -86,7 +88,9 @@ class CasesController extends Controller
 
     public function createFollowUp($id)
     {
-        $case = $this->casesService->findForUser($id, Auth::id(), ['contact', 'organizationProcess']);
+        $case = $this->casesService->getUserCases(Auth::user())
+            ->with(['contact', 'organizationProcess'])
+            ->findOrFail($id);
 
         return view('user.cases-followup-create', compact('case'));
     }
@@ -104,8 +108,6 @@ class CasesController extends Controller
 
         return redirect()->back()->with('message', 'Caso desactivado correctamente.');
     }
-
-
 
     public function addFollowUp(AddFollowUpRequest $request, $id)
     {
