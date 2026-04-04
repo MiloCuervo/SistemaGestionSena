@@ -1,78 +1,102 @@
 <x-layouts::app :title="__('Crear caso')">
     <div class="mx-auto max-w-3xl px-6 py-8 lg:px-8">
+        {{-- Header --}}
         <div class="flex flex-col gap-4">
-            <div>
-                <h1 class="text-2xl font-semibold text-zinc-900 dark:text-white">Crear caso</h1>
-                <p class="text-sm text-zinc-500 dark:text-zinc-400">Registra un nuevo caso.</p>
-            </div>
             <div class="flex items-center gap-2">
-                <a href="{{ route('user.cases') }}"
-                    class="inline-flex items-center justify-center rounded-md border border-zinc-300 px-4 py-2 text-sm font-semibold text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800">
+                <flux:button variant="ghost" href="{{ route('user.cases') }}">
+                    <flux:icon.arrow-left />
                     Volver
-                </a>
+                </flux:button>
+            </div>
+            <div>
+                <flux:heading size="lg">Crear caso</flux:heading>
+                <flux:subheading>Registra un nuevo caso en el sistema.</flux:subheading>
             </div>
         </div>
 
+<<<<<<< Updated upstream
         <form action="{{ route('user.cases.store') }}" method="POST" enctype="multipart/form-data" class="mt-6 space-y-6">
+=======
+        {{-- Form --}}
+        <form action="{{ route('user.cases.store') }}" method="POST" class="mt-6 space-y-6">
+>>>>>>> Stashed changes
             @csrf
 
             <div class="space-y-4">
-                <div>
-                    <label for="type" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Tipo de caso</label>
-                    <select name="type" id="type"
-                        class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
-                        <option value="request">Solicitud</option>
-                        <option value="denunciation">Denuncia</option>
-                        <option value="complaint">Queja</option>
-                        <option value="right_of_petition">Derecho de peticion</option>
-                        <option value="tutelage">Tutela</option>
-                    </select>
-                </div>
+                {{-- Tipo de Caso --}}
+                <flux:select name="type" label="Tipo de caso" value="{{ old('type') }}">
+                    <option value="">Seleccionar tipo</option>
+                    <option value="request">Solicitud</option>
+                    <option value="denunciation">Denuncia</option>
+                    <option value="complaint">Queja</option>
+                    <option value="right_of_petition">Derecho de petición</option>
+                    <option value="tutelage">Tutela</option>
+                </flux:select>
+                @error('type')
+                    <flux:error>{{ $message }}</flux:error>
+                @enderror
 
-                <div>
-                    <label for="sena_number" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Radicado Sena</label>
-                    <input type="text" name="sena_number" id="sena_number"
-                        class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white"
-                        placeholder="Opcional, solo para casos relacionados con el Sena">
-                    </div>
+                {{-- Radicado Sena --}}
+                <flux:input 
+                    type="text"
+                    name="sena_number" 
+                    label="Radicado Sena"
+                    placeholder="Opcional, solo para casos relacionados con el Sena"
+                    icon="document-text"
+                    value="{{ old('sena_number') }}"
+                />
+                @error('sena_number')
+                    <flux:error>{{ $message }}</flux:error>
+                @enderror
 
-                <div>
-                    <label for="organization_process_id" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Proceso</label>
-                    <select name="organization_process_id" id="organization_process_id"
-                        class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
-                        @foreach ($processes as $process)
-                            <option value="{{ $process->id }}">{{ $process->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
+                {{-- Proceso --}}
+                <flux:select name="organization_process_id" label="Proceso" value="{{ old('organization_process_id') }}">
+                    <option value="">Seleccionar proceso</option>
+                    @foreach ($processes as $process)
+                        <option value="{{ $process->id }}">{{ $process->name }}</option>
+                    @endforeach
+                </flux:select>
+                @error('organization_process_id')
+                    <flux:error>{{ $message }}</flux:error>
+                @enderror
 
+                {{-- Contacto --}}
                 <div>
-                    <label for="contact_id" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Contacto</label>
+                    <label for="contact_id" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200 mb-2">
+                        Contacto
+                    </label>
                     <div class="flex gap-2">
-                        <select name="contact_id" id="contact_id"
-                            class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
+                        <flux:select 
+                            name="contact_id" 
+                            id="contact_id"
+                            class="flex-1"
+                            value="{{ old('contact_id', $selectedContactId ?? null) }}"
+                        >
                             <option value="">Seleccionar contacto</option>
                             @foreach ($contacts as $contact)
-                                <option value="{{ $contact->id }}" {{ (old('contact_id', $selectedContactId ?? null) == $contact->id) ? 'selected' : '' }}>
+                                <option value="{{ $contact->id }}">
                                     {{ $contact->full_name }}
                                 </option>
                             @endforeach
-                        </select>
+                        </flux:select>
                         <flux:modal.trigger name="create-contact">
-                            <button type="button" x-data x-on:click="$dispatch('open-modal', 'create-contact')"
-                                class="mt-1 inline-flex items-center rounded-md border border-zinc-300 bg-white p-2 hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white"
-                                aria-label="Crear contacto">
-                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                                </svg>
-                            </button>
+                            <flux:button 
+                                type="button" 
+                                variant="ghost"
+                                icon="user-plus"
+                                aria-label="Crear contacto"
+                            />
                         </flux:modal.trigger>
                     </div>
-                    <p class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
+                    <flux:subheading size="sm" class="mt-2">
                         Si no existe el contacto, crea uno nuevo y luego selecciónalo aquí.
-                    </p>
+                    </flux:subheading>
+                    @error('contact_id')
+                        <flux:error>{{ $message }}</flux:error>
+                    @enderror
                 </div>
 
+<<<<<<< Updated upstream
                 <div>
                     <label for="description" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Descripcion</label>
                     <textarea name="description" id="description" rows="5"
@@ -85,17 +109,30 @@
                         class="mt-1 block w-full text-sm text-zinc-700 file:mr-3 file:rounded-md file:border-0 file:bg-zinc-100 file:px-3 file:py-2 file:font-medium file:text-zinc-700 hover:file:bg-zinc-200 dark:text-zinc-300 dark:file:bg-zinc-800 dark:file:text-zinc-100 dark:hover:file:bg-zinc-700" />
                     <p class="mt-1 text-xs text-zinc-500 dark:text-zinc-400">Formatos permitidos: PDF, PNG, JPG. Máximo 5MB.</p>
                 </div>
+=======
+                {{-- Descripción --}}
+                <flux:textarea 
+                    name="description"
+                    label="Descripción"
+                    placeholder="Describe los detalles del caso..."
+                    rows="5"
+                >{{ old('description') }}</flux:textarea>
+                @error('description')
+                    <flux:error>{{ $message }}</flux:error>
+                @enderror
+>>>>>>> Stashed changes
             </div>
 
-            <div>
-                <button type="submit"
-                    class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+            {{-- Submit Button --}}
+            <div class="flex gap-2">
+                <flux:button type="submit" variant="primary" color="lime">
                     Crear Caso
-                </button>
+                </flux:button>
             </div>
         </form>
     </div>
 
+    {{-- Modal para crear contacto --}}
     <livewire:create-contact-modal />
 
     <script>
@@ -119,6 +156,8 @@
                 const closeButton = document.querySelector('[data-close-contact-modal]');
                 if (closeButton) {
                     closeButton.click();
+                } else {
+                    document.querySelector('[data-flux-close]')?.click();
                 }
             });
         });

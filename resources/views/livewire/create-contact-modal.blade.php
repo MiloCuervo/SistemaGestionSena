@@ -30,74 +30,89 @@ new class extends Component
     }
 };
 ?>
-
 <flux:modal name="create-contact" focusable class="max-w-2xl">
     <div class="space-y-6">
+        {{-- Header --}}
         <div>
             <flux:heading size="lg">Crear contacto</flux:heading>
-            <flux:subheading>Registra un nuevo contacto.</flux:subheading>
+            <flux:subheading>Registra un nuevo contacto en el sistema.</flux:subheading>
         </div>
 
+        {{-- Form --}}
         <form wire:submit="save" class="space-y-6">
             <div class="space-y-4">
-                <div>
-                    <label for="modal_full_name" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Nombre completo</label>
-                    <input type="text" id="modal_full_name" wire:model.defer="full_name"
-                        class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white" />
-                    @error('full_name')
-                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
-                    @enderror
-                </div>
+                {{-- Nombre Completo --}}
+                <flux:input 
+                    wire:model.defer="full_name"
+                    label="Nombre completo"
+                    placeholder="Ej: Juan Carlos Pérez"
+                    icon="user"
+                />
+                @error('full_name')
+                    <flux:error>{{ $message }}</flux:error>
+                @enderror
 
-                <div>
-                    <label for="modal_identification_number" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Numero de identificacion</label>
-                    <input type="text" id="modal_identification_number" wire:model.defer="identification_number"
-                        class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white" />
-                    @error('identification_number')
-                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
-                    @enderror
-                </div>
+                {{-- Documento de Identidad --}}
+                <flux:input 
+                    wire:model.defer="identification_number"
+                    label="Número de identificación"
+                    placeholder="Ej: 1234567890"
+                    icon="identification"
+                />
+                @error('identification_number')
+                    <flux:error>{{ $message }}</flux:error>
+                @enderror
 
+                {{-- Email y Teléfono --}}
                 <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
-                        <label for="modal_email" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Correo</label>
-                        <input type="email" id="modal_email" wire:model.defer="email"
-                            class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white" />
+                        <flux:input 
+                            type="email"
+                            wire:model.defer="email"
+                            label="Correo electrónico"
+                            placeholder="ejemplo@correo.com"
+                            icon="envelope"
+                        />
                         @error('email')
-                            <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
                     <div>
-                        <label for="modal_phone" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Telefono</label>
-                        <input type="text" id="modal_phone" wire:model.defer="phone"
-                            class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white" />
+                        <flux:input 
+                            type="tel"
+                            wire:model.defer="phone"
+                            label="Teléfono"
+                            placeholder="Ej: +57 300 1234567"
+                            icon="phone"
+                        />
                         @error('phone')
-                            <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
+                            <flux:error>{{ $message }}</flux:error>
                         @enderror
                     </div>
                 </div>
 
-                <div>
-                    <label for="modal_position" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Cargo</label>
-                    <input type="text" id="modal_position" wire:model.defer="position"
-                        class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white" />
-                    @error('position')
-                        <p class="mt-1 text-xs text-red-600 dark:text-red-400">{{ $message }}</p>
-                    @enderror
-                </div>
+                {{-- Cargo --}}
+                <flux:input 
+                    wire:model.defer="position"
+                    label="Cargo"
+                    placeholder="Ej: Gerente de Proyectos"
+                    icon="briefcase"
+                />
+                @error('position')
+                    <flux:error>{{ $message }}</flux:error>
+                @enderror
             </div>
 
+            {{-- Actions --}}
             <div class="flex justify-end gap-2">
                 <flux:modal.close>
-                    <button type="button" data-close-contact-modal
-                        class="inline-flex items-center justify-center rounded-md border border-zinc-300 px-4 py-2 text-sm font-medium text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-800">
+                    <flux:button variant="ghost">
                         Cancelar
-                    </button>
+                    </flux:button>
                 </flux:modal.close>
-                <button type="submit"
-                    class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                <flux:button type="submit" variant="primary" color="lime">
                     Guardar contacto
-                </button>
+                </flux:button>
             </div>
         </form>
     </div>
