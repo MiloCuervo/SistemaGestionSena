@@ -33,6 +33,7 @@ class CasesController extends Controller
         $contacts = Contact::all();
         $processes = OrganizationProcess::all();
         $selectedContactId = request()->query('contact_id');
+        
         return view('user.cases-create', compact('contacts', 'processes', 'selectedContactId'));
     }
 
@@ -108,6 +109,8 @@ class CasesController extends Controller
 
         return redirect()->back()->with('message', 'Caso desactivado correctamente.');
     }
+
+
 
     public function addFollowUp(AddFollowUpRequest $request, $id)
     {

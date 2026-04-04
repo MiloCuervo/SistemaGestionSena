@@ -23,13 +23,14 @@ Route::middleware(['auth', 'verified', 'role:1'])
     ->group(function () {
 
         // Dashboard Admin
-        Route::get('/dashboard', [AdminController::class, 'adminDashboard'])->name('dashboard');
+        Route::get('/dashboard', [AdminController::class, 'Dashboard'])->name('dashboard');
         Route::get('/cases/{id}', [AdminController::class, 'getAdminCases'])->name('cases.show');
 
         // Gestion de Usuarios
         Route::get('/users', [UserController::class, 'index'])->name('users');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
         Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+        Route::patch('/users/{id}', [UserController::class, 'update'])->name('users.update');
 
         // Gestion de Roles
         Route::get('/roles', RolesController::class)->name('roles');

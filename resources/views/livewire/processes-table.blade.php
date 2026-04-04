@@ -9,6 +9,7 @@ new class extends Component
 {
     use WithPagination;
 
+    public $modalopen = false;
     public $search = '';
 
     #[Computed]
