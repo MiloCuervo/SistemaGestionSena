@@ -93,11 +93,11 @@ new class extends Component {
     <div class="flex flex-col gap-4 sm:flex-row sm:items-center">
         <div class="w-full sm:w-1/3">
             <input type="text" wire:model.live="search" placeholder="Buscar por número, descripción o usuario..."
-                class="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm shadow-sm focus:border-zinc-900 focus:ring-zinc-900 hover:border-zinc-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:border-zinc-300" />
+                class="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm shadow-sm focus:border-lime-500 focus:ring-lime-500 hover:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:border-zinc-500 dark:focus:border-lime-400 dark:focus:ring-lime-400" />
         </div>
         <div class="w-full sm:w-1/4">
             <select wire:model.live="statusFilter"
-                class="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm shadow-sm focus:border-zinc-900 focus:ring-zinc-900 hover:border-zinc-800 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:border-zinc-300">
+                class="w-full rounded-md border border-zinc-300 px-3 py-2 text-sm shadow-sm focus:border-lime-500 focus:ring-lime-500 hover:border-zinc-500 dark:border-zinc-700 dark:bg-zinc-800 dark:text-white dark:hover:border-zinc-500 dark:focus:border-lime-400 dark:focus:ring-lime-400">
                 <option value="">Todos los estados</option>
                 <option value="in_progress">En proceso</option>
                 <option value="attended">Atendido</option>
@@ -172,7 +172,7 @@ new class extends Component {
                             <td class="px-6 py-4 text-sm">
                             <div class="flex items-center gap-2">
                                     <a href="{{ route('user.cases.show', $caseItem->id) }}"
-                                        class="inline-flex items-center rounded-md border border-zinc-200 p-2 text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-400"
+                                        class="inline-flex items-center rounded-md border border-zinc-200 p-2 text-zinc-700 shadow-sm transition hover:border-lime-300 hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:border-lime-500 dark:hover:bg-zinc-700"
                                         title="Ver caso" aria-label="Ver caso">
                                         <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"

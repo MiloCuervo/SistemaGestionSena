@@ -62,7 +62,7 @@
                         Cancelar
                     </a>
                     <button type="submit"
-                        class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200">
+                        class="inline-flex items-center justify-center rounded-md bg-lime-600 px-3 py-2 text-xs font-semibold text-white shadow-sm transition hover:bg-lime-500 dark:bg-lime-500 dark:text-zinc-950 dark:hover:bg-lime-400">
                         Guardar seguimiento
                     </button>
                 </div>

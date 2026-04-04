@@ -24,7 +24,7 @@
                     Volver
                 </a>
                 <a href="{{ route('user.cases.show', $case->id) }}"
-                    class="inline-flex items-center justify-center rounded-md bg-zinc-900 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-zinc-800 dark:bg-zinc-100 dark:text-zinc-900 dark:hover:bg-zinc-200">
+                    class="inline-flex items-center justify-center rounded-md bg-lime-600 px-4 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-lime-500 dark:bg-lime-500 dark:text-zinc-950 dark:hover:bg-lime-400">
                     Ver caso
                 </a>
             </div>
@@ -71,14 +71,14 @@
                     <div>
                         <label for="status" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Nuevo estado</label>
                         <select name="status" id="status"
-                            class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
+                            class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-lime-500 focus:ring-lime-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white dark:focus:border-lime-400 dark:focus:ring-lime-400">
                             <option value="attended" {{ $case->status === 'attended' ? 'selected' : '' }}>Atendido</option>
                             <option value="not_attended" {{ $case->status === 'not_attended' ? 'selected' : '' }}>No atendido</option>
                             <option value="in_progress" {{ $case->status === 'in_progress' ? 'selected' : '' }}>En proceso</option>
                         </select>
                     </div>
                     <button type="submit"
-                        class="inline-flex items-center justify-center rounded-md border border-transparent bg-indigo-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
+                        class="inline-flex items-center justify-center rounded-md border border-transparent bg-lime-600 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-lime-500 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2 dark:bg-lime-500 dark:text-zinc-950 dark:hover:bg-lime-400">
                         Guardar estado
                     </button>
                 </form>

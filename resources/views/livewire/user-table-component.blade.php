@@ -138,12 +138,12 @@ new class extends Component {
         </flux:dropdown>
     </div>
 
-    <div class="overflow-x-auto bg-white dark:bg-zinc-800 rounded-lg shadow dark:shadow-gray-800/50">
-        <table class="min-w-full divide-y divide-zinc-200 dark:divide-gray-700">
-            <thead class="bg-gray-50 dark:bg-zinc-800">
+    <div class="overflow-x-auto rounded-lg bg-white shadow dark:bg-zinc-800 dark:shadow-zinc-900/40">
+        <table class="min-w-full divide-y divide-zinc-200 dark:divide-zinc-700">
+            <thead class="bg-zinc-50 dark:bg-zinc-800">
                 <tr>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider cursor-pointer hover:text-gray-700 dark:hover:text-gray-200"
+                        class="cursor-pointer px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 hover:text-zinc-700 dark:text-zinc-400 dark:hover:text-zinc-200"
                         wire:click="sort('user_id')">
                         <div class="flex items-center gap-1">
                             {{ __('User') }}
@@ -159,56 +159,56 @@ new class extends Component {
                         </div>
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                         {{ __('Email') }}
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                         {{ __('Role') }}
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                         {{ __('Last Session') }}
                     </th>
                     <th scope="col"
-                        class="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-400 uppercase tracking-wider">
+                        class="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-zinc-500 dark:text-zinc-400">
                         {{ __('Actions') }}
                     </th>
                 </tr>
             </thead>
-            <tbody class="bg-white dark:bg-zinc-800 divide-y divide-gray-200 dark:divide-gray-700">
+            <tbody class="divide-y divide-zinc-200 bg-white dark:divide-zinc-700 dark:bg-zinc-800">
                 @forelse ($users as $userConfiguration)
-                            <tr class="hover:bg-gray-50 dark:hover:bg-gray-800/80 transition-colors duration-200"
+                            <tr class="transition-colors duration-200 hover:bg-zinc-50 dark:hover:bg-zinc-700/80"
                                 wire:key="{{ $userConfiguration->id }}">
                                 <td class="px-6 py-4 whitespace-nowrap">
                                     <div class="flex items-center gap-3">
                                         <!-- Avatar con iniciales -->
                                         <div
-                                            class="flex-shrink-0 w-8 h-8 rounded-full bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center">
-                                            <span class="text-sm font-medium text-indigo-800 dark:text-indigo-300">
+                                            class="flex h-8 w-8 flex-shrink-0 items-center justify-center rounded-full bg-lime-100 dark:bg-lime-900/40">
+                                            <span class="text-sm font-medium text-lime-800 dark:text-lime-300">
                                                 {{ $userConfiguration->user->initials() }}
                                             </span>
                                         </div>
-                                        <div class="text-sm font-medium text-gray-900 dark:text-gray-100">
+                                        <div class="text-sm font-medium text-zinc-900 dark:text-zinc-100">
                                             {{ $userConfiguration->user->name . ' ' . ($userConfiguration->user->second_name ?? 'N/A') }}
                                         </div>
                                     </div>
                                 </td>
 
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-600 dark:text-gray-300">
+                                    <div class="text-sm text-zinc-600 dark:text-zinc-300">
                                         {{ $userConfiguration->user->email }}
                                     </div>
                                 </td>
 
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <span class="text-sm font-semibold text-gray-900 dark:text-gray-100">
+                                    <span class="text-sm font-semibold text-zinc-900 dark:text-zinc-100">
                                         {{ $userConfiguration->role->name ?? 'N/A' }}
                                     </span>
                                 </td>
 
                                 <td class="px-6 py-4 whitespace-nowrap">
-                                    <div class="text-sm text-gray-600 dark:text-gray-300">
+                                    <div class="text-sm text-zinc-600 dark:text-zinc-300">
                                         {{ $userConfiguration->last_activity
                     ? \Carbon\Carbon::createFromTimestamp($userConfiguration->last_activity)->diffForHumans()
                     : __('Never') }}
@@ -217,7 +217,7 @@ new class extends Component {
 
                                 <td class="px-6 py-4 whitespace-nowrap text-sm">
                                     <button wire:click="showUser({{ $userConfiguration->user->id }})"
-                                        class="inline-flex items-center px-3 py-1.5 bg-indigo-50 hover:bg-indigo-100 dark:bg-lime-400 dark:hover:bg-lime-900/50 text-gray-700 dark:text-gray-800 rounded-md transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-900">
+                                        class="inline-flex items-center rounded-md bg-lime-100 px-3 py-1.5 text-zinc-700 transition-colors duration-200 hover:bg-lime-200 focus:outline-none focus:ring-2 focus:ring-lime-500 focus:ring-offset-2 dark:bg-lime-500/20 dark:text-lime-300 dark:hover:bg-lime-500/30 dark:focus:ring-offset-zinc-900">
                                         <svg class="w-4 h-4 mr-1.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M10 6H5a2 2 0 00-2 2v9a2 2 0 002 2h14a2 2 0 002-2V8a2 2 0 00-2-2h-5m-4 0V5a2 2 0 114 0v1m-4 0a2 2 0 104 0m-5 8a2 2 0 100-4 2 2 0 000 4zm0 0c1.306 0 2.417.835 2.83 2M9 14a3.001 3.001 0 00-2.83 2M15 11h3m-3 4h2" />
@@ -228,7 +228,7 @@ new class extends Component {
                             </tr>
                 @empty
                     <tr>
-                        <td colspan="5" class="px-6 py-4 text-center text-gray-500 dark:text-gray-400">
+                        <td colspan="5" class="px-6 py-4 text-center text-zinc-500 dark:text-zinc-400">
                             {{ __('No users found') }}
                         </td>
                     </tr>

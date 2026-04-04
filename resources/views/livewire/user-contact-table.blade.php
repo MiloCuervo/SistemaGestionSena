@@ -187,7 +187,7 @@ new class extends Component {
                                         @if($case->status === 'open') bg-lime-100 text-lime-800 dark:bg-lime-900 dark:text-lime-200
                                         @elseif($case->status === 'in_progress') bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-200
                                         @elseif($case->status === 'closed') bg-zinc-100 text-zinc-800 dark:bg-zinc-700 dark:text-zinc-200
-                                        @else bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-200
+                                        @else bg-zinc-100 text-zinc-800 dark:bg-zinc-700 dark:text-zinc-200
                                         @endif
                                     ">
                                         {{ ucfirst(str_replace('_', ' ', $case->status ?? 'pending')) }}
