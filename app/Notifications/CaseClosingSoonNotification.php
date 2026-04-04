@@ -36,7 +36,7 @@ class CaseClosingSoonNotification extends Notification implements ShouldQueue
     {
         return [
             'title' => 'Caso proximo a cerrar',
-            'message' => 'El caso # ' . $this->case->case_number . ' se cerrara en la diguiente fecha: ' . $this->case->closed_date,
+            'message' => 'El caso ' . $this->case->case_number . ' se cerrara en la diguiente fecha: ' . $this->case->closed_date,
         ];
     }
 
