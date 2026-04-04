@@ -25,7 +25,7 @@ class StoreCaseRequest extends FormRequest
         return [
             'sena_number' => 'nullable|string',
             'description' => 'required|string',
-            'case_evidence' => 'nullable|string',
+            'case_evidence' => 'nullable|file|mimes:pdf,png,jpg,jpeg|max:5120',
             'contact_id' => 'required|exists:contacts,id',
             'organization_process_id' => 'required|exists:organization_processes,id',
             'type' => 'required|in:denunciation,complaint,request,right_of_petition,tutelage',

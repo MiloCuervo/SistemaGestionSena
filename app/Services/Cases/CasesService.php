@@ -43,20 +43,20 @@ class CasesService
         return $this->getBaseQuery($user)->latest()->paginate(Cases::PAGINATE);
     }
 
-    public function create(array $data, User $user): Cases
+    public function create(array $data, User $user, ?array $evidencePaths = null): Cases
     {
-        return DB::transaction(function () use ($data, $user) {
+        return DB::transaction(function () use ($data, $user, $evidencePaths) {
             $type = $data['type'] === 'denunciation' ? 'complaint' : $data['type'];
 
             return Cases::create([
                 'case_number' => 'SGS-' . date('YmdHis') . '-' . rand(1, 99),
                 'sena_number' => $data['sena_number'] ?? null,
                 'description' => $data['description'],
-                'case_evidence' => $data['case_evidence'] ?? null,
                 'status' => 'in_progress',
                 'type' => $type,
                 'contact_id' => $data['contact_id'],
                 'organization_process_id' => $data['organization_process_id'],
+                'case_evidence' => $evidencePaths,
                 'user_id' => $user->id,
                 'closed_date' => now()->addMonths(2),
             ]);

@@ -38,11 +38,23 @@ class CasesController extends Controller
     }
 
     public function store(StoreCaseRequest $request)
-    {
-        $this->casesService->create($request->validated(), Auth::user());
+{
+    $data = $request->validated();
 
-        return redirect()->route('user.dashboard')->with('success', 'Caso creado correctamente.');
+    // Procesamos el archivo y lo convertimos en array
+    if ($request->hasFile('case_evidence')) {
+        $evidencePaths = [
+            $request->file('case_evidence')->store('case-evidence', 'public')
+        ];
+    } else {
+        $evidencePaths = null;
     }
+
+    // PASAMOS $evidencePaths al service
+    $this->casesService->create($data, Auth::user(), $evidencePaths);
+
+    return redirect()->route('user.dashboard')->with('success', 'Caso creado correctamente.');
+}
 
     public function show($id)
     {
