@@ -85,9 +85,6 @@ new class extends Component {
                         {{ $user->email }}
                     </flux:table.cell>
                     <flux:table.cell>
-                        {{ $user->email }}
-                    </flux:table.cell>
-                    <flux:table.cell>
                         {{ $user->configuration->role->name }}
                     </flux:table.cell>
                     <flux:table.cell align="end" class="space-x-2">
