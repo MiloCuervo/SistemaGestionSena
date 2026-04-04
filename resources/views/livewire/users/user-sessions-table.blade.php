@@ -8,8 +8,6 @@
                     <th class="text-left px-6 py-4">Fecha y Hora</th>
                     <th class="text-left px-6 py-4">IP</th>
                     <th class="text-left px-6 py-4">Navegador</th>
-                    <th class="text-left px-6 py-4">Duración</th>
-                    <th class="text-left px-6 py-4">Estado</th>
                 </tr>
             </thead>
             <tbody class="divide-y divide-zinc-800">

@@ -11,21 +11,14 @@ class StoreLoginAction
     /**
      * Ejecuta el proceso de guardado de un login.
      */
-    public function execute(LoginData $data): Login
+    public function execute(array $data): Login
     {
         try {
-            // Convertimos el DTO a un array para crear el modelo
-            $loginData = $data->toArray();
-            // Creamos el registro con los datos proporcionados.
-            return Login::create($loginData);
-
+            return Login::create($data);
         } catch (\Exception $e) {
-            // Registramos el error para debugging
             Log::error('Error al guardar registro de login: '.$e->getMessage(), [
                 'data' => $data,
             ]);
-
-            // Lanzamos la excepción para que pueda ser manejada por el llamador
             throw $e;
         }
     }

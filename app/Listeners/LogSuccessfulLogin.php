@@ -27,6 +27,14 @@ class LogSuccessfulLogin
         Log::info('Login listener triggered for user: ' . $event->user->id);
         
         try {
+            $this->storeLoginAction->execute([
+                'id' => (string) \Illuminate\Support\Str::ulid(),
+                'user_id' => $event->user->id,
+                'ip_address' => request()->ip(),
+                'user_agent' => request()->userAgent(),
+                'session_id' => session()->getId(),
+                'logged_in_at' => now(),
+            ]);
             
             Log::info('Login event successfully recorded in database.');
             
