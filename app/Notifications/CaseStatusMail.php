@@ -34,12 +34,21 @@ class CaseStatusMail extends Notification implements ShouldQueue
      */
     public function toMail(object $notifiable): MailMessage
     {
+        $statuses = [
+            'attended'     => 'Atendido',
+            'in_progress'  => 'En progreso',
+            'not_attended' => 'No atendido',
+        ];
+        $statusText = $statuses[$this->case->status] ?? $this->case->status;
+
         return (new MailMessage)
-            ->subject('El caso número: ' . $this->case->case_number. ', se ha actualizado con exito!')
+            ->subject('El caso número: ' . $this->case->case_number. ', se ha actualizado con éxito!')
             ->greeting('Hola! ' . $notifiable->name)
-            ->line('El estado del caso número: ' . $this->case->case_number . '. Ha sido actualizado.')
-            ->line('Estado actual: ' . $this->case->status)
-            ->action('Ver', url('/'));
+            ->line('El estado del caso: ' . $this->case->case_number . '. Ha sido actualizado.')
+            ->line('Estado actual: ' . $statusText)
+            ->line('Para más información te invitamos a iniciar sesión en el sistema de gestión.')
+            ->action('Ir a SGS', route('user.cases.show', $this->case->id))
+            ->salutation("Atentamente,  \nSENA | Sistema de Gestión.");
     }
 
     /**
