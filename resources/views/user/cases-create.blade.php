@@ -58,12 +58,15 @@
                                 </option>
                             @endforeach
                         </select>
-                        <a href="{{ route('user.contacts.create', ['return_to' => route('user.cases.new')]) }}"
-                            class="mt-1 inline-flex items-center rounded-md border border-zinc-300 bg-white p-2 hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
-                            <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-                            </svg>
-                        </a>
+                        <flux:modal.trigger name="create-contact">
+                            <button type="button" x-data x-on:click="$dispatch('open-modal', 'create-contact')"
+                                class="mt-1 inline-flex items-center rounded-md border border-zinc-300 bg-white p-2 hover:bg-zinc-50 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white"
+                                aria-label="Crear contacto">
+                                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
+                                </svg>
+                            </button>
+                        </flux:modal.trigger>
                     </div>
                     <p class="mt-2 text-xs text-zinc-500 dark:text-zinc-400">
                         Si no existe el contacto, crea uno nuevo y luego selecciónalo aquí.
@@ -85,5 +88,33 @@
             </div>
         </form>
     </div>
+
+    <livewire:create-contact-modal />
+
+    <script>
+        document.addEventListener('livewire:init', () => {
+            Livewire.on('contact-created', (payload) => {
+                const select = document.getElementById('contact_id');
+                if (!select) {
+                    return;
+                }
+
+                const existing = select.querySelector(`option[value="${payload.id}"]`);
+                if (!existing) {
+                    const option = document.createElement('option');
+                    option.value = payload.id;
+                    option.textContent = payload.name;
+                    select.appendChild(option);
+                }
+
+                select.value = payload.id;
+
+                const closeButton = document.querySelector('[data-close-contact-modal]');
+                if (closeButton) {
+                    closeButton.click();
+                }
+            });
+        });
+    </script>
 
 </x-layouts::app>

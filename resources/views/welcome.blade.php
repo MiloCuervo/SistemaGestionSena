@@ -1853,6 +1853,33 @@
         .logo-img:hover {
             transform: translateY(-6px) scale(1.02)
         }
+        /* Flux button fallback styles for welcome */
+        .welcome-flux-btn {
+            background-color: #16a34a;
+            color: #ffffff;
+            border-color: #15803d;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+        }
+
+        .welcome-flux-btn:hover {
+            background-color: #15803d;
+        }
+
+        .dark .welcome-flux-btn {
+            background-color: #15803d;
+            border-color: #166534;
+            text-align: center;
+            align-items: center;
+            justify-content: center;
+            padding: 0.5rem 1rem;
+        }
+
+        .dark .welcome-flux-btn:hover {
+            background-color: #16a34a;
+        }
     </style>
 </head>
 
@@ -1868,6 +1895,7 @@
             <div
                 class="text-[25px] leading-[20px] flex-1 p-6 pb-12 lg:p-20 bg-white dark:bg-[#161615] dark:text-[#EDEDEC] shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d] rounded-es-lg rounded-ee-lg lg:rounded-ss-lg lg:rounded-ee-none">
                 <h1 class="mb-1 text-4xl font-medium">Bienvenido a el sistema de gestion del comisionado</h1>
+                
                 <p class="mb-2 text-[black] ">La comision de personal es un organo colegiado de
                     direccion y
                     gestion del
@@ -1890,15 +1918,13 @@
                 @if (Route::has('login'))
                     <nav class="flex items-center justify-start gap-4">
                         @auth
-                            <a href="{{ Auth::user()->configuration?->role_id == 1 ? route('admin.dashboard') : route('user.dashboard') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-lg leading-normal">
+                            <flux:button variant="primary" color="lime" class="welcome-flux-btn" :href="Auth::user()->configuration?->role_id == 1 ? route('admin.dashboard') : route('user.dashboard')" wire:navigate>
                                 Dashboard
-                            </a>
+                            </flux:button>
                         @else
-                            <a href="{{ route('login') }}"
-                                class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-lg leading-normal">
+                            <flux:button variant="primary" color="lime" padding="sm" class="welcome-flux-btn" :href="route('login')" wire:navigate >
                                 {{ __('Log in') }}
-                            </a>
+                            </flux:button>
                         @endauth
                     </nav>
                 @endif
@@ -1906,56 +1932,11 @@
             <div
                 class="bg-[#fff2f2] dark:bg-[#1D0002] relative lg:-ms-px -mb-px lg:mb-0 rounded-t-lg lg:rounded-t-none lg:rounded-e-lg! aspect-[335/376] lg:aspect-auto w-full lg:w-[438px] shrink-0 overflow-hidden">
 
-
                 {{-- Logo Sena --}}
-                <svg class="w-full max-w-md mx-auto relative dark:hidden" viewBox="0 -70 440 500"
-                    preserveAspectRatio="xMidYMid meet" fill="none">
-                    <defs>
-                        <filter id="glow">
-                            <feGaussianBlur stdDeviation="6" result="coloredBlur" />
-                            <feMerge>
-                                <feMergeNode in="coloredBlur" />
-                                <feMergeNode in="SourceGraphic" />
-                            </feMerge>
-                        </filter>
-                        <filter id="depthShadow" x="-40%" y="-40%" width="180%" height="180%"
-                            filterUnits="userSpaceOnUse">
-                            <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity="0.25" />
-                            <feDropShadow dx="0" dy="22" stdDeviation="28" flood-color="#000" flood-opacity="0.12" />
-                        </filter>
-                    </defs>
-
-                    <g filter="url(#depthShadow)"
-                        class="transition-all duration-700 ease-out hover:-translate-y-3 hover:scale-[1.03]">
-                        <image class="logo-img" href="{{ asset('images/SenaLogo4.jpg') }}" x="0" y="0" width="440"
-                            height="420" preserveAspectRatio="xMidYMid meet" />
-                    </g>
-                </svg>
-
-
-
-
-
-
-
-                {{-- Logo Sena Dark --}}
-                <svg class="w-[448px] max-w-none relative -mt-[4.9rem] -ms-8 lg:ms-0 lg:-mt-[6.6rem] hidden dark:block"
-                    viewBox="0 0 440 440" fill="none">
-                    <defs>
-                        <filter id="depthShadowDark" x="-40%" y="-40%" width="180%" height="180%"
-                            filterUnits="userSpaceOnUse">
-                            <feDropShadow dx="0" dy="10" stdDeviation="12" flood-color="#000" flood-opacity="0.25" />
-                            <feDropShadow dx="0" dy="22" stdDeviation="28" flood-color="#000" flood-opacity="0.12" />
-                        </filter>
-                    </defs>
-                    <g filter="url(#depthShadowDark)"
-                        class="transition-all delay-300 translate-y-0 opacity-100 duration-750 starting:opacity-0 starting:translate-y-4">
-                        <image class="logo-img" href="{{ asset('images/SenaLogo4.jpg') }}" x="20" y="115" width="410"
-                            height="340" preserveAspectRatio="xMidYMid meet" />
-                    </g>
-                </svg>
-                <div
-                    class="absolute inset-0 rounded-t-lg lg:rounded-t-none lg:rounded-e-lg shadow-[inset_0px_0px_0px_1px_rgba(26,26,0,0.16)] dark:shadow-[inset_0px_0px_0px_1px_#fffaed2d]">
+                <div class="w-full lg:w-1/2 h-64 lg:h-auto relative">
+                <img src="{{ asset('images/Logosenaf.jpg') }}" 
+                     class="w-full h-full object-cover"alt="SENA"/>
+                <div class="absolute inset-0 bg-black/20"></div>
                 </div>
             </div>
         </main>
@@ -1967,3 +1948,4 @@
 </body>
 
 </html>
+

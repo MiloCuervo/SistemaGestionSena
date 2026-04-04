@@ -5,7 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
 
 class Cases extends Model
-{   
+{
+    public const PAGINATE = 10;
+
     protected $table = 'cases';
     protected $fillable = [
         'case_number',
@@ -50,3 +52,5 @@ class Cases extends Model
         return $query->where('active', true);
     }
 }
+
+
