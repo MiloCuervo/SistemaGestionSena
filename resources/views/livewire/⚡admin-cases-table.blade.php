@@ -98,7 +98,7 @@ new class extends Component {
 };
 ?>
 
-<div class="mt-10 space-y-6">
+<div class="mt-10 space-y-6 p-0">
     <flux:heading size="xl" level="1">{{ __('Cases of the system') }}</flux:heading>
 
     <!-- Search Error -->

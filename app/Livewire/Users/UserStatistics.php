@@ -20,6 +20,22 @@ class UserStatistics extends Component
     }
 
     /**
+     * Obtener los últimos 3 casos registrados por el usuario
+     */
+    #[Computed]
+    public function latestCases()
+    {
+        $cases= $this->user->cases()
+            ->latest('created_at')
+            ->limit(3)
+            ->get();
+        if($cases->isEmpty()){
+            return $cases = [];
+        }
+        return $cases;
+    }
+
+    /**
      * Contar sesiones del mes actual
      */
     #[Computed]

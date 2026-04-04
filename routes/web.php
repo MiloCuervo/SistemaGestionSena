@@ -30,6 +30,7 @@ Route::middleware(['auth', 'verified', 'role:1'])
         Route::get('/users', [UserController::class, 'index'])->name('users');
         Route::post('/users', [UserController::class, 'store'])->name('users.store');
         Route::get('/users/{id}', [UserController::class, 'show'])->name('users.show');
+        Route::patch('/users/{id}', [UserController::class, 'update'])->name('users.update');
 
         // Gestion de Roles
         Route::get('/roles', RolesController::class)->name('roles');
