@@ -1,4 +1,4 @@
-﻿@props([
+@props([
     'case',
     'processes' => collect(),
     'contacts' => collect(),
@@ -58,10 +58,18 @@
             <dt class="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Descripcion</dt>
             <dd class="whitespace-pre-line">{{ $case->description ?: 'Sin descripcion registrada.' }}</dd>
         </div>
-        <div class="flex flex-col gap-1">
-            <dt class="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Evidencia</dt>
-            <dd>{{ $case->case_evidence ?: 'Sin evidencia registrada.' }}</dd>
-        </div>
+        <div class="mt-4">
+    <h2 class="text-sm font-medium text-zinc-700 dark:text-zinc-200">Evidencias del caso</h2>
+
+    @forelse ($case->case_evidence ?? [] as $evidencePath)
+        <a href="{{ asset('storage/' . $evidencePath) }}" target="_blank" rel="noopener"
+            class="inline-flex items-center rounded-md border border-zinc-300 px-2.5 py-1 text-xs font-medium text-zinc-700 transition hover:bg-zinc-50 dark:border-zinc-600 dark:text-zinc-200 dark:hover:bg-zinc-800 mt-2">
+            Ver archivo
+        </a>
+    @empty
+        <span class="text-sm text-zinc-500 dark:text-zinc-400 mt-2">Sin evidencia registrada.</span>
+    @endforelse
+</div>
         <div class="flex flex-col gap-1">
             <dt class="text-xs uppercase tracking-wide text-zinc-500 dark:text-zinc-400">Fecha de cierre</dt>
             <dd>{{ optional($case->closed_date)->format('d/m/Y') ?: '-' }}</dd>

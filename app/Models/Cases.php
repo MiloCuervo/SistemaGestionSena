@@ -22,6 +22,10 @@ class Cases extends Model
         'closed_date',
     ];
 
+    protected $casts = [
+    'case_evidence' => 'array',
+];
+
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -52,5 +56,3 @@ class Cases extends Model
         return $query->where('active', true);
     }
 }
-
-
