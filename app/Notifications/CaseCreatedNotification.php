@@ -35,9 +35,9 @@ class CaseCreatedNotification extends Notification implements ShouldQueue
     public function toDatabase(object $notifiable): array
     {
         return [
-            'case_id' => $this->case->id,
+            'case_number' => $this->case->case_number,
             'user_name' => $this->user->name,
-            'message' => $this->user->name . ' has created a new case with ID: ' . $this->case->id,
+            'message' => 'El usuario ' . $this->user->name . ' ha creado un nuevo caso: ' . $this->case->case_number,
         ];
     }
 

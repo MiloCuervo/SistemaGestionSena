@@ -49,48 +49,12 @@ new class extends Component {
         $this->showModal = false;
     }
 
-    public function store()
-    {
-        $this->validate([
-            'description' => 'required|string',
-            'contact_id' => 'required|exists:contacts,id',
-            'organization_process_id' => 'required|exists:organization_processes,id',
-            'type' => 'required|string',
-            'status' => 'nullable|string',
-        ]);
-
-        $type = $this->type === 'denunciation' ? 'complaint' : $this->type;
-
-        $case = new cases();
-        $case->case_number = "CAS-" . date("Ymd") . rand(1000, 9999);
-        $case->description = $this->description;
-        $case->status = $this->status ?? 'in_progress';
-        $case->type = $type;
-        $case->contact_id = $this->contact_id;
-        $case->organization_process_id = $this->organization_process_id;
-        $case->user_id = Auth::id();
-        $case->active = 1;
-        $case->save();
-
-        $this->showModal = false;
-        $this->reset(['type', 'description', 'status', 'contact_id', 'organization_process_id']);
-        session()->flash('message', 'Caso creado correctamente.');
-    }
-
-    public function updateStatus($id, $newStatus)
-    {
-        $case = cases::where('user_id', Auth::id())->findOrFail($id);
-        $case->status = $newStatus;
-        $case->save();
-        session()->flash('message', 'Estado actualizado correctamente.');
-    }
-
     public function getTypeLabel(string $type): string
     {
         return match ($type) {
             'request' => 'Solicitud',
             'denunciation' => 'Denuncia',
-            'complaint' => 'Denuncia',
+            'complaint' => 'Queja',
             'right_of_petition' => 'Derecho de petición',
             'tutelage' => 'Tutela',
             default => $type ?: '—',
@@ -122,7 +86,8 @@ new class extends Component {
         if ($this->search !== '') {
             $query->where(function ($q) {
                 $q->where('case_number', 'like', "%{$this->search}%")
-                    ->orWhere('description', 'like', "%{$this->search}%");
+                    ->orWhere('description', 'like', "%{$this->search}%")
+                    ->orWhere('sena_number', 'like', "%{$this->search}%");
             });
         }
 
@@ -179,27 +144,27 @@ new class extends Component {
                 <thead class="bg-zinc-50 dark:bg-zinc-800">
                     <tr>
                         <th scope="col"
-                            class="w-[140px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
+                            class="w-[105px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                             Radicado                        
                         </th>
                         <th scope="col"
-                            class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
+                            class="w-[95px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                             Tipo
                         </th>
                         <th scope="col"
-                            class="w-[180px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
+                            class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                             Descripción
                         </th>
                         <th scope="col"
-                            class="w-[130px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
+                            class="w-[100px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                             Contacto
                         </th>
                         <th scope="col"
-                            class="w-[170px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
+                            class="w-[115px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                             Proceso
                         </th>
                         <th scope="col"
-                            class="w-[110px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
+                            class="w-[100px] px-6 py-3 text-left text-xs font-medium uppercase tracking-wide text-zinc-500 hover:bg-zinc-100 dark:hover:bg-zinc-700">
                             Estado
                         </th>
                         <th scope="col"
@@ -235,20 +200,20 @@ new class extends Component {
                                 {{ $caseItem->status ? $this->getStatusLabel($caseItem->status) : '—' }}
                             </td>
                             <td class="px-6 py-4 text-sm">
-                                <div class="flex items-center gap-2">
+                                <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2">
                                     <a href="{{ route('user.cases.show', $caseItem->id) }}"
-                                        class="inline-flex items-center rounded-md border border-zinc-200 p-2 text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-400"
+                                        class="w-full sm:w-auto rounded-md border border-zinc-200 p-2 text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-400"
                                         title="Ver caso" aria-label="Ver caso">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
                                             <circle cx="12" cy="12" r="3" stroke-width="2" />
                                         </svg>
                                     </a>
                                     <a href="{{ route('user.cases.status.edit', $caseItem->id) }}"
-                                        class="inline-flex items-center rounded-md border border-zinc-200 p-2 text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-400"
+                                        class="w-full sm:w-auto rounded-md border border-zinc-200 p-2 text-zinc-700 shadow-sm transition hover:bg-zinc-50 dark:border-zinc-700 dark:text-zinc-200 dark:hover:bg-zinc-400"
                                         title="Modificar estado" aria-label="Modificar estado">
-                                        <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                 d="M12 8c1.657 0 3-1.343 3-3S13.657 2 12 2 9 3.343 9 5s1.343 3 3 3z" />
                                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -256,13 +221,14 @@ new class extends Component {
                                         </svg>
                                     </a>
                                     <form method="POST" action="{{ route('user.cases.deactivate', $caseItem->id) }}"
-                                        onsubmit="return confirm('¿Seguro que deseas desactivar este caso?');">
+                                        onsubmit="return confirm('¿Seguro que deseas eliminar este caso?');"
+                                        class="w-full sm:w-auto">
                                         @csrf
                                         @method('PUT')
                                         <button type="submit"
-                                            class="inline-flex items-center rounded-md border border-red-200 p-2 text-red-700 shadow-sm transition hover:bg-red-50 dark:border-red-700 dark:text-red-200 dark:hover:bg-red-500/20"
-                                            title="Desactivar caso" aria-label="Desactivar caso">
-                                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            class="w-full sm:w-auto rounded-md border border-red-200 p-2 text-red-700 shadow-sm transition hover:bg-red-50 dark:border-red-700 dark:text-red-200 dark:hover:bg-red-500/20"
+                                            title="Eliminar caso" aria-label="Eliminar caso">
+                                            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                                                     d="M6 18L18 6M6 6l12 12" />
                                             </svg>
@@ -290,13 +256,4 @@ new class extends Component {
         @endif
     </div>
 
-    <style>
-        .case-status-select:focus {
-            color: #000000;
-        }
-
-        .case-status-select option {
-            color: #000000;
-        }
-    </style>
 </div>

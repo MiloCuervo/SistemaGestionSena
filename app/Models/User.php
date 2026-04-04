@@ -71,6 +71,11 @@ class User extends Authenticatable
         return $this->configuration?->role_id === 1;
     }
 
+    public function isCommissioner()
+    {
+        return $this->configuration?->role_id === 2;
+    }
+
     public function cases()
     {
         return $this->hasMany(cases::class);

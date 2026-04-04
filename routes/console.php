@@ -9,5 +9,6 @@ Artisan::command('inspire', function () {
     $this->comment(Inspiring::quote());
 })->purpose('Display an inspiring quote');
 
-Schedule::command(NotifyClosingCases::class)->everyFiveMinutes();
+Schedule::command(NotifyClosingCases::class)->daily();
 Schedule::command('reports:notify')->daily();
+Schedule::command('app:deactivate-expired-users')->daily();

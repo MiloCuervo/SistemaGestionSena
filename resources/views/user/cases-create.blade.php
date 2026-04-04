@@ -23,10 +23,18 @@
                         class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white">
                         <option value="request">Solicitud</option>
                         <option value="denunciation">Denuncia</option>
+                        <option value="complaint">Queja</option>
                         <option value="right_of_petition">Derecho de peticion</option>
                         <option value="tutelage">Tutela</option>
                     </select>
                 </div>
+
+                <div>
+                    <label for="sena_number" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Radicado Sena</label>
+                    <input type="text" name="sena_number" id="sena_number"
+                        class="mt-1 block w-full rounded-md border-zinc-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 dark:border-zinc-600 dark:bg-zinc-800 dark:text-white"
+                        placeholder="Opcional, solo para casos relacionados con el Sena">
+                    </div>
 
                 <div>
                     <label for="organization_process_id" class="block text-sm font-medium text-zinc-700 dark:text-zinc-200">Proceso</label>
