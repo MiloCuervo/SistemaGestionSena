@@ -11,3 +11,4 @@ Artisan::command('inspire', function () {
 
 Schedule::command(NotifyClosingCases::class)->daily();
 Schedule::command('reports:notify')->daily();
+Schedule::command('app:deactivate-expired-users')->daily();

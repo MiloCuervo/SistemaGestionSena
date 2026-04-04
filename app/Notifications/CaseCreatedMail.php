@@ -38,7 +38,7 @@ class CaseCreatedMail extends Notification implements ShouldQueue
             ->subject('Nuevo caso creado:')
             ->greeting('Hola! '. $notifiable->name)
             ->line('Un nuevo caso ha sido creado.')
-            ->line('Caso numero: ' . $this->case->case_number)
+            ->line('Caso número: ' . $this->case->case_number)
             ->action('Ver', url('/'));
     }
 
